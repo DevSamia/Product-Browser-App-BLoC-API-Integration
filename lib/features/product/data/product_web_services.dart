@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 
+import '../../../core/constants/strings.dart';
+
 class ProductWebServices {
   late Dio dio;
 
   ProductWebServices() {
     BaseOptions options = BaseOptions(
-      baseUrl: 'https://dummyjson.com/',
+      baseUrl: baseUrl,
       receiveDataWhenStatusError: true,
       connectTimeout: const Duration(seconds: 20),
       receiveTimeout: const Duration(seconds: 20),
