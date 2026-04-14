@@ -27,6 +27,7 @@ class PrimaryText extends StatelessWidget {
       textAlign: textAlign,
       style: TextStyle(
         fontSize: fontSize ?? 14.sp,
+        fontFamily: 'Cairo',
         color: color ?? AppColors.black,
         height: heightText,
         letterSpacing: letterSpacing ?? -0.5,

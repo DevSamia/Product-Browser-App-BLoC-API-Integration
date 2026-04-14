@@ -1,12 +1,7 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/imports/common_imports.dart';
-import '../../bloc/category_bloc.dart';
-import '../../bloc/category_state.dart';
-import 'category_item.dart';
 
 class CategoryGrid extends StatelessWidget {
-  const CategoryGrid();
+  const CategoryGrid({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,0 +1,122 @@
+import 'package:dio/dio.dart';
+import 'package:product_browser_app/features/product_detail/data/product_detail_service.dart';
+
+import '../../../../core/imports/common_imports.dart';
+import '../../../product_detail/bloc/product_detail_bloc.dart';
+import '../../../product_detail/view/product_detail_screen.dart';
+
+class ProductCard extends StatelessWidget {
+  final dynamic product;
+  const ProductCard({super.key, required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) =>
+                  ProductDetailBloc(ProductDetailService(Dio())),
+              child: ProductDetailScreen(productId: product.id),
+            ),
+          ),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.03),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [_buildProductImage(), _buildProductInfo()],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProductImage() {
+    return Stack(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16.r)),
+          child: Container(
+            height: 150.h,
+            width: double.infinity,
+            color: AppColors.screenBackground,
+            child: Image.network(
+              product.thumbnail,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) =>
+                  const Icon(Icons.image_not_supported),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 8.h,
+          right: 8.w,
+          child: CircleAvatar(
+            backgroundColor: AppColors.white,
+            radius: 14.r,
+            child: Icon(
+              Icons.favorite_border_rounded,
+              size: 16.sp,
+              color: AppColors.red,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProductInfo() {
+    return Padding(
+      padding: EdgeInsets.all(10.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PrimaryText(
+            product.title,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600,
+          ),
+          AppSizes.h8,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              PrimaryText(
+                '${product.price} SAR',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w800,
+                color: AppColors.move,
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.star_rounded,
+                    color: AppColors.yellow,
+                    size: 14.sp,
+                  ),
+                  PrimaryText(
+                    product.rating.toString(),
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}

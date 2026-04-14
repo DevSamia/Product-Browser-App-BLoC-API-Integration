@@ -1,11 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/imports/common_imports.dart';
-import '../../../product/bloc/product_bloc.dart';
-import '../../../product/data/product_repository.dart';
-import '../../../product/data/product_web_services.dart';
-import '../../../product/view/product_screen.dart';
-import '../../models/category_model.dart';
 
 class CategoryItem extends StatelessWidget {
   final CategoryModel category;

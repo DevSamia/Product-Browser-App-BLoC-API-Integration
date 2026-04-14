@@ -1,11 +1,5 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'core/imports/common_imports.dart';
 import 'features/category/view/category_screen.dart';
-import 'features/product/bloc/product_bloc.dart';
-import 'features/product/data/product_repository.dart';
-import 'features/product/data/product_web_services.dart';
-import 'features/product/view/product_screen.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({super.key});
@@ -21,7 +15,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   final List<Widget> _screens = [
     const CategoryScreen(),
     const ProductListScreen(categoryName: ''),
-    const Center(child: Text('السلة')),
+    //const ProductDetailScreen(product: ''),
     const Center(child: Text('حسابي')),
   ];
 

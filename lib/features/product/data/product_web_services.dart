@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../core/constants/strings.dart';
 
@@ -20,7 +21,9 @@ class ProductWebServices {
       Response response = await dio.get('products/category/$categoryName');
       return response.data['products'];
     } catch (e) {
-      print(e.toString());
+      if (kDebugMode) {
+        print(e.toString());
+      }
       return [];
     }
   }

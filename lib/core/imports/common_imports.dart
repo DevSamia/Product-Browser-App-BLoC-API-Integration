@@ -1,11 +1,24 @@
 export 'dart:async';
 
 export 'package:flutter/material.dart';
+export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:product_browser_app/core/constants/app_sizes.dart';
+export 'package:product_browser_app/core/imports/common_imports.dart';
+export 'package:product_browser_app/features/category/bloc/category_bloc.dart';
+export 'package:product_browser_app/features/category/bloc/category_state.dart';
+export 'package:product_browser_app/features/category/models/category_model.dart';
 export 'package:product_browser_app/features/category/view/widgets/category_grid.dart';
+export 'package:product_browser_app/features/category/view/widgets/category_item.dart';
 export 'package:product_browser_app/features/category/view/widgets/hero_section.dart';
 export 'package:product_browser_app/features/category/view/widgets/promo_banner.dart';
+export 'package:product_browser_app/features/product/bloc/product_bloc.dart';
+export 'package:product_browser_app/features/product/data/product_repository.dart';
+export 'package:product_browser_app/features/product/data/product_web_services.dart';
+export 'package:product_browser_app/features/product/view/product_screen.dart';
+export 'package:product_browser_app/features/product/view/widget/list_header.dart';
+export 'package:product_browser_app/features/product/view/widget/product_grid.dart';
+export 'package:product_browser_app/features/product/view/widget/search_and_filter_section.dart';
 
 export '../../../core/constants/colors.dart';
 export '../../../widgets/primary_text.dart';
