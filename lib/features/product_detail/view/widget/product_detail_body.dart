@@ -1,4 +1,7 @@
 import '../../../../core/imports/common_imports.dart';
+import '../../../cart/bloc/cart_bloc.dart';
+import '../../../cart/bloc/cart_event.dart';
+import '../../../cart/bloc/cart_state.dart';
 import '../../models/product_detail_model.dart';
 
 class ProductDetailBody extends StatelessWidget {
@@ -22,7 +25,7 @@ class ProductDetailBody extends StatelessWidget {
                 onPressed: () => Navigator.pop(context),
               ),
               actions: [
-                // _buildCartBadge(), // إلغاء التعليق وتفعيله
+                _buildCartBadge(),
                 IconButton(
                   icon: const Icon(Icons.share_outlined, color: Colors.black),
                   onPressed: () {},
@@ -58,8 +61,7 @@ class ProductDetailBody extends StatelessWidget {
                     PrimaryText(
                       product.description,
                       color: AppColors.gray,
-                      heightText:
-                          1.7, // تأكدي إن المتغير اسمه heightText في كلاس PrimaryText عندك
+                      heightText: 1.7,
                     ),
                     AppSizes.h20,
                     const PrimaryText(
@@ -76,26 +78,26 @@ class ProductDetailBody extends StatelessWidget {
             ),
           ],
         ),
-        // _buildBottomBar(context), // إلغاء التعليق وتفعيله
+        _buildBottomBar(context),
       ],
     );
   }
 
-  // Widget _buildCartBadge() {
-  //   return BlocBuilder<CartBloc, CartState>(
-  //     builder: (context, state) {
-  //       return Badge(
-  //         isLabelVisible: state.cartItems.isNotEmpty,
-  //         label: Text(state.cartItems.length.toString()),
-  //         backgroundColor: const Color(0xFFFFC107),
-  //         child: IconButton(
-  //           icon: const Icon(Icons.shopping_cart_outlined, color: Colors.black),
-  //           onPressed: () {},
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
+  Widget _buildCartBadge() {
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state) {
+        return Badge(
+          isLabelVisible: state.cartItems.isNotEmpty,
+          label: Text(state.cartItems.length.toString()),
+          backgroundColor: const Color(0xFFFFC107),
+          child: IconButton(
+            icon: const Icon(Icons.shopping_cart_outlined, color: Colors.black),
+            onPressed: () {},
+          ),
+        );
+      },
+    );
+  }
 
   Widget _buildHeaderSection() {
     return Row(
@@ -209,50 +211,100 @@ class ProductDetailBody extends StatelessWidget {
     );
   }
 
-  // Widget _buildBottomBar(BuildContext context) {
-  //   return Align(
-  //     alignment: Alignment.bottomCenter,
-  //     child: Container(
-  //       padding: const EdgeInsets.all(24),
-  //       decoration: BoxDecoration(
-  //         color: Colors.white,
-  //         boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, -5))],
-  //       ),
-  //       child: BlocBuilder<CartBloc, CartState>(
-  //         builder: (context, state) {
-  //           final bool isInCart = state.cartItems.any((item) => item.id == product.id);
-  //           return Row(
-  //             children: [
-  //               Column(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: [
-  //                   const PrimaryText("الإجمالي", color: AppColors.gray, fontSize: 12),
-  //                   PrimaryText("${product.price}", fontWeight: FontWeight.bold, fontSize: 20),
-  //                 ],
-  //               ),
-  //               AppSizes.w20,
-  //               Expanded(
-  //                 child: ElevatedButton(
-  //                   onPressed: () {
-  //                     context.read<CartBloc>().add(isInCart ? RemoveFromCartEvent(product) : AddToCartEvent(product));
-  //                   },
-  //                   style: ElevatedButton.styleFrom(
-  //                     backgroundColor: isInCart ? Colors.red.shade400 : const Color(0xFFFFC107),
-  //                     minimumSize: const Size(double.infinity, 56),
-  //                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-  //                   ),
-  //                   child: PrimaryText(
-  //                     isInCart ? "حذف من السلة" : "أضف إلى السلة",
-  //                     fontWeight: FontWeight.bold,
-  //                     color: isInCart ? Colors.white : Colors.black,
-  //                   ),
-  //                 ),
-  //               ),
-  //             ],
-  //           );
-  //         },
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget _buildBottomBar(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, -5),
+            ),
+          ],
+        ),
+        child: BlocBuilder<CartBloc, CartState>(
+          builder: (context, state) {
+            final bool isInCart = state.cartItems.any(
+              (item) => item.product.id == product.id,
+            );
+
+            return Row(
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const PrimaryText(
+                      "الإجمالي",
+                      color: AppColors.gray,
+                      fontSize: 12,
+                    ),
+                    PrimaryText(
+                      "${product.price}",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ],
+                ),
+                AppSizes.w20,
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (isInCart) {
+                        context.read<CartBloc>().add(
+                          RemoveFromCartEvent(product.id),
+                        );
+                      } else {
+                        context.read<CartBloc>().add(AddToCartEvent(product));
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const PrimaryText(
+                              "The product has been successfully added to the cart.",
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                            backgroundColor: const Color(0xFF2F45BD),
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            action: SnackBarAction(
+                              label: "View cart",
+                              textColor: const Color(0xFFFFC107),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/cart_screen');
+                              },
+                            ),
+                            duration: const Duration(seconds: 3),
+                          ),
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isInCart
+                          ? Colors.red.shade400
+                          : const Color(0xFFFFC107),
+                      minimumSize: const Size(double.infinity, 56),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: PrimaryText(
+                      isInCart ? "حذف من السلة" : "أضف إلى السلة",
+                      fontWeight: FontWeight.bold,
+                      color: isInCart ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
 }

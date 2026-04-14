@@ -7,9 +7,14 @@ import '../bloc/product_detail_event.dart';
 import '../bloc/product_detail_state.dart';
 
 class ProductDetailScreen extends StatelessWidget {
+  final dynamic product;
   final int productId;
 
-  const ProductDetailScreen({super.key, required this.productId});
+  const ProductDetailScreen({
+    super.key,
+    required this.product,
+    required this.productId,
+  });
 
   @override
   Widget build(BuildContext context) {

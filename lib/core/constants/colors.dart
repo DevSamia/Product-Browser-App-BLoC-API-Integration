@@ -3,7 +3,9 @@ import '../imports/common_imports.dart';
 class AppColors {
   static const Color black = Color(0xFF000000);
   static const Color gray = Color(0xFF434A54);
+  static const Color gray3 = Color(0xFF8F959E);
   static const Color yellow = Color(0xFFFFD451);
+  static const Color yellow2 = Color(0xFFFFC107);
   static const Color red = Color(0xFFFF0000);
 
   static const Color white = Color(0xFFFFFFFF);

@@ -1,7 +1,14 @@
+import 'package:get_it/get_it.dart';
+
 import 'app_router.dart';
 import 'core/imports/common_imports.dart';
+import 'features/cart/bloc/cart_bloc.dart';
 
-void main() {
+final getIt = GetIt.instance;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(ProductBrowserApp(appRouter: AppRouter()));
 }
 
@@ -17,9 +24,18 @@ class ProductBrowserApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          onGenerateRoute: appRouter.generateRoute,
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => CartBloc()),
+            BlocProvider(
+              create: (context) => ProductBloc(getIt<ProductRepository>()),
+            ),
+          ],
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            onGenerateRoute: appRouter.generateRoute,
+            title: 'Product Browser',
+          ),
         );
       },
     );

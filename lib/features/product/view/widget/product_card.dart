@@ -1,28 +1,15 @@
-import 'package:dio/dio.dart';
-import 'package:product_browser_app/features/product_detail/data/product_detail_service.dart';
-
 import '../../../../core/imports/common_imports.dart';
-import '../../../product_detail/bloc/product_detail_bloc.dart';
-import '../../../product_detail/view/product_detail_screen.dart';
 
 class ProductCard extends StatelessWidget {
   final dynamic product;
+
   const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) =>
-                  ProductDetailBloc(ProductDetailService(Dio())),
-              child: ProductDetailScreen(productId: product.id),
-            ),
-          ),
-        );
+        Navigator.pushNamed(context, '/product_details', arguments: product);
       },
       child: Container(
         decoration: BoxDecoration(
