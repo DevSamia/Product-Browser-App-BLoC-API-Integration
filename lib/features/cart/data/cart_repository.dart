@@ -1,4 +1,4 @@
-import '../models/cart_item_model.dart';
+import '../models/cart_tem_model.dart';
 import 'cart_web_services.dart';
 
 class CartRepository {

@@ -12,7 +12,7 @@ class OrderSummarySection extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: const Color(0xFFF3F3F3)),
+        border: Border.all(color: AppColors.inputBorder),
       ),
       child: Column(
         children: [
