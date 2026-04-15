@@ -1,6 +1,4 @@
-import 'package:product_browser_app/features/product/data/product_web_services.dart';
-
-import '../models/product_model.dart'; // تأكدي من المسار الصحيح للمودل
+import '../../../core/imports/common_imports.dart';
 
 class ProductRepository {
   final ProductWebServices productWebServices;

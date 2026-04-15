@@ -1,5 +1,3 @@
-import 'package:product_browser_app/features/product/view/widget/product_card.dart';
-
 import '../../../../core/imports/common_imports.dart';
 
 class ProductGrid extends StatelessWidget {

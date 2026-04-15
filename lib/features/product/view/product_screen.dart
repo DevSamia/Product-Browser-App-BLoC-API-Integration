@@ -1,6 +1,4 @@
 import '../../../core/imports/common_imports.dart';
-import '../bloc/product_event.dart';
-import '../bloc/product_state.dart';
 
 class ProductListScreen extends StatelessWidget {
   final String categoryName;

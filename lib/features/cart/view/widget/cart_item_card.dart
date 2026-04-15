@@ -1,7 +1,4 @@
 import '../../../../core/imports/common_imports.dart';
-import '../../bloc/cart_bloc.dart';
-import '../../bloc/cart_event.dart';
-import '../../models/cart_tem_model.dart';
 
 class CartItemCard extends StatelessWidget {
   final CartItemModel item;

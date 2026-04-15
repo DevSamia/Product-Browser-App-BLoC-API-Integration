@@ -1,30 +1,32 @@
-import 'package:equatable/equatable.dart';
+import '../../../core/imports/common_imports.dart';
 
-import '../../product/models/product_model.dart';
-
-abstract class CartEvent extends Equatable {
-  @override
-  List<Object?> get props => [];
+@immutable
+sealed class CartEvent {
+  const CartEvent();
 }
+
+class LoadCartEvent extends CartEvent {}
 
 class AddToCartEvent extends CartEvent {
   final ProductModel product;
-  AddToCartEvent(this.product);
+  const AddToCartEvent(this.product);
 }
 
 class RemoveFromCartEvent extends CartEvent {
   final int productId;
-  RemoveFromCartEvent(this.productId);
+  const RemoveFromCartEvent(this.productId);
 }
 
 class IncrementQuantityEvent extends CartEvent {
   final int productId;
-  IncrementQuantityEvent(this.productId);
+  const IncrementQuantityEvent(this.productId);
 }
 
 class DecrementQuantityEvent extends CartEvent {
   final int productId;
-  DecrementQuantityEvent(this.productId);
+  const DecrementQuantityEvent(this.productId);
 }
 
 class ClearCartEvent extends CartEvent {}
+
+class CompletePurchaseEvent extends CartEvent {}

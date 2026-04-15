@@ -1,7 +1,4 @@
 import '../../../core/imports/common_imports.dart';
-import '../bloc/cart_bloc.dart';
-import '../bloc/cart_event.dart';
-import '../bloc/cart_state.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -26,7 +23,7 @@ class CartScreen extends StatelessWidget {
             onPressed: () {},
             icon: const Icon(Icons.search, color: AppColors.gray2),
           ),
-          AppSizes.w8,
+          const SizedBox(width: 8),
         ],
       ),
       body: SafeArea(
@@ -73,7 +70,7 @@ class CartScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        AppSizes.h16,
+                        const SizedBox(height: 16),
                         ...state.cartItems.map(
                           (item) => Padding(
                             padding: const EdgeInsets.only(bottom: 16.0),

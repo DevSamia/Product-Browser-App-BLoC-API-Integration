@@ -1,6 +1,4 @@
 import '../../../../core/imports/common_imports.dart';
-import '../../bloc/product_detail_bloc.dart';
-import '../../bloc/product_detail_event.dart';
 
 Widget buildErrorWidget(
   BuildContext context, {

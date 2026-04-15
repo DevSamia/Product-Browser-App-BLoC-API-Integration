@@ -1,10 +1,8 @@
-import 'package:dio/dio.dart';
+import '../../../core/imports/common_imports.dart';
 
-import '../models/product_detail_model.dart';
-
-class ProductDetailService {
+class ProductDetailWebService {
   final Dio _dio;
-  ProductDetailService(this._dio);
+  ProductDetailWebService(this._dio);
 
   Future<ProductDetailModel> getProductDetails(int productId) async {
     try {

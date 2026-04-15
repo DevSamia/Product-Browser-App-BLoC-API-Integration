@@ -1,10 +1,4 @@
-import 'package:product_browser_app/features/product_detail/view/widget/build_error_widget.dart';
-import 'package:product_browser_app/features/product_detail/view/widget/product_detail_body.dart';
-
 import '../../../../core/imports/common_imports.dart';
-import '../bloc/product_detail_bloc.dart';
-import '../bloc/product_detail_event.dart';
-import '../bloc/product_detail_state.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final dynamic product;

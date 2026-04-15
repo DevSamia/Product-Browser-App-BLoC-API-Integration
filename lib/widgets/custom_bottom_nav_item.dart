@@ -97,7 +97,7 @@ class _NavBarItem extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFD32F2F),
+                        color: AppColors.red,
                         shape: BoxShape.circle,
                         border: Border.all(color: AppColors.white, width: 2),
                       ),
@@ -108,7 +108,7 @@ class _NavBarItem extends StatelessWidget {
                       child: PrimaryText(
                         badge!,
                         textAlign: TextAlign.center,
-                        color: Colors.white,
+                        color: AppColors.white,
                         fontSize: 10.sp,
                         fontWeight: FontWeight.w900,
                       ),

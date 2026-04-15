@@ -1,8 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/imports/common_imports.dart';
-import '../../bloc/product_bloc.dart';
-import '../../bloc/product_event.dart';
 
 class SearchAndFilterSection extends StatelessWidget {
   final String categoryName;

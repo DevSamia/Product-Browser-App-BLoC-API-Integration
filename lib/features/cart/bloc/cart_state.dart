@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-import '../models/cart_tem_model.dart';
+import '../../../core/imports/common_imports.dart';
 
 abstract class CartState extends Equatable {
   final List<CartItemModel> cartItems;

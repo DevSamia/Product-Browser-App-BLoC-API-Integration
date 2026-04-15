@@ -1,7 +1,4 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-
-import '../../../core/constants/strings.dart';
+import '../../../core/imports/common_imports.dart';
 
 class ProductWebServices {
   late Dio dio;

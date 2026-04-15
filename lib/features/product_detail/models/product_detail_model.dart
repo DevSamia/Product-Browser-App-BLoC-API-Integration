@@ -1,11 +1,6 @@
 import '../../product/models/product_model.dart';
 
 class ProductDetailModel extends ProductModel {
-  @override
-  final String description;
-  @override
-  final double rating;
-
   final String stockStatus;
 
   ProductDetailModel({
@@ -28,10 +23,10 @@ class ProductDetailModel extends ProductModel {
     required super.minimumOrderQuantity,
     required super.meta,
     required super.images,
-    required this.description,
-    required this.rating,
+    required super.description,
+    required super.rating,
     required this.stockStatus,
-  }) : super(description: description, rating: rating);
+  });
 
   factory ProductDetailModel.fromJson(Map<String, dynamic> json) {
     return ProductDetailModel(
@@ -45,13 +40,10 @@ class ProductDetailModel extends ProductModel {
       stock: json['stock'] ?? 0,
       tags: json['tags'] != null ? List<String>.from(json['tags']) : [],
       sku: json['sku'] ?? '',
-
       weight: (json['weight'] as num?)?.toInt() ?? 0,
-
       dimensions: json['dimensions'] != null
           ? Dimensions.fromJson(json['dimensions'])
           : Dimensions(width: 0.0, height: 0.0, depth: 0.0),
-
       warrantyInformation: json['warrantyInformation'] ?? '',
       shippingInformation: json['shippingInformation'] ?? '',
       availabilityStatus: json['availabilityStatus'] ?? '',
@@ -60,7 +52,6 @@ class ProductDetailModel extends ProductModel {
           : [],
       returnPolicy: json['returnPolicy'] ?? '',
       minimumOrderQuantity: json['minimumOrderQuantity'] ?? 1,
-
       meta: json['meta'] != null
           ? Meta.fromJson(json['meta'])
           : Meta(
@@ -69,9 +60,7 @@ class ProductDetailModel extends ProductModel {
               barcode: '',
               qrCode: '',
             ),
-
       images: json['images'] != null ? List<String>.from(json['images']) : [],
-
       description: json['description'] ?? '',
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
       stockStatus: json['availabilityStatus'] ?? 'In Stock',

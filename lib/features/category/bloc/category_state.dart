@@ -1,5 +1,4 @@
 import '../../../core/imports/common_imports.dart';
-import '../models/category_model.dart';
 
 @immutable
 sealed class CategoryState {}

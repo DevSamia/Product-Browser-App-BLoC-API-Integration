@@ -1,17 +1,4 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'bottom_navigation_bar.dart';
-import 'core/constants/strings.dart';
-import 'features/cart/view/cart_screen.dart';
-import 'features/category/bloc/category_bloc.dart';
-import 'features/category/bloc/category_event.dart';
-import 'features/category/data/category_repository.dart';
-import 'features/category/data/category_web_services.dart';
-import 'features/product_detail/bloc/product_detail_bloc.dart';
-import 'features/product_detail/data/product_detail_service.dart';
-import 'features/product_detail/view/product_detail_screen.dart';
+import '/core/imports/common_imports.dart';
 
 class AppRouter {
   late CategoryRepository categoryRepository;
@@ -26,9 +13,14 @@ class AppRouter {
     switch (settings.name) {
       case bottomNavigationBarScreen:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) =>
-                CategoryBloc(categoryRepository)..add(GetCategoriesEvent()),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) =>
+                    CategoryBloc(categoryRepository)..add(GetCategoriesEvent()),
+              ),
+              BlocProvider(create: (context) => getIt<CartBloc>()),
+            ],
             child: const BottomNavigationBarScreen(),
           ),
         );
@@ -38,7 +30,8 @@ class AppRouter {
 
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => ProductDetailBloc(ProductDetailService(Dio())),
+            create: (context) =>
+                ProductDetailBloc(ProductDetailWebService(Dio())),
             child: ProductDetailScreen(
               product: product as dynamic,
               productId: (product as dynamic).id,
@@ -47,7 +40,12 @@ class AppRouter {
         );
 
       case '/cart_screen':
-        return MaterialPageRoute(builder: (_) => const CartScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<CartBloc>()..add(LoadCartEvent()),
+            child: const CartScreen(),
+          ),
+        );
 
       default:
         return null;

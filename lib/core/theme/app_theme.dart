@@ -1,5 +1,4 @@
 import '/core/imports/common_imports.dart';
-import '../constants/colors.dart';
 
 class AppTheme {
   static const Color primaryColor = AppColors.white;

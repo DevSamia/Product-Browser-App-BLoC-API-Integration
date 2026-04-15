@@ -1,5 +1,4 @@
-import '../models/category_model.dart';
-import 'category_web_services.dart';
+import '../../../core/imports/common_imports.dart';
 
 class CategoryRepository {
   late final CategoryWebServices categoryWebServices;

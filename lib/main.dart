@@ -1,14 +1,37 @@
-import 'package:get_it/get_it.dart';
-
-import 'app_router.dart';
 import 'core/imports/common_imports.dart';
-import 'features/cart/bloc/cart_bloc.dart';
 
 final getIt = GetIt.instance;
 
+Future<void> initGetIt() async {
+  final sharedPrefs = await SharedPreferences.getInstance();
+  getIt.registerLazySingleton<SharedPreferences>(() => sharedPrefs);
+  getIt.registerLazySingleton<Dio>(() => Dio());
+
+  getIt.registerLazySingleton<CartWebServices>(() => CartWebServices(getIt()));
+  getIt.registerLazySingleton<CategoryWebServices>(() => CategoryWebServices());
+  getIt.registerLazySingleton<ProductWebServices>(() => ProductWebServices());
+  getIt.registerLazySingleton<ProductDetailWebService>(
+    () => ProductDetailWebService(getIt()),
+  );
+
+  getIt.registerLazySingleton<CategoryRepository>(
+    () => CategoryRepository(getIt()),
+  );
+  getIt.registerLazySingleton<CartRepository>(
+    () => CartRepository(getIt<CartWebServices>(), getIt<SharedPreferences>()),
+  );
+  getIt.registerLazySingleton<ProductRepository>(
+    () => ProductRepository(getIt()),
+  );
+
+  getIt.registerFactory(() => CategoryBloc(getIt()));
+  getIt.registerFactory(() => CartBloc(getIt()));
+  getIt.registerFactory(() => ProductBloc(getIt()));
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await initGetIt();
   runApp(ProductBrowserApp(appRouter: AppRouter()));
 }
 
@@ -26,14 +49,17 @@ class ProductBrowserApp extends StatelessWidget {
       builder: (context, child) {
         return MultiBlocProvider(
           providers: [
-            BlocProvider(create: (context) => CartBloc()),
+            BlocProvider(create: (context) => getIt<CartBloc>()),
             BlocProvider(
-              create: (context) => ProductBloc(getIt<ProductRepository>()),
+              create: (context) =>
+                  getIt<CategoryBloc>()..add(GetCategoriesEvent()),
             ),
+            BlocProvider(create: (context) => getIt<ProductBloc>()),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             onGenerateRoute: appRouter.generateRoute,
+            theme: ThemeData(useMaterial3: true),
             title: 'Product Browser',
           ),
         );

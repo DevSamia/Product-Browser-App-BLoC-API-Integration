@@ -1,9 +1,4 @@
 import '../../../../core/imports/common_imports.dart';
-import '../../../cart/bloc/cart_bloc.dart';
-import '../../../cart/bloc/cart_event.dart';
-import '../../../cart/bloc/cart_state.dart';
-import '../../models/product_detail_model.dart';
-
 class ProductDetailBody extends StatelessWidget {
   final ProductDetailModel product;
   const ProductDetailBody({super.key, required this.product});

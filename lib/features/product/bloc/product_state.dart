@@ -1,5 +1,4 @@
 import '../../../core/imports/common_imports.dart';
-import '../models/product_model.dart';
 
 @immutable
 sealed class ProductState {}

@@ -1,5 +1,4 @@
 import 'core/imports/common_imports.dart';
-import 'features/category/view/category_screen.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({super.key});
@@ -15,7 +14,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   final List<Widget> _screens = [
     const CategoryScreen(),
     const ProductListScreen(categoryName: ''),
-    //const ProductDetailScreen(product: ''),
+    const CartScreen(), // السلة هنا
     const Center(child: Text('حسابي')),
   ];
 

@@ -1,10 +1,7 @@
-import 'package:dio/dio.dart';
-
-import '../data/product_detail_service.dart'; // تأكدي من المسار
-import '../models/product_detail_model.dart';
+import '../../../core/imports/common_imports.dart';
 
 class ProductDetailRepository {
-  final ProductDetailService _detailService;
+  final ProductDetailWebService _detailService;
 
   ProductDetailRepository(this._detailService);
 
