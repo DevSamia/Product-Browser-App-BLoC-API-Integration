@@ -1,7 +1,3 @@
-Sure! Here is a professional, high-quality **README.md** in English. It is structured to highlight your technical expertise as a mid-level developer and showcases the advanced architecture of your project.
-
----
-
 # 🛍️ Product Browser App
 
 A sophisticated product discovery and cart management application built with **Flutter**. This project demonstrates a production-ready implementation of **Clean Architecture**, robust **State Management**, and **Data Persistence**.
