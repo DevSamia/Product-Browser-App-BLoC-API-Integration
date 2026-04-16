@@ -1,20 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../../core/imports/common_imports.dart';
-import '../models/message_model.dart'; // تأكدي من صحة المسار لملف الـ Model
+import '../models/message_model.dart';
 
 class ChatService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Stream<List<MessageModel>> getMessages() {
+  Stream<List<MessageModel>> getMessages(String productId) {
     return _firestore
         .collection('chats')
+        .where('productId', isEqualTo: productId)
         .orderBy('timestamp', descending: true)
         .snapshots()
         .map((snapshot) {
-      return snapshot.docs.map((doc) {
-        return MessageModel.fromMap(doc.data());
-      }).toList();
-    });
+          return snapshot.docs
+              .map((doc) => MessageModel.fromMap(doc.data()))
+              .toList();
+        });
   }
 
   Future<void> sendMessage(String text, String senderId) async {

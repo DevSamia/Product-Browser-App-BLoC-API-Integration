@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 
 import 'core/imports/common_imports.dart';
+import 'features/chat/bloc/chat_bloc.dart';
+import 'features/chat/data/chat_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -12,6 +14,7 @@ Future<void> initGetIt() async {
   getIt.registerLazySingleton<CartWebServices>(() => CartWebServices(getIt()));
   getIt.registerLazySingleton<CategoryWebServices>(() => CategoryWebServices());
   getIt.registerLazySingleton<ProductWebServices>(() => ProductWebServices());
+  getIt.registerLazySingleton<ChatService>(() => ChatService());
   getIt.registerLazySingleton<ProductDetailWebService>(
     () => ProductDetailWebService(getIt()),
   );
@@ -29,6 +32,7 @@ Future<void> initGetIt() async {
   getIt.registerFactory(() => CategoryBloc(getIt()));
   getIt.registerFactory(() => CartBloc(getIt()));
   getIt.registerFactory(() => ProductBloc(getIt()));
+  getIt.registerFactory(() => ChatBloc(getIt()));
 }
 
 void main() async {

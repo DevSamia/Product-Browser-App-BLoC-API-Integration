@@ -3,12 +3,14 @@ import '../data/chat_service.dart';
 import '../models/message_model.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key});
+  final String productId;
+
+  const ChatScreen({super.key, required this.productId});
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<MessageModel>>(
-      stream: ChatService().getMessages(),
+      stream: ChatService().getMessages(productId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
