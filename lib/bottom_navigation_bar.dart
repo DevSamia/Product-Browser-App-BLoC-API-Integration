@@ -1,4 +1,5 @@
 import 'core/imports/common_imports.dart';
+import 'features/chat/view/chat_screen.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({super.key});
@@ -14,8 +15,8 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   final List<Widget> _screens = [
     const CategoryScreen(),
     const ProductListScreen(categoryName: ''),
-    const CartScreen(), // السلة هنا
-    const Center(child: Text('حسابي')),
+    const CartScreen(),
+    const ChatScreen(),
   ];
 
   @override

@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+
 import 'core/imports/common_imports.dart';
 
 final getIt = GetIt.instance;
@@ -31,6 +33,7 @@ Future<void> initGetIt() async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await initGetIt();
   runApp(ProductBrowserApp(appRouter: AppRouter()));
 }
