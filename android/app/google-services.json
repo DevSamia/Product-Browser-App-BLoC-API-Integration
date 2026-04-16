@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "718467365800",
+    "project_id": "productbrowserapp",
+    "storage_bucket": "productbrowserapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718467365800:android:fa65c03cb09e6537777b9d",
+        "android_client_info": {
+          "package_name": "com.samia.product_browser_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIhdCF9_gaf05wWBch_c_5UumG8aN_MYI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
