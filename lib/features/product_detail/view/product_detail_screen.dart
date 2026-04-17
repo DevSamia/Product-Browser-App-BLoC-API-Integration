@@ -14,10 +14,10 @@ class ProductDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<ProductDetailBloc>().add(FetchProductDetailEvent(productId));
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       body: BlocBuilder<ProductDetailBloc, ProductDetailState>(
         builder: (context, state) {
-          if (state is ProductDetailLoading) {
+          if (state is ProductDetailLoading || state is ProductDetailInitial) {
             return const Center(
               child: CircularProgressIndicator(color: AppColors.black),
             );
@@ -30,7 +30,7 @@ class ProductDetailScreen extends StatelessWidget {
           } else if (state is ProductDetailLoaded) {
             return ProductDetailBody(product: state.product);
           }
-          return const SizedBox();
+          return const Center(child: Text("No Data Available"));
         },
       ),
     );
