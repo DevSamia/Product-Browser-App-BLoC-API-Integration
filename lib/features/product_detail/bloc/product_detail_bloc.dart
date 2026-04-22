@@ -1,16 +1,18 @@
-import '../../../core/imports/common_imports.dart';
+import '../../../../core/imports/common_imports.dart';
 
 class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
   final ProductDetailWebService service;
 
-  ProductDetailBloc(this.service) : super(ProductDetailInitial()) {
+  ProductDetailBloc(this.service) : super(const ProductDetailState.initial()) {
     on<FetchProductDetailEvent>((event, emit) async {
-      emit(ProductDetailLoading());
+      emit(const ProductDetailState.loading());
+
       try {
         final product = await service.getProductDetails(event.productId);
-        emit(ProductDetailLoaded(product));
+
+        emit(ProductDetailState.loaded(product));
       } catch (e) {
-        emit(ProductDetailError(e.toString()));
+        emit(ProductDetailState.error(e.toString()));
       }
     });
   }

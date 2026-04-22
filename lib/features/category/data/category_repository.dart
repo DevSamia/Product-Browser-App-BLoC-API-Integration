@@ -1,14 +1,17 @@
 import '../../../core/imports/common_imports.dart';
 
 class CategoryRepository {
-  late final CategoryWebServices categoryWebServices;
+  final CategoryWebServices categoryWebServices;
 
   CategoryRepository(this.categoryWebServices);
 
-  Future<List<dynamic>> getAllCategory() async {
-    final categories = await categoryWebServices.getAllCategory();
-    return categories
-        .map((category) => CategoryModel.fromJson(category))
-        .toList();
+  Future<List<CategoryModel>> getAllCategory() async {
+    try {
+      final List<dynamic> response = await categoryWebServices.getAllCategory();
+
+      return response.map((json) => CategoryModel.fromJson(json)).toList();
+    } catch (e) {
+      throw Exception("حدث خطأ أثناء جلب الأقسام: $e");
+    }
   }
 }

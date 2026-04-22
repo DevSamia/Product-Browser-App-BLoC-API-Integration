@@ -32,10 +32,7 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) =>
                 ProductDetailBloc(ProductDetailWebService(Dio())),
-            child: ProductDetailScreen(
-              product: product as dynamic,
-              productId: (product as dynamic).id,
-            ),
+            child: ProductDetailScreen(productId: (product as dynamic).id),
           ),
         );
 

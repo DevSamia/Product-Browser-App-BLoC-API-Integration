@@ -3,19 +3,21 @@ import '../../../core/imports/common_imports.dart';
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final CategoryRepository categoryRepository;
 
-  CategoryBloc(this.categoryRepository) : super(CategoryInitial()) {
-    on<GetCategoriesEvent>((event, emit) async {
-      emit(CategoryLoading());
-      try {
-        final List<dynamic> categoriesData = await categoryRepository
-            .getAllCategory();
+  CategoryBloc(this.categoryRepository) : super(const CategoryState.initial()) {
+    on<GetCategoriesEvent>(_onGetCategories);
+  }
 
-        final categories = List<CategoryModel>.from(categoriesData);
+  Future<void> _onGetCategories(
+    GetCategoriesEvent event,
+    Emitter<CategoryState> emit,
+  ) async {
+    emit(const CategoryState.loading());
 
-        emit(CategorySuccess(categories));
-      } catch (e) {
-        emit(CategoryError("فشل في جلب الفئات: ${e.toString()}"));
-      }
-    });
+    try {
+      final categories = await categoryRepository.getAllCategory();
+      emit(CategoryState.success(categories: categories));
+    } catch (e) {
+      emit(CategoryState.error(message: "فشل في جلب الفئات: ${e.toString()}"));
+    }
   }
 }

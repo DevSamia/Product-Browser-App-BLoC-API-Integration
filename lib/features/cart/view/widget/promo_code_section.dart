@@ -13,9 +13,9 @@ class PromoCodeSection extends StatelessWidget {
       ),
       child: Row(
         children: const [
-          Icon(Icons.add_circle, color: AppColors.yellow2),
+          Icon(Icons.add_circle, color: AppColors.primary),
           Spacer(),
-          Icon(Icons.confirmation_number_outlined, color: AppColors.yellow2),
+          Icon(Icons.confirmation_number_outlined, color: AppColors.primary),
           SizedBox(width: 12),
           PrimaryText(
             ' ? Do you have a discount code ',

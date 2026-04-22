@@ -1,43 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 
+import 'core/di/injection_container.dart';
+import 'core/errors/app_bloc_observer.dart';
 import 'core/imports/common_imports.dart';
-import 'features/chat/bloc/chat_bloc.dart';
-import 'features/chat/data/chat_service.dart';
 
 final getIt = GetIt.instance;
-
-Future<void> initGetIt() async {
-  final sharedPrefs = await SharedPreferences.getInstance();
-  getIt.registerLazySingleton<SharedPreferences>(() => sharedPrefs);
-  getIt.registerLazySingleton<Dio>(() => Dio());
-
-  getIt.registerLazySingleton<CartWebServices>(() => CartWebServices(getIt()));
-  getIt.registerLazySingleton<CategoryWebServices>(() => CategoryWebServices());
-  getIt.registerLazySingleton<ProductWebServices>(() => ProductWebServices());
-  getIt.registerLazySingleton<ChatService>(() => ChatService());
-  getIt.registerLazySingleton<ProductDetailWebService>(
-    () => ProductDetailWebService(getIt()),
-  );
-
-  getIt.registerLazySingleton<CategoryRepository>(
-    () => CategoryRepository(getIt()),
-  );
-  getIt.registerLazySingleton<CartRepository>(
-    () => CartRepository(getIt<CartWebServices>(), getIt<SharedPreferences>()),
-  );
-  getIt.registerLazySingleton<ProductRepository>(
-    () => ProductRepository(getIt()),
-  );
-
-  getIt.registerFactory(() => CategoryBloc(getIt()));
-  getIt.registerFactory(() => CartBloc(getIt()));
-  getIt.registerFactory(() => ProductBloc(getIt()));
-  getIt.registerFactory(() => ChatBloc(getIt()));
-}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  Bloc.observer = AppBlocObserver();
   await initGetIt();
   runApp(ProductBrowserApp(appRouter: AppRouter()));
 }

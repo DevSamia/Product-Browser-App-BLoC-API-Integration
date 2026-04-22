@@ -1,24 +1,16 @@
-import '../../../core/imports/common_imports.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-abstract class CartState extends Equatable {
-  final List<CartItemModel> cartItems;
-  final double totalPrice;
+import '../models/cart_item_model.dart';
 
-  const CartState({this.cartItems = const [], this.totalPrice = 0.0});
+part 'cart_state.freezed.dart';
 
-  @override
-  List<Object?> get props => [cartItems, totalPrice];
-}
-
-class CartInitial extends CartState {}
-
-class CartLoading extends CartState {}
-
-class CartLoaded extends CartState {
-  const CartLoaded({required super.cartItems, required super.totalPrice});
-}
-
-class CartError extends CartState {
-  final String message;
-  const CartError(this.message, {super.cartItems});
+@freezed
+class CartState with _$CartState {
+  const factory CartState.initial() = CartInitial;
+  const factory CartState.loading() = CartLoading;
+  const factory CartState.loaded({
+    required List<CartItemModel> cartItems,
+    required double totalPrice,
+  }) = CartLoaded;
+  const factory CartState.error({required String message}) = CartError;
 }

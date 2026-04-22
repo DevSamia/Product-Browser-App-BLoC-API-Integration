@@ -1,7 +1,7 @@
 import '/core/imports/common_imports.dart';
 
 class AppTheme {
-  static const Color primaryColor = AppColors.white;
+  static const Color primaryColor = AppColors.scaffoldBackground;
   static const Color white = Colors.white;
 
   static ThemeData get lightTheme {

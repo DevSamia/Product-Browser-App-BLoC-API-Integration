@@ -28,7 +28,7 @@ class PromoBanner extends StatelessWidget {
         children: [
           PrimaryText(
             'Season discount',
-            color: AppColors.white,
+            color: AppColors.scaffoldBackground,
             fontSize: 24,
             fontWeight: FontWeight.w900,
           ),

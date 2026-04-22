@@ -8,7 +8,7 @@ sealed class CartEvent {
 class LoadCartEvent extends CartEvent {}
 
 class AddToCartEvent extends CartEvent {
-  final ProductModel product;
+  final ProductDetailModel product;
   const AddToCartEvent(this.product);
 }
 

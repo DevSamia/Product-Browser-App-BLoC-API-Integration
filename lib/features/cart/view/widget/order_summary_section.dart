@@ -10,7 +10,7 @@ class OrderSummarySection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.scaffoldBackground,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: AppColors.inputBorder),
       ),
@@ -27,7 +27,7 @@ class OrderSummarySection extends StatelessWidget {
                 '$totalPrice RS',
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w900,
-                color: AppColors.move,
+                color: AppColors.secondary,
               ),
               PrimaryText(
                 'Grand total',
@@ -46,7 +46,7 @@ class OrderSummarySection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         PrimaryText(value, fontWeight: FontWeight.bold),
-        PrimaryText(label, color: AppColors.gray2),
+        PrimaryText(label, color: AppColors.gray),
       ],
     );
   }

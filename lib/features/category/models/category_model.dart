@@ -1,19 +1,19 @@
-class CategoryModel {
-  final String slug;
-  final String name;
-  final String url;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  CategoryModel({required this.slug, required this.name, required this.url});
+part 'category_model.freezed.dart';
+part 'category_model.g.dart';
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) {
-    return CategoryModel(
-      slug: json['slug'] ?? '',
-      name: json['name'] ?? '',
-      url: json['url'] ?? '',
-    );
-  }
+@freezed
+class CategoryModel with _$CategoryModel {
+  const factory CategoryModel({
+    @Default('') String slug,
+    @Default('') String name,
+    @Default('') String url,
+  }) = _CategoryModel;
 
-  Map<String, dynamic> toJson() {
-    return {'slug': slug, 'name': name, 'url': url};
-  }
+  factory CategoryModel.fromJson(Map<String, dynamic> json) =>
+      _$CategoryModelFromJson(json);
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

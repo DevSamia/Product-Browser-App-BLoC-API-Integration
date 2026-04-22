@@ -15,7 +15,7 @@ class CustomBottomNav extends StatelessWidget {
     return Container(
       height: 90,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.scaffoldBackground,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -76,7 +76,9 @@ class _NavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isActive ? const Color(0xFF3F51B5) : const Color(0xFFBDBDBD);
+    final color = isActive
+        ? AppColors.navIconSelected
+        : AppColors.navIconUnselected;
 
     return GestureDetector(
       onTap: onTap,
@@ -97,9 +99,12 @@ class _NavBarItem extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                        color: AppColors.red,
+                        color: AppColors.error,
                         shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.white, width: 2),
+                        border: Border.all(
+                          color: AppColors.scaffoldBackground,
+                          width: 2,
+                        ),
                       ),
                       constraints: const BoxConstraints(
                         minWidth: 20,
@@ -108,7 +113,7 @@ class _NavBarItem extends StatelessWidget {
                       child: PrimaryText(
                         badge!,
                         textAlign: TextAlign.center,
-                        color: AppColors.white,
+                        color: AppColors.scaffoldBackground,
                         fontSize: 10.sp,
                         fontWeight: FontWeight.w900,
                       ),

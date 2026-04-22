@@ -7,10 +7,11 @@ class CategoryGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CategoryBloc, CategoryState>(
       builder: (context, state) {
-        if (state is CategoryLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is CategorySuccess) {
-          return GridView.builder(
+        return state.when(
+          initial: () => const SizedBox(),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (message) => Center(child: PrimaryText(message)),
+          success: (categories, selectedSlug) => GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -19,16 +20,17 @@ class CategoryGrid extends StatelessWidget {
               mainAxisSpacing: 20,
               childAspectRatio: 1.30,
             ),
-            itemCount: state.categories.length,
+            itemCount: categories.length,
             itemBuilder: (context, index) {
-              final item = state.categories[index];
-              return CategoryItem(category: item, index: index);
+              final item = categories[index];
+              return CategoryItem(
+                category: item,
+                index: index,
+                isSelected: item.slug == selectedSlug,
+              );
             },
-          );
-        } else if (state is CategoryError) {
-          return Center(child: PrimaryText(state.message));
-        }
-        return const SizedBox();
+          ),
+        );
       },
     );
   }

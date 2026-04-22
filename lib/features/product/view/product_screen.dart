@@ -10,7 +10,7 @@ class ProductListScreen extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.scaffoldBackground,
         appBar: _buildAppBar(context),
         body: SafeArea(
           child: Column(
@@ -21,7 +21,9 @@ class ProductListScreen extends StatelessWidget {
                   builder: (context, state) {
                     if (state is ProductLoading) {
                       return const Center(
-                        child: CircularProgressIndicator(color: AppColors.gray),
+                        child: CircularProgressIndicator(
+                          color: AppColors.textMuted,
+                        ),
                       );
                     } else if (state is ProductLoaded) {
                       return _buildProductList(state.filteredProducts);
@@ -41,13 +43,13 @@ class ProductListScreen extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.scaffoldBackground,
       elevation: 0,
       scrolledUnderElevation: 0,
       leading: IconButton(
         icon: Icon(
           Icons.arrow_back_ios_new,
-          color: AppColors.black,
+          color: AppColors.backIcon,
           size: 18.sp,
         ),
         onPressed: () => Navigator.pop(context),
@@ -55,7 +57,7 @@ class ProductListScreen extends StatelessWidget {
       centerTitle: true,
       title: PrimaryText(
         categoryName,
-        color: AppColors.black,
+        color: AppColors.textMain,
         fontSize: 16.sp,
         fontWeight: FontWeight.bold,
       ),
@@ -63,7 +65,7 @@ class ProductListScreen extends StatelessWidget {
         IconButton(
           icon: Icon(
             Icons.notifications_none_rounded,
-            color: AppColors.black,
+            color: AppColors.notificationIcon,
             size: 22.sp,
           ),
           onPressed: () {},
@@ -98,7 +100,7 @@ class ProductListScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, color: AppColors.red, size: 40.sp),
+          Icon(Icons.error_outline, color: AppColors.error, size: 40.sp),
           AppSizes.h8,
           PrimaryText(message, fontSize: 14.sp, fontWeight: FontWeight.bold),
         ],

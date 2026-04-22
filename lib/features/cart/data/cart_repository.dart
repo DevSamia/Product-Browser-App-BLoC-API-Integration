@@ -5,22 +5,26 @@ import '../../../core/imports/common_imports.dart';
 class CartRepository {
   final CartWebServices cartWebServices;
   final SharedPreferences sharedPreferences;
-  static const String _cartKey = 'user_cart';
+  static const String _cartKey = 'user_cart_v2';
+
   CartRepository(this.cartWebServices, this.sharedPreferences);
-  // حفظ السلة
-  Future<void> saveCart(List<ProductModel> products) async {
+
+  Future<void> saveCart(List<CartItemModel> items) async {
     final String encodedData = jsonEncode(
-      products.map((item) => item.toJson()).toList(),
+      items.map((item) => item.toJson()).toList(),
     );
     await sharedPreferences.setString(_cartKey, encodedData);
   }
 
-  // تحميل السلة عند فتح التطبيق
-  List<ProductModel> loadCart() {
+  List<CartItemModel> loadCart() {
     final String? cartData = sharedPreferences.getString(_cartKey);
     if (cartData != null) {
-      final List<dynamic> decodedData = jsonDecode(cartData);
-      return decodedData.map((item) => ProductModel.fromJson(item)).toList();
+      try {
+        final List<dynamic> decodedData = jsonDecode(cartData);
+        return decodedData.map((item) => CartItemModel.fromJson(item)).toList();
+      } catch (e) {
+        return [];
+      }
     }
     return [];
   }

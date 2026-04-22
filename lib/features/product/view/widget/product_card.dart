@@ -13,7 +13,7 @@ class ProductCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppColors.scaffoldBackground,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
@@ -52,12 +52,12 @@ class ProductCard extends StatelessWidget {
           top: 8.h,
           right: 8.w,
           child: CircleAvatar(
-            backgroundColor: AppColors.white,
+            backgroundColor: AppColors.scaffoldBackground,
             radius: 14.r,
             child: Icon(
               Icons.favorite_border_rounded,
               size: 16.sp,
-              color: AppColors.red,
+              color: AppColors.error,
             ),
           ),
         ),
@@ -84,13 +84,13 @@ class ProductCard extends StatelessWidget {
                 '${product.price} SAR',
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w800,
-                color: AppColors.move,
+                color: AppColors.secondary,
               ),
               Row(
                 children: [
                   Icon(
                     Icons.star_rounded,
-                    color: AppColors.yellow,
+                    color: AppColors.primary,
                     size: 14.sp,
                   ),
                   PrimaryText(

@@ -10,7 +10,7 @@ class CheckoutBottomBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: const BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.scaffoldBackground,
         boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
       ),
       child: ElevatedButton(

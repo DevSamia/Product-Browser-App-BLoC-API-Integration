@@ -9,7 +9,7 @@ Widget buildErrorWidget(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Icon(Icons.error_outline, size: 60, color: Colors.red),
+        const Icon(Icons.error_outline, size: 60, color: AppColors.error),
         AppSizes.h16,
         PrimaryText(message, color: Colors.red, fontSize: 16.sp),
         AppSizes.h20,

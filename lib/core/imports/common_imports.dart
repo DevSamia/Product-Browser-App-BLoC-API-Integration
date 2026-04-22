@@ -12,7 +12,7 @@ export 'package:product_browser_app/core/imports/common_imports.dart';
 export 'package:product_browser_app/features/cart/bloc/cart_bloc.dart';
 export 'package:product_browser_app/features/cart/data/cart_repository.dart';
 export 'package:product_browser_app/features/cart/data/cart_web_services.dart';
-export 'package:product_browser_app/features/cart/models/cart_tem_model.dart';
+export 'package:product_browser_app/features/cart/models/cart_item_model.dart';
 // Features: Cart
 export 'package:product_browser_app/features/cart/view/cart_screen.dart';
 export 'package:product_browser_app/features/cart/view/widget/cart_item_card.dart';
@@ -53,6 +53,7 @@ export 'package:product_browser_app/features/product_detail/view/widget/product_
 export 'package:shared_preferences/shared_preferences.dart';
 
 export '../../../core/constants/colors.dart';
+export '../../../core/errors/app_logger.dart';
 export '../../../widgets/primary_text.dart';
 export '../../app_router.dart';
 export '../../bottom_navigation_bar.dart';

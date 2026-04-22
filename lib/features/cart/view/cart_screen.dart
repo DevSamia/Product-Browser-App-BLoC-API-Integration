@@ -6,22 +6,22 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.scaffoldBackground,
         elevation: 0,
         centerTitle: true,
-        leading: Icon(Icons.notifications_none, color: AppColors.gray2),
+        leading: const Icon(Icons.notifications_none, color: AppColors.gray),
         title: PrimaryText(
           'Shopping bag',
-          color: Color(0xFF1D1E20),
+          color: AppColors.textMain,
           fontSize: 18.sp,
           fontWeight: FontWeight.bold,
         ),
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.search, color: AppColors.gray2),
+            icon: const Icon(Icons.search, color: AppColors.gray),
           ),
           const SizedBox(width: 8),
         ],
@@ -31,62 +31,69 @@ class CartScreen extends StatelessWidget {
           textDirection: TextDirection.rtl,
           child: BlocBuilder<CartBloc, CartState>(
             builder: (context, state) {
-              if (state is CartLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state.cartItems.isEmpty) {
-                return Center(
-                  child: PrimaryText(
-                    'Your shopping cart is empty',
-                    fontSize: 16.sp,
-                  ),
-                );
-              }
+              return state.when(
+                initial: () => const SizedBox.shrink(),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (message) =>
+                    Center(child: PrimaryText(message, color: AppColors.error)),
+                loaded: (cartItems, totalPrice) {
+                  if (cartItems.isEmpty) {
+                    return Center(
+                      child: PrimaryText(
+                        'Your shopping cart is empty',
+                        fontSize: 16.sp,
+                        color: AppColors.gray,
+                      ),
+                    );
+                  }
 
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      children: [
-                        const SizedBox(height: 16),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: ListView(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           children: [
-                            TextButton(
-                              onPressed: () => context.read<CartBloc>().add(
-                                ClearCartEvent(),
-                              ),
-                              child: PrimaryText(
-                                'Delete all',
-                                color: AppColors.red,
-                                fontSize: 14.sp,
+                            const SizedBox(height: 16),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                  onPressed: () => context.read<CartBloc>().add(
+                                    ClearCartEvent(),
+                                  ),
+                                  child: PrimaryText(
+                                    'Delete all',
+                                    color: AppColors.error,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                                PrimaryText(
+                                  'Varieties (${cartItems.length})',
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.secondary,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+                            ...cartItems.map(
+                              (item) => Padding(
+                                padding: const EdgeInsets.only(bottom: 16.0),
+                                child: CartItemCard(item: item),
                               ),
                             ),
-                            PrimaryText(
-                              'Varieties (${state.cartItems.length})',
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.move,
-                            ),
+                            AppSizes.h32,
+                            OrderSummarySection(totalPrice: totalPrice),
+                            AppSizes.h16,
+                            const PromoCodeSection(),
+                            AppSizes.h25,
                           ],
                         ),
-                        const SizedBox(height: 16),
-                        ...state.cartItems.map(
-                          (item) => Padding(
-                            padding: const EdgeInsets.only(bottom: 16.0),
-                            child: CartItemCard(item: item),
-                          ),
-                        ),
-                        AppSizes.h32,
-                        OrderSummarySection(totalPrice: state.totalPrice),
-                        AppSizes.h16,
-                        const PromoCodeSection(),
-                        AppSizes.h25,
-                      ],
-                    ),
-                  ),
-                  CheckoutBottomBar(totalPrice: state.totalPrice),
-                ],
+                      ),
+                      CheckoutBottomBar(totalPrice: totalPrice),
+                    ],
+                  );
+                },
               );
             },
           ),

@@ -10,7 +10,7 @@ class CartItemCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.scaffoldBackground,
         borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: AppColors.inputBorder),
       ),
@@ -20,7 +20,7 @@ class CartItemCard extends StatelessWidget {
             onPressed: () => context.read<CartBloc>().add(
               RemoveFromCartEvent(item.product.id),
             ),
-            icon: Icon(Icons.delete_outline, color: AppColors.gray2),
+            icon: Icon(Icons.delete_outline, color: AppColors.gray),
           ),
           SizedBox(width: 16.w),
           Expanded(
@@ -69,7 +69,7 @@ class CartItemCard extends StatelessWidget {
                         '${item.product.price} RS',
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w900,
-                        color: AppColors.move,
+                        color: AppColors.secondary,
                         textAlign: TextAlign.start,
                       ),
                     ),
@@ -83,7 +83,7 @@ class CartItemCard extends StatelessWidget {
             child: Container(
               width: 80.w,
               height: 80.h,
-              color: AppColors.white,
+              color: AppColors.scaffoldBackground,
               child: Image.network(item.product.thumbnail, fit: BoxFit.cover),
             ),
           ),
