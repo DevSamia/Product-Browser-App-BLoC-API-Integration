@@ -7,7 +7,7 @@ class ProductRepository {
 
   Future<List<ProductModel>> getProductsByCategory(String categoryName) async {
     AppLogger.i(
-      "📦 Repository: البدء في جلب وتحويل منتجات القسم: $categoryName",
+      "📦 Repository: Fetching and mapping products for category: $categoryName",
     );
 
     try {
@@ -15,7 +15,7 @@ class ProductRepository {
           .getProductsByCategory(categoryName);
 
       AppLogger.d(
-        "📥 Repository: تم استلام ${productsData.length} منتج خام من السيرفس",
+        "📥 Repository: Received ${productsData.length} raw products from WebService",
       );
 
       final products = productsData
@@ -23,13 +23,13 @@ class ProductRepository {
           .toList();
 
       AppLogger.i(
-        "✅ Repository: تم تحويل المنتجات لـ Models بنجاح (العدد: ${products.length})",
+        "✅ Repository: Successfully mapped ${products.length} products to Models",
       );
 
       return products;
     } catch (e, stackTrace) {
       AppLogger.e(
-        "❌ Repository Error: فشل في تحويل بيانات القسم $categoryName",
+        "❌ Repository Error: Failed to map products for category: $categoryName",
         e,
         stackTrace,
       );

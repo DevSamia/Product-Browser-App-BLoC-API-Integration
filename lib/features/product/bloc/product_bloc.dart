@@ -16,12 +16,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         );
 
         AppLogger.i(
-          "🟢 Bloc State: ProductLoaded -> تم تحميل ${products.length} منتج",
+          "🟢 Bloc State: ProductLoaded -> Successfully loaded ${products.length} products",
         );
         emit(ProductLoaded(allProducts: products, filteredProducts: products));
       } catch (e, stackTrace) {
         AppLogger.e("🔴 Bloc State: ProductError", e, stackTrace);
-        emit(ProductError("فشل تحميل المنتجات: ${e.toString()}"));
+        emit(ProductError("Failed to load products: ${e.toString()}"));
       }
     });
 

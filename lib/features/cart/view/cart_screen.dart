@@ -5,6 +5,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLogger.d("🎨 UI: Building CartScreen...");
     return Scaffold(
       backgroundColor: AppColors.scaffoldBackground,
       appBar: AppBar(
@@ -20,83 +21,99 @@ class CartScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              AppLogger.d("🔍 UI: Search button clicked in CartScreen");
+            },
             icon: const Icon(Icons.search, color: AppColors.gray),
           ),
           const SizedBox(width: 8),
         ],
       ),
       body: SafeArea(
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: BlocBuilder<CartBloc, CartState>(
-            builder: (context, state) {
-              return state.when(
-                initial: () => const SizedBox.shrink(),
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (message) =>
-                    Center(child: PrimaryText(message, color: AppColors.error)),
-                loaded: (cartItems, totalPrice) {
-                  if (cartItems.isEmpty) {
-                    return Center(
-                      child: PrimaryText(
-                        'Your shopping cart is empty',
-                        fontSize: 16.sp,
-                        color: AppColors.gray,
-                      ),
-                    );
-                  }
+        child: BlocBuilder<CartBloc, CartState>(
+          builder: (context, state) {
+            AppLogger.d("📺 UI: Current CartState is ${state.runtimeType}");
 
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: ListView(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          children: [
-                            const SizedBox(height: 16),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                TextButton(
-                                  onPressed: () => context.read<CartBloc>().add(
-                                    ClearCartEvent(),
-                                  ),
-                                  child: PrimaryText(
-                                    'Delete all',
-                                    color: AppColors.error,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                                PrimaryText(
-                                  'Varieties (${cartItems.length})',
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.w800,
-                                  color: AppColors.secondary,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
-                            ...cartItems.map(
-                              (item) => Padding(
-                                padding: const EdgeInsets.only(bottom: 16.0),
-                                child: CartItemCard(item: item),
-                              ),
-                            ),
-                            AppSizes.h32,
-                            OrderSummarySection(totalPrice: totalPrice),
-                            AppSizes.h16,
-                            const PromoCodeSection(),
-                            AppSizes.h25,
-                          ],
-                        ),
-                      ),
-                      CheckoutBottomBar(totalPrice: totalPrice),
-                    ],
+            return state.when(
+              initial: () {
+                AppLogger.i("ℹ️ UI: Cart is in Initial State");
+                return const SizedBox.shrink();
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (message) {
+                AppLogger.w("⚠️ UI: Displaying Cart Error: $message");
+                return Center(
+                  child: PrimaryText(message, color: AppColors.error),
+                );
+              },
+              loaded: (cartItems, totalPrice) {
+                if (cartItems.isEmpty) {
+                  AppLogger.i("ℹ️ UI: Rendering Empty Cart Screen");
+                  return Center(
+                    child: PrimaryText(
+                      'Your shopping cart is empty',
+                      fontSize: 16.sp,
+                      color: AppColors.gray,
+                    ),
                   );
-                },
-              );
-            },
-          ),
+                }
+                AppLogger.i(
+                  "✨ UI: Rendering ${cartItems.length} items in Cart. Total: \$$totalPrice",
+                );
+                return Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        children: [
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  AppLogger.w(
+                                    "🗑️ UI: User clicked 'Delete all' in Cart",
+                                  );
+                                  context.read<CartBloc>().add(
+                                    ClearCartEvent(),
+                                  );
+                                },
+                                child: PrimaryText(
+                                  'Delete all',
+                                  color: AppColors.error,
+                                  fontSize: 14.sp,
+                                ),
+                              ),
+                              PrimaryText(
+                                'Varieties (${cartItems.length})',
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.secondary,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          ...cartItems.map(
+                            (item) => Padding(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: CartItemCard(item: item),
+                            ),
+                          ),
+                          AppSizes.h32,
+                          OrderSummarySection(totalPrice: totalPrice),
+                          AppSizes.h16,
+                          const PromoCodeSection(),
+                          AppSizes.h25,
+                        ],
+                      ),
+                    ),
+                    CheckoutBottomBar(totalPrice: totalPrice),
+                  ],
+                );
+              },
+            );
+          },
         ),
       ),
     );

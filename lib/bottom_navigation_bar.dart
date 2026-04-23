@@ -22,12 +22,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) =>
-              ProductBloc(ProductRepository(ProductWebServices())),
-        ),
-      ],
+      providers: [BlocProvider(create: (context) => getIt<ProductBloc>())],
       child: Scaffold(
         body: IndexedStack(index: _currentIndex, children: _screens),
         bottomNavigationBar: CustomBottomNav(

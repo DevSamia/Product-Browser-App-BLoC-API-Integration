@@ -7,23 +7,23 @@ class ProductDetailRepository {
 
   Future<ProductDetailModel> fetchProductDetails(int productId) async {
     try {
-      AppLogger.i("Repository: البدء في جلب تفاصيل المنتج رقم $productId");
+      AppLogger.i("📦 Repository: Fetching details for Product ID: $productId");
 
       final productDetail = await _detailService.getProductDetails(productId);
 
       AppLogger.i(
-        "Repository: تم استلام بيانات المنتج ${productDetail.title} بنجاح",
+        "✅ Repository: Successfully received data for: ${productDetail.title}",
       );
       return productDetail;
     } on DioException catch (e) {
       final errorMessage = _handleDioError(e);
       AppLogger.w(
-        "Repository (Dio Error): $errorMessage | Status Code: ${e.response?.statusCode}",
+        "⚠️ Repository (Dio Error): $errorMessage | Status Code: ${e.response?.statusCode}",
       );
       throw errorMessage;
     } catch (e, stackTrace) {
       AppLogger.e(
-        "Repository (Unexpected Error): حدث خطأ غير معروف",
+        "❌ Repository (Unexpected Error): An unknown error occurred",
         e,
         stackTrace,
       );
@@ -32,7 +32,7 @@ class ProductDetailRepository {
   }
 
   String _handleDioError(DioException e) {
-    AppLogger.d("Dio Error Type: ${e.type}");
+    AppLogger.d("🌐 Dio Error Type: ${e.type}");
 
     switch (e.type) {
       case DioExceptionType.connectionTimeout:

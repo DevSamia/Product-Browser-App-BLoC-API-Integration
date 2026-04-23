@@ -1,19 +1,8 @@
 import '../../../core/imports/common_imports.dart';
 
 class ProductWebServices {
-  late Dio dio;
-
-  ProductWebServices() {
-    BaseOptions options = BaseOptions(
-      baseUrl: baseUrl,
-      receiveDataWhenStatusError: true,
-      connectTimeout: const Duration(seconds: 20),
-      receiveTimeout: const Duration(seconds: 20),
-    );
-    dio = Dio(options);
-
-    dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
-  }
+  final Dio dio;
+  ProductWebServices(this.dio);
 
   Future<List<dynamic>> getProductsByCategory(String categoryName) async {
     AppLogger.d(

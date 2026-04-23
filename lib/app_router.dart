@@ -5,7 +5,7 @@ class AppRouter {
   late CategoryWebServices categoryWebServices;
 
   AppRouter() {
-    categoryWebServices = CategoryWebServices();
+    categoryWebServices = getIt<CategoryWebServices>();
     categoryRepository = CategoryRepository(categoryWebServices);
   }
 

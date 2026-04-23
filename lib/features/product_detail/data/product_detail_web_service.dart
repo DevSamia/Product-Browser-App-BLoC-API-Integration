@@ -1,31 +1,11 @@
 import '../../../core/imports/common_imports.dart';
 
-// class ProductDetailWebService {
-//   final Dio _dio;
-//   ProductDetailWebService(this._dio);
-//
-//   Future<ProductDetailModel> getProductDetails(int productId) async {
-//     try {
-//       final response = await _dio.get(
-//         'https://dummyjson.com/products/$productId',
-//       );
-//       if (response.statusCode == 200) {
-//         return ProductDetailModel.fromJson(response.data);
-//       } else {
-//         throw Exception("فشل في جلب تفاصيل المنتج");
-//       }
-//     } catch (e) {
-//       throw Exception("خطأ في الاتصال: $e");
-//     }
-//   }
-// }
-
 class ProductDetailWebService {
   final Dio _dio;
   ProductDetailWebService(this._dio);
 
   Future<ProductDetailModel> getProductDetails(int productId) async {
-    AppLogger.i("جاري طلب تفاصيل المنتج رقم: $productId من API");
+    AppLogger.i("🌐 API Request: Fetching product details for ID: $productId");
 
     try {
       final response = await _dio.get(
@@ -33,19 +13,23 @@ class ProductDetailWebService {
       );
 
       if (response.statusCode == 200) {
-        AppLogger.i("تم جلب بيانات المنتج بنجاح: ${response.data['title']}");
+        AppLogger.i(
+          "✅ API Success: Product data retrieved for: ${response.data['title']}",
+        );
         return ProductDetailModel.fromJson(response.data);
       } else {
-        AppLogger.w("فشل الطلب مع كود حالة: ${response.statusCode}");
-        throw Exception("فشل في جلب تفاصيل المنتج");
+        AppLogger.w(
+          "⚠️ API Warning: Request failed with status code: ${response.statusCode}",
+        );
+        throw Exception("Failed to fetch product details");
       }
     } catch (e, stackTrace) {
       AppLogger.e(
-        "حدث خطأ استثنائي أثناء الاتصال بـ API المنتج $productId",
+        "❌ API Error: Exceptional error while fetching product $productId",
         e,
         stackTrace,
       );
-      throw Exception("خطأ في الاتصال: $e");
+      throw Exception("Connection error: $e");
     }
   }
 }

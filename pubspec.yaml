@@ -23,7 +23,8 @@ dependencies:
   logger: ^2.7.0
   freezed_annotation: ^3.1.0
   json_annotation: ^4.11.0
-  json_serializable: ^6.13.1
+  injectable: ^3.0.0
+
 
 dev_dependencies:
   flutter_test:
@@ -35,9 +36,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
-  build_runner: ^2.13.1
+  build_runner: ^2.14.0
   freezed: ^3.2.5
   json_serializable: ^6.13.1
+  injectable_generator: ^3.0.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
