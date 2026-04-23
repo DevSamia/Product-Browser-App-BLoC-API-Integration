@@ -18,22 +18,26 @@ class CartRepository {
 
   List<CartItemModel> loadCart() {
     final String? cartData = sharedPreferences.getString(_cartKey);
-    if (cartData != null) {
-      try {
-        final List<dynamic> decodedData = jsonDecode(cartData);
-        return decodedData.map((item) => CartItemModel.fromJson(item)).toList();
-      } catch (e) {
-        return [];
-      }
+    if (cartData == null) return [];
+
+    try {
+      final List<dynamic> decodedData = jsonDecode(cartData);
+      return decodedData.map((item) => CartItemModel.fromJson(item)).toList();
+    } catch (e) {
+      throw Exception("Failed to parse local cart data");
     }
-    return [];
   }
 
-  Future<bool> syncCartWithServer(List<CartItemModel> items) async {
-    try {
-      return true;
-    } catch (e) {
-      return false;
-    }
+  Future<CartItemModel> addItemToRemoteCart(
+    int userId,
+    int productId,
+    int quantity,
+  ) async {
+    final response = await cartWebServices.addToCart(
+      userId,
+      productId,
+      quantity,
+    );
+    return CartItemModel.fromJson(response.data);
   }
 }

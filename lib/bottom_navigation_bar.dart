@@ -1,5 +1,5 @@
 import 'core/imports/common_imports.dart';
-import 'features/chat/view/chat_screen.dart';
+import 'features/chat/view/widget/product_chat_screen.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({super.key});

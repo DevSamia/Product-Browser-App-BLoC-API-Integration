@@ -1,27 +1,19 @@
-import 'package:dio/dio.dart';
+import '../../../core/imports/common_imports.dart';
 
 class CartWebServices {
   final Dio dio;
 
   CartWebServices(this.dio);
-  Future<Map<String, dynamic>> addToCart(
-    int userId,
-    int productId,
-    int quantity,
-  ) async {
-    try {
-      Response response = await dio.post(
-        'https://dummyjson.com/carts/add',
-        data: {
-          'userId': userId,
-          'products': [
-            {'id': productId, 'quantity': quantity},
-          ],
-        },
-      );
-      return response.data;
-    } catch (e) {
-      rethrow;
-    }
+
+  Future<Response> addToCart(int userId, int productId, int quantity) async {
+    return await dio.post(
+      addToCartUrl,
+      data: {
+        'userId': userId,
+        'products': [
+          {'id': productId, 'quantity': quantity},
+        ],
+      },
+    );
   }
 }

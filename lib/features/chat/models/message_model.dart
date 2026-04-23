@@ -1,29 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'message_model.g.dart';
+
+@JsonSerializable()
 class MessageModel {
-  final String senderId;
+  final String id;
   final String text;
+  @JsonKey(name: 'sender_id')
+  final String senderId;
   final DateTime timestamp;
 
   MessageModel({
-    required this.senderId,
+    required this.id,
     required this.text,
+    required this.senderId,
     required this.timestamp,
   });
 
-  factory MessageModel.fromMap(Map<String, dynamic> map) {
-    return MessageModel(
-      senderId: map['senderId'] ?? '',
-      text: map['text'] ?? '',
-      timestamp: (map['timestamp'] as Timestamp).toDate(),
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'senderId': senderId,
-      'text': text,
-      'timestamp': FieldValue.serverTimestamp(),
-    };
-  }
+  factory MessageModel.fromJson(Map<String, dynamic> json) =>
+      _$MessageModelFromJson(json);
+  Map<String, dynamic> toJson() => _$MessageModelToJson(this);
 }

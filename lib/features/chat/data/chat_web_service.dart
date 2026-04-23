@@ -1,22 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../core/imports/common_imports.dart';
-import '../models/message_model.dart';
 
-class ChatService {
+class ChatWebService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Stream<List<MessageModel>> getMessages(String productId) {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getMessages(String productId) {
     return _firestore
         .collection('chats')
         .where('productId', isEqualTo: productId)
         .orderBy('timestamp', descending: true)
-        .snapshots()
-        .map((snapshot) {
-          return snapshot.docs
-              .map((doc) => MessageModel.fromMap(doc.data()))
-              .toList();
-        });
+        .snapshots();
   }
 
   Future<void> sendMessage(String text, String senderId) async {

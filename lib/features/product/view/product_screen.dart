@@ -6,7 +6,11 @@ class ProductListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLogger.d(
+      "🎨 UI: Building ProductListScreen for category: $categoryName",
+    );
     context.read<ProductBloc>().add(LoadProductsByCategoryEvent(categoryName));
+
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Scaffold(
@@ -19,6 +23,10 @@ class ProductListScreen extends StatelessWidget {
               Expanded(
                 child: BlocBuilder<ProductBloc, ProductState>(
                   builder: (context, state) {
+                    AppLogger.d(
+                      "📺 UI: Current ProductState is ${state.runtimeType}",
+                    );
+
                     if (state is ProductLoading) {
                       return const Center(
                         child: CircularProgressIndicator(
@@ -26,8 +34,14 @@ class ProductListScreen extends StatelessWidget {
                         ),
                       );
                     } else if (state is ProductLoaded) {
+                      AppLogger.i(
+                        "✨ UI: Rendering ${state.filteredProducts.length} products",
+                      );
                       return _buildProductList(state.filteredProducts);
                     } else if (state is ProductError) {
+                      AppLogger.w(
+                        "⚠️ UI: Displaying error in ProductList: ${state.message}",
+                      );
                       return _buildErrorWidget(state.message);
                     }
                     return const SizedBox();
@@ -52,7 +66,10 @@ class ProductListScreen extends StatelessWidget {
           color: AppColors.backIcon,
           size: 18.sp,
         ),
-        onPressed: () => Navigator.pop(context),
+        onPressed: () {
+          AppLogger.d("🔙 UI: User pressed back button from ProductList");
+          Navigator.pop(context);
+        },
       ),
       centerTitle: true,
       title: PrimaryText(
@@ -68,7 +85,9 @@ class ProductListScreen extends StatelessWidget {
             color: AppColors.notificationIcon,
             size: 22.sp,
           ),
-          onPressed: () {},
+          onPressed: () {
+            AppLogger.d("🔔 UI: User clicked notifications in ProductList");
+          },
         ),
       ],
     );
@@ -76,6 +95,7 @@ class ProductListScreen extends StatelessWidget {
 
   Widget _buildProductList(List<dynamic> products) {
     if (products.isEmpty) {
+      AppLogger.i("ℹ️ UI: List is empty after search/filter");
       return Center(
         child: PrimaryText('No products match your search', fontSize: 14.sp),
       );

@@ -6,7 +6,7 @@ class CategoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: const _CustomAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(

@@ -24,20 +24,24 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         ),
       );
     } catch (e) {
-      emit(CartState.error(message: e.toString()));
+      emit(CartState.error(message: "Failed to load cart: ${e.toString()}"));
     }
   }
 
-  Future<void> _updateCart(
+  Future<void> _updateAndEmit(
     Emitter<CartState> emit,
-    List<CartItemModel> updatedList,
+    List<CartItemModel> items,
   ) async {
-    await cartRepository.saveCart(updatedList);
+    await cartRepository.saveCart(items);
     emit(
-      CartState.loaded(
-        cartItems: updatedList,
-        totalPrice: _calculateTotal(updatedList),
-      ),
+      CartState.loaded(cartItems: items, totalPrice: _calculateTotal(items)),
+    );
+  }
+
+  List<CartItemModel> _getCurrentItems() {
+    return state.maybeWhen(
+      loaded: (items, _) => List<CartItemModel>.from(items),
+      orElse: () => [],
     );
   }
 
@@ -45,100 +49,62 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     AddToCartEvent event,
     Emitter<CartState> emit,
   ) async {
-    state.maybeWhen(
-      loaded: (cartItems, totalPrice) async {
-        final List<CartItemModel> updatedList = List.from(cartItems);
-        int index = updatedList.indexWhere(
-          (item) => item.product.id == event.product.id,
-        );
+    final items = _getCurrentItems();
+    final index = items.indexWhere((i) => i.product.id == event.product.id);
 
-        if (index != -1) {
-          updatedList[index] = updatedList[index].copyWith(
-            quantity: updatedList[index].quantity + 1,
-          );
-        } else {
-          updatedList.add(CartItemModel(product: event.product, quantity: 1));
-        }
-        await _updateCart(emit, updatedList);
-      },
-      orElse: () {},
-    );
+    if (index != -1) {
+      items[index] = items[index].copyWith(quantity: items[index].quantity + 1);
+    } else {
+      items.add(CartItemModel(product: event.product, quantity: 1));
+    }
+    await _updateAndEmit(emit, items);
   }
 
   Future<void> _onRemoveFromCart(
     RemoveFromCartEvent event,
     Emitter<CartState> emit,
   ) async {
-    state.maybeWhen(
-      loaded: (cartItems, totalPrice) async {
-        final updatedList = cartItems
-            .where((item) => item.product.id != event.productId)
-            .toList();
-        await _updateCart(emit, updatedList);
-      },
-      orElse: () {},
-    );
+    final items = _getCurrentItems()
+        .where((i) => i.product.id != event.productId)
+        .toList();
+    await _updateAndEmit(emit, items);
   }
 
   Future<void> _onIncrement(
     IncrementQuantityEvent event,
     Emitter<CartState> emit,
   ) async {
-    state.maybeWhen(
-      loaded: (cartItems, totalPrice) async {
-        final List<CartItemModel> updatedList = List.from(cartItems);
-        int index = updatedList.indexWhere(
-          (item) => item.product.id == event.productId,
-        );
+    final items = _getCurrentItems();
+    final index = items.indexWhere((i) => i.product.id == event.productId);
 
-        if (index != -1) {
-          updatedList[index] = updatedList[index].copyWith(
-            quantity: updatedList[index].quantity + 1,
-          );
-          await _updateCart(emit, updatedList);
-        }
-      },
-      orElse: () {},
-    );
+    if (index != -1) {
+      items[index] = items[index].copyWith(quantity: items[index].quantity + 1);
+      await _updateAndEmit(emit, items);
+    }
   }
 
   Future<void> _onDecrement(
     DecrementQuantityEvent event,
     Emitter<CartState> emit,
   ) async {
-    state.maybeWhen(
-      loaded: (cartItems, totalPrice) async {
-        final List<CartItemModel> updatedList = List.from(cartItems);
-        int index = updatedList.indexWhere(
-          (item) => item.product.id == event.productId,
-        );
+    final items = _getCurrentItems();
+    final index = items.indexWhere((i) => i.product.id == event.productId);
 
-        if (index != -1 && updatedList[index].quantity > 1) {
-          updatedList[index] = updatedList[index].copyWith(
-            quantity: updatedList[index].quantity - 1,
-          );
-          await _updateCart(emit, updatedList);
-        }
-      },
-      orElse: () {},
-    );
+    if (index != -1 && items[index].quantity > 1) {
+      items[index] = items[index].copyWith(quantity: items[index].quantity - 1);
+      await _updateAndEmit(emit, items);
+    }
   }
 
   Future<void> _onClearCart(
     ClearCartEvent event,
     Emitter<CartState> emit,
-  ) async {
-    await cartRepository.saveCart([]);
-    emit(const CartState.loaded(cartItems: [], totalPrice: 0.0));
-  }
+  ) async => await _updateAndEmit(emit, []);
 
   Future<void> _onCompletePurchase(
     CompletePurchaseEvent event,
     Emitter<CartState> emit,
-  ) async {
-    await cartRepository.saveCart([]);
-    emit(const CartState.loaded(cartItems: [], totalPrice: 0.0));
-  }
+  ) async => await _updateAndEmit(emit, []);
 
   double _calculateTotal(List<CartItemModel> items) {
     return items.fold(

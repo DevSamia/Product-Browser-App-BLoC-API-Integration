@@ -7,3 +7,5 @@ const productDetails = "/products/";
 
 const bottomNavigationBarScreen = '/';
 const productListScreen = '/product_list_screen';
+
+const String addToCartUrl = 'https://dummyjson.com/carts/add';
