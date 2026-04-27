@@ -20,9 +20,11 @@ class AppSizes {
   static final Widget h6 = SizedBox(height: 6.h);
   static final Widget h8 = SizedBox(height: 8.h);
   static final Widget h10 = SizedBox(height: 10.h);
+  static final Widget h12 = SizedBox(height: 12.h);
   static final Widget h15 = SizedBox(height: 15.h);
   static final Widget h16 = SizedBox(height: 16.h);
   static final Widget h20 = SizedBox(height: 20.h);
+  static final Widget h24 = SizedBox(height: 24.h);
   static final Widget h25 = SizedBox(height: 25.h);
   static final Widget h30 = SizedBox(height: 30.h);
   static final Widget h32 = SizedBox(height: 32.h);

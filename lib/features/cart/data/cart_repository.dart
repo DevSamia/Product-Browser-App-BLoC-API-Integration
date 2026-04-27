@@ -18,6 +18,7 @@ class CartRepository {
       AppLogger.i("✅ Repository: Local cart updated successfully");
     } catch (e, stackTrace) {
       AppLogger.e("❌ Repository: Failed to save cart locally", e, stackTrace);
+
       rethrow;
     }
   }

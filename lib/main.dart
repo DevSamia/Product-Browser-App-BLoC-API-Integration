@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'core/di/injection_container.dart';
@@ -11,7 +12,12 @@ void main() async {
   await Firebase.initializeApp();
   Bloc.observer = AppBlocObserver();
   await initGetIt();
-  runApp(ProductBrowserApp(appRouter: AppRouter()));
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => ProductBrowserApp(appRouter: AppRouter()),
+    ),
+  );
 }
 
 class ProductBrowserApp extends StatelessWidget {
@@ -40,6 +46,13 @@ class ProductBrowserApp extends StatelessWidget {
             onGenerateRoute: appRouter.generateRoute,
             theme: ThemeData(useMaterial3: true),
             title: 'Product Browser',
+            builder: (context, child) {
+              child = DevicePreview.appBuilder(context, child);
+              return Directionality(
+                textDirection: TextDirection.rtl,
+                child: child,
+              );
+            },
           ),
         );
       },

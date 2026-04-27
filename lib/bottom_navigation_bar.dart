@@ -14,7 +14,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
   final List<Widget> _screens = [
     const CategoryScreen(),
-    const ProductListScreen(categoryName: ''),
+    const ProductListScreen(categoryName: 'beauty'),
     const CartScreen(),
     const ProductChatScreen(),
   ];

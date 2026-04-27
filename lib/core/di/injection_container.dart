@@ -1,18 +1,17 @@
-import '../../features/chat/bloc/chat_bloc.dart';
-import '../../features/chat/data/chat_web_service.dart';
-import '../constants/strings.dart' as ApiConstants;
+import '../constants/strings.dart' as api_constants;
 import '../imports/common_imports.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> initGetIt() async {
+  // --- 1. Core & External ---
   final sharedPrefs = await SharedPreferences.getInstance();
   getIt.registerLazySingleton<SharedPreferences>(() => sharedPrefs);
 
   getIt.registerLazySingleton<Dio>(() {
     final dio = Dio(
       BaseOptions(
-        baseUrl: ApiConstants.baseUrl,
+        baseUrl: api_constants.baseUrl,
         connectTimeout: const Duration(seconds: 20),
       ),
     );
@@ -40,15 +39,33 @@ Future<void> initGetIt() async {
   getIt.registerLazySingleton<ProductRepository>(
     () => ProductRepository(getIt()),
   );
-
   getIt.registerLazySingleton<CartRepository>(
     () => CartRepository(getIt<CartWebServices>(), getIt<SharedPreferences>()),
   );
 
-  // --- 4. Blocs (Presentation Layer) ---
+  // Auth Repository
+  getIt.registerLazySingleton<AuthRepository>(() => FirebaseAuthRepository());
+
+  // --- 4. Use Cases ---
+  getIt.registerLazySingleton(() => LoginUseCase(getIt()));
+  getIt.registerLazySingleton(() => RegisterUseCase(getIt()));
+  getIt.registerLazySingleton(() => GetCurrentUserUseCase(getIt()));
+  getIt.registerLazySingleton(() => UpdateProfileUseCase(getIt()));
+
+  // --- 5. Blocs (Presentation Layer) ---
   getIt.registerFactory(() => CategoryBloc(getIt()));
   getIt.registerFactory(() => CartBloc(getIt()));
   getIt.registerFactory(() => ProductBloc(getIt()));
   getIt.registerFactory(() => ChatBloc(getIt()));
   getIt.registerFactory(() => ProductDetailBloc(getIt()));
+
+  // Auth Bloc
+  getIt.registerFactory(
+    () => AuthBloc(
+      loginUseCase: getIt(),
+      registerUseCase: getIt(),
+      getCurrentUserUseCase: getIt(),
+      authRepository: getIt(),
+    ),
+  );
 }

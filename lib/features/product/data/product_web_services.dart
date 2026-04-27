@@ -5,25 +5,25 @@ class ProductWebServices {
   ProductWebServices(this.dio);
 
   Future<List<dynamic>> getProductsByCategory(String categoryName) async {
-    AppLogger.d(
-      "🌐 API Request: Fetching products for category: $categoryName",
+    if (categoryName.trim().isEmpty) {
+      AppLogger.e(
+        "❌ Error: categoryName is empty! Check your UI/Bloc navigation.",
+      );
+      return [];
+    }
+
+    final cleanCategory = categoryName.toLowerCase().trim().replaceAll(
+      ' ',
+      '-',
     );
 
     try {
-      Response response = await dio.get('products/category/$categoryName');
+      final response = await dio.get("$productsByCategory$cleanCategory");
 
-      AppLogger.i(
-        "✅ API Success: Retrieved products for category: $categoryName",
-      );
-
+      AppLogger.i("✅ API Success: Retrieved products for $cleanCategory");
       return response.data['products'];
     } catch (e, stackTrace) {
-      AppLogger.e(
-        "❌ API Error: Failed to fetch products for category: $categoryName",
-        e,
-        stackTrace,
-      );
-
+      AppLogger.e("❌ API Error for category: $categoryName", e, stackTrace);
       return [];
     }
   }

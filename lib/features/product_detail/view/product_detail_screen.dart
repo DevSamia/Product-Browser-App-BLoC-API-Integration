@@ -7,14 +7,11 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProductDetailBloc>().add(FetchProductDetailEvent(productId));
-
-    return BlocBuilder<ProductDetailBloc, ProductDetailState>(
-      builder: (context, state) {
-        return Scaffold(
-          backgroundColor: AppColors.scaffoldBackground,
-
-          body: state.when(
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground,
+      body: BlocBuilder<ProductDetailBloc, ProductDetailState>(
+        builder: (context, state) {
+          return state.when(
             initial: () => const Center(
               child: CircularProgressIndicator(color: AppColors.textMain),
             ),
@@ -27,16 +24,19 @@ class ProductDetailScreen extends StatelessWidget {
               productId: productId,
             ),
             loaded: (product) => ProductDetailBody(product: product),
-          ),
-
-          bottomNavigationBar: state.maybeWhen(
+          );
+        },
+      ),
+      bottomNavigationBar: BlocBuilder<ProductDetailBloc, ProductDetailState>(
+        builder: (context, state) {
+          return state.maybeWhen(
             loaded: (product) => ProductDetailBody(
               product: product,
             ).buildBottomBar(context, product),
             orElse: () => const SizedBox.shrink(),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

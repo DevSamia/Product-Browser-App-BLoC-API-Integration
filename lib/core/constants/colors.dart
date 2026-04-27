@@ -7,10 +7,25 @@ class AppColors {
   static const Color error = Color(0xFFFF0000);
 
   static const Color scaffoldBackground = Color(0xFFFFFFFF);
+  static const Color logoColor = scaffoldBackground;
   static const Color bgColor = Color(0xFFFDF4E7);
+  static const Color hintStyleFromTextField = Color(0xFF9CA3AF);
+  static const Color continueText = hintStyleFromTextField;
+  static const Color prefixIconStyleFromTextField = hintStyleFromTextField;
+  static const Color fillColorStyleFromTextField = Color(0xFFF9FAFB);
+  static const Color outlineInputBorderStyleFromTextField = Color(0xFFE5E7EB);
+  static const Color borderColorGoogleSignInButton =
+      outlineInputBorderStyleFromTextField;
+  static const Color dividerSignIn = outlineInputBorderStyleFromTextField;
   static const Color ratingStar = Color(0xFFFFE082);
+  static const Color textColorForSignInWithGoogle = Color(0xFF374151);
+  static const Color textToAskAboutTheExistenceOfAnAccount = Color(0xFF6B7280);
+  static const Color subTitleForLoginScreen =
+      textToAskAboutTheExistenceOfAnAccount;
   static const Color checkoutButton = Color(0xFFF57C00);
   static const Color inputBorder = Color(0xFFE0E0E0);
+  static const Color textSignInButton = Colors.white;
+  static const Color arrowForwardRounded = Colors.white;
   static const Color screenBackground = Color(0xFFF3F7FF);
   static const Color secondary = Color(0xFF4A69FF);
   static const Color promoBanner = secondary;

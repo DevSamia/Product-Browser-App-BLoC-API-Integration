@@ -9,7 +9,7 @@ class ProductListScreen extends StatelessWidget {
     AppLogger.d(
       "🎨 UI: Building ProductListScreen for category: $categoryName",
     );
-    context.read<ProductBloc>().add(LoadProductsByCategoryEvent(categoryName));
+    //context.read<ProductBloc>().add(LoadProductsByCategoryEvent(categoryName));
 
     return Directionality(
       textDirection: TextDirection.ltr,

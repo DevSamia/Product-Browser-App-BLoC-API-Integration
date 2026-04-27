@@ -29,11 +29,17 @@ class CategoryItem extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(24.r),
       onTap: () {
+        AppLogger.d("🎯 UI: User selected category: ${category.name}");
+
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) =>
-                ProductListScreen(categoryName: category.name),
+            builder: (context) => BlocProvider(
+              create: (context) =>
+                  getIt<ProductBloc>()
+                    ..add(LoadProductsByCategoryEvent(category.slug)),
+              child: ProductListScreen(categoryName: category.name),
+            ),
           ),
         );
       },
