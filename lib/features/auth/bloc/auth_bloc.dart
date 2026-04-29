@@ -21,7 +21,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.authRepository,
   }) : super(const AuthState.initial()) {
     on<AuthEvent>((event, emit) async {
-      // Logging the incoming event
       AppLogger.i("AuthBloc Event Received: ${event.runtimeType}");
 
       await event.map(
@@ -86,6 +85,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           } catch (error) {
             AppLogger.e("AuthBloc Logout Error", error);
             emit(AuthState.error("Logout failed: ${error.toString()}"));
+          }
+        },
+
+        googleSignInRequested: (e) async {
+          AppLogger.i("AuthBloc: Processing GoogleSignInRequested...");
+          emit(const AuthState.loading());
+          try {
+            final user = await authRepository.signInWithGoogle();
+
+            if (user != null) {
+              AppLogger.i(
+                "AuthBloc: Google Sign-In successful for: ${user.email}",
+              );
+              emit(AuthState.authenticated(user));
+            } else {
+              AppLogger.w("AuthBloc: Google Sign-In cancelled by user.");
+              emit(const AuthState.unauthenticated());
+            }
+          } catch (error) {
+            AppLogger.e("AuthBloc: Google Sign-In Error", error);
+            emit(AuthState.error(error.toString()));
           }
         },
       );

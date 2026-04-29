@@ -1,6 +1,5 @@
 import '../../../../core/imports/common_imports.dart';
 import '../entities/app_user.dart';
-import '../repositories/auth_repository.dart';
 
 class LoginUseCase {
   final AuthRepository repository;

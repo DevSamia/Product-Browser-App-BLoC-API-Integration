@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'core/di/injection_container.dart';
 import 'core/errors/app_bloc_observer.dart';
 import 'core/imports/common_imports.dart';
+import 'features/auth/bloc/auth_event.dart';
 
 final getIt = GetIt.instance;
 
@@ -40,11 +41,17 @@ class ProductBrowserApp extends StatelessWidget {
                   getIt<CategoryBloc>()..add(GetCategoriesEvent()),
             ),
             BlocProvider(create: (context) => getIt<ProductBloc>()),
+            BlocProvider(
+              create: (context) =>
+                  getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
+            ),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             onGenerateRoute: appRouter.generateRoute,
-            theme: ThemeData(useMaterial3: true),
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: ThemeMode.system,
             title: 'Product Browser',
             builder: (context, child) {
               child = DevicePreview.appBuilder(context, child);

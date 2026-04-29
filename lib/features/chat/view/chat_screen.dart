@@ -1,5 +1,4 @@
 import '../../../core/imports/common_imports.dart';
-import '../bloc/chat_bloc.dart';
 import '../bloc/chat_event.dart';
 import '../bloc/chat_state.dart';
 import '../models/message_model.dart';

@@ -1,5 +1,10 @@
-import '/core/imports/common_imports.dart';
+import '../../../../../../core/imports/common_imports.dart';
 import '../../../bloc/auth_state.dart';
+import 'widget/app_logo.dart';
+import 'widget/google_sign_in_button.dart';
+import 'widget/login_form.dart';
+import 'widget/register_footer.dart';
+import 'widget/social_divider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -17,7 +22,7 @@ class LoginScreen extends StatelessWidget {
               );
               Navigator.pushNamedAndRemoveUntil(
                 context,
-                '/home',
+                bottomNavigationBarScreen,
                 (route) => false,
               );
             },
@@ -27,7 +32,7 @@ class LoginScreen extends StatelessWidget {
                 SnackBar(
                   content: PrimaryText(
                     message,
-                    color: AppColors.scaffoldBackground,
+                    color: AppColors.textSignInButton,
                   ),
                   backgroundColor: AppColors.error,
                   behavior: SnackBarBehavior.floating,
@@ -40,19 +45,20 @@ class LoginScreen extends StatelessWidget {
           return SafeArea(
             child: Center(
               child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 24.w),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     AppSizes.h40,
-                    AppLogo(),
-                    AppSizes.h32,
+                    const AppLogo(),
+                    AppSizes.h20,
                     PrimaryText(
                       'Welcome',
                       fontSize: 32.sp,
                       fontWeight: FontWeight.w800,
-                      color: Color(0xFF1D1F22),
+                      color: AppColors.textMain,
                     ),
                     AppSizes.h12,
                     PrimaryText(
@@ -74,12 +80,12 @@ class LoginScreen extends StatelessWidget {
                       ),
                       orElse: () => LoginForm(),
                     ),
-                    AppSizes.h30,
-                    SocialDivider(),
                     AppSizes.h20,
-                    GoogleSignInButton(),
-                    AppSizes.h40,
-                    RegisterFooter(),
+                    const SocialDivider(),
+                    AppSizes.h20,
+                    const GoogleSignInButton(),
+                    AppSizes.h20,
+                    const RegisterFooter(),
                     AppSizes.h20,
                   ],
                 ),

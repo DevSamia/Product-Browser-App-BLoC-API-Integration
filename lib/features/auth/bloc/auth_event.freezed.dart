@@ -55,14 +55,15 @@ extension AuthEventPatterns on AuthEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( AuthCheckRequested value)?  authCheckRequested,TResult Function( LoginRequested value)?  loginRequested,TResult Function( RegisterRequested value)?  registerRequested,TResult Function( LogoutRequested value)?  logoutRequested,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( AuthCheckRequested value)?  authCheckRequested,TResult Function( LoginRequested value)?  loginRequested,TResult Function( RegisterRequested value)?  registerRequested,TResult Function( LogoutRequested value)?  logoutRequested,TResult Function( GoogleSignInRequested value)?  googleSignInRequested,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case AuthCheckRequested() when authCheckRequested != null:
 return authCheckRequested(_that);case LoginRequested() when loginRequested != null:
 return loginRequested(_that);case RegisterRequested() when registerRequested != null:
 return registerRequested(_that);case LogoutRequested() when logoutRequested != null:
-return logoutRequested(_that);case _:
+return logoutRequested(_that);case GoogleSignInRequested() when googleSignInRequested != null:
+return googleSignInRequested(_that);case _:
   return orElse();
 
 }
@@ -80,14 +81,15 @@ return logoutRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( AuthCheckRequested value)  authCheckRequested,required TResult Function( LoginRequested value)  loginRequested,required TResult Function( RegisterRequested value)  registerRequested,required TResult Function( LogoutRequested value)  logoutRequested,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( AuthCheckRequested value)  authCheckRequested,required TResult Function( LoginRequested value)  loginRequested,required TResult Function( RegisterRequested value)  registerRequested,required TResult Function( LogoutRequested value)  logoutRequested,required TResult Function( GoogleSignInRequested value)  googleSignInRequested,}){
 final _that = this;
 switch (_that) {
 case AuthCheckRequested():
 return authCheckRequested(_that);case LoginRequested():
 return loginRequested(_that);case RegisterRequested():
 return registerRequested(_that);case LogoutRequested():
-return logoutRequested(_that);case _:
+return logoutRequested(_that);case GoogleSignInRequested():
+return googleSignInRequested(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -104,14 +106,15 @@ return logoutRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( AuthCheckRequested value)?  authCheckRequested,TResult? Function( LoginRequested value)?  loginRequested,TResult? Function( RegisterRequested value)?  registerRequested,TResult? Function( LogoutRequested value)?  logoutRequested,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( AuthCheckRequested value)?  authCheckRequested,TResult? Function( LoginRequested value)?  loginRequested,TResult? Function( RegisterRequested value)?  registerRequested,TResult? Function( LogoutRequested value)?  logoutRequested,TResult? Function( GoogleSignInRequested value)?  googleSignInRequested,}){
 final _that = this;
 switch (_that) {
 case AuthCheckRequested() when authCheckRequested != null:
 return authCheckRequested(_that);case LoginRequested() when loginRequested != null:
 return loginRequested(_that);case RegisterRequested() when registerRequested != null:
 return registerRequested(_that);case LogoutRequested() when logoutRequested != null:
-return logoutRequested(_that);case _:
+return logoutRequested(_that);case GoogleSignInRequested() when googleSignInRequested != null:
+return googleSignInRequested(_that);case _:
   return null;
 
 }
@@ -128,13 +131,14 @@ return logoutRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  authCheckRequested,TResult Function( String email,  String password)?  loginRequested,TResult Function( String email,  String username,  String password)?  registerRequested,TResult Function()?  logoutRequested,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  authCheckRequested,TResult Function( String email,  String password)?  loginRequested,TResult Function( String email,  String username,  String password)?  registerRequested,TResult Function()?  logoutRequested,TResult Function()?  googleSignInRequested,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case AuthCheckRequested() when authCheckRequested != null:
 return authCheckRequested();case LoginRequested() when loginRequested != null:
 return loginRequested(_that.email,_that.password);case RegisterRequested() when registerRequested != null:
 return registerRequested(_that.email,_that.username,_that.password);case LogoutRequested() when logoutRequested != null:
-return logoutRequested();case _:
+return logoutRequested();case GoogleSignInRequested() when googleSignInRequested != null:
+return googleSignInRequested();case _:
   return orElse();
 
 }
@@ -152,13 +156,14 @@ return logoutRequested();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  authCheckRequested,required TResult Function( String email,  String password)  loginRequested,required TResult Function( String email,  String username,  String password)  registerRequested,required TResult Function()  logoutRequested,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  authCheckRequested,required TResult Function( String email,  String password)  loginRequested,required TResult Function( String email,  String username,  String password)  registerRequested,required TResult Function()  logoutRequested,required TResult Function()  googleSignInRequested,}) {final _that = this;
 switch (_that) {
 case AuthCheckRequested():
 return authCheckRequested();case LoginRequested():
 return loginRequested(_that.email,_that.password);case RegisterRequested():
 return registerRequested(_that.email,_that.username,_that.password);case LogoutRequested():
-return logoutRequested();case _:
+return logoutRequested();case GoogleSignInRequested():
+return googleSignInRequested();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -175,13 +180,14 @@ return logoutRequested();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  authCheckRequested,TResult? Function( String email,  String password)?  loginRequested,TResult? Function( String email,  String username,  String password)?  registerRequested,TResult? Function()?  logoutRequested,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  authCheckRequested,TResult? Function( String email,  String password)?  loginRequested,TResult? Function( String email,  String username,  String password)?  registerRequested,TResult? Function()?  logoutRequested,TResult? Function()?  googleSignInRequested,}) {final _that = this;
 switch (_that) {
 case AuthCheckRequested() when authCheckRequested != null:
 return authCheckRequested();case LoginRequested() when loginRequested != null:
 return loginRequested(_that.email,_that.password);case RegisterRequested() when registerRequested != null:
 return registerRequested(_that.email,_that.username,_that.password);case LogoutRequested() when logoutRequested != null:
-return logoutRequested();case _:
+return logoutRequested();case GoogleSignInRequested() when googleSignInRequested != null:
+return googleSignInRequested();case _:
   return null;
 
 }
@@ -383,6 +389,38 @@ int get hashCode => runtimeType.hashCode;
 @override
 String toString() {
   return 'AuthEvent.logoutRequested()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class GoogleSignInRequested implements AuthEvent {
+  const GoogleSignInRequested();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GoogleSignInRequested);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AuthEvent.googleSignInRequested()';
 }
 
 

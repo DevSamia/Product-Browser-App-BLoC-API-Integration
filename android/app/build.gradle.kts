@@ -20,11 +20,10 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.samia.product_browser_app"
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = 23 // تم رفعه لضمان توافق Firebase و Google Sign-In
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -32,19 +31,18 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
 
-
-
 flutter {
     source = "../.."
 }
+
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:34.12.0"))
-    implementation("com.google.firebase:firebase-analytics")
+    // نعتمد هنا على إضافات Flutter لربط المكتبات تلقائياً
+    // تمت إزالة الإضافات اليدوية لمنع التعارضات
 }

@@ -98,7 +98,7 @@ class LoginForm extends StatelessWidget {
                       color: AppColors.textSignInButton,
                     ),
                     AppSizes.w8,
-                    Icon(
+                    const Icon(
                       Icons.arrow_forward_rounded,
                       color: AppColors.arrowForwardRounded,
                       size: 20,

@@ -1,6 +1,5 @@
 import '../../../core/imports/common_imports.dart';
 import '../models/message_model.dart';
-import 'chat_web_service.dart';
 
 class ChatRepository {
   final ChatWebService chatWebService;

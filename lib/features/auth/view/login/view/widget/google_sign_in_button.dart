@@ -1,4 +1,5 @@
 import '../../../../../../core/imports/common_imports.dart';
+import '../../../../bloc/auth_event.dart';
 
 class GoogleSignInButton extends StatelessWidget {
   const GoogleSignInButton({super.key});
@@ -19,13 +20,18 @@ class GoogleSignInButton extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            AppLogger.i("UI: Google Sign In tapped from RegisterScreen");
+            context.read<AuthBloc>().add(
+              const AuthEvent.googleSignInRequested(),
+            );
+          },
           borderRadius: BorderRadius.circular(12.r),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/icons/google_icon.png', height: 24.h),
-              SizedBox(width: 12.sp),
+              Image.asset(AppImagesConstants.googleIcon, height: 24.h),
+              SizedBox(width: 12.w),
               PrimaryText(
                 'Sign in with Google',
                 fontSize: 16.sp,
