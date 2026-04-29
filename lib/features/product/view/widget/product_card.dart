@@ -1,32 +1,19 @@
-import 'package:dio/dio.dart';
-import 'package:product_browser_app/features/product_detail/data/product_detail_service.dart';
-
 import '../../../../core/imports/common_imports.dart';
-import '../../../product_detail/bloc/product_detail_bloc.dart';
-import '../../../product_detail/view/product_detail_screen.dart';
 
 class ProductCard extends StatelessWidget {
   final dynamic product;
+
   const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) =>
-                  ProductDetailBloc(ProductDetailService(Dio())),
-              child: ProductDetailScreen(productId: product.id),
-            ),
-          ),
-        );
+        Navigator.pushNamed(context, '/product_details', arguments: product);
       },
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppColors.scaffoldBackground,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
@@ -65,12 +52,12 @@ class ProductCard extends StatelessWidget {
           top: 8.h,
           right: 8.w,
           child: CircleAvatar(
-            backgroundColor: AppColors.white,
+            backgroundColor: AppColors.scaffoldBackground,
             radius: 14.r,
             child: Icon(
               Icons.favorite_border_rounded,
               size: 16.sp,
-              color: AppColors.red,
+              color: AppColors.error,
             ),
           ),
         ),
@@ -97,13 +84,13 @@ class ProductCard extends StatelessWidget {
                 '${product.price} SAR',
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w800,
-                color: AppColors.move,
+                color: AppColors.secondary,
               ),
               Row(
                 children: [
                   Icon(
                     Icons.star_rounded,
-                    color: AppColors.yellow,
+                    color: AppColors.primary,
                     size: 14.sp,
                   ),
                   PrimaryText(

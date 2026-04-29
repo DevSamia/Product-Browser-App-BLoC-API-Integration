@@ -20,6 +20,13 @@ class ProductResponse {
         skip: json["skip"],
         limit: json["limit"],
       );
+
+  Map<String, dynamic> toJson() => {
+    "products": List<dynamic>.from(products.map((x) => x.toJson())),
+    "total": total,
+    "skip": skip,
+    "limit": limit,
+  };
 }
 
 class ProductModel {
@@ -95,6 +102,31 @@ class ProductModel {
     images: List<String>.from(json["images"].map((x) => x)),
     thumbnail: json["thumbnail"],
   );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "title": title,
+    "description": description,
+    "category": category,
+    "price": price,
+    "discountPercentage": discountPercentage,
+    "rating": rating,
+    "stock": stock,
+    "tags": List<dynamic>.from(tags.map((x) => x)),
+    "brand": brand,
+    "sku": sku,
+    "weight": weight,
+    "dimensions": dimensions.toJson(),
+    "warrantyInformation": warrantyInformation,
+    "shippingInformation": shippingInformation,
+    "availabilityStatus": availabilityStatus,
+    "reviews": List<dynamic>.from(reviews.map((x) => x.toJson())),
+    "returnPolicy": returnPolicy,
+    "minimumOrderQuantity": minimumOrderQuantity,
+    "meta": meta.toJson(),
+    "images": List<dynamic>.from(images.map((x) => x)),
+    "thumbnail": thumbnail,
+  };
 }
 
 class Dimensions {
@@ -109,6 +141,12 @@ class Dimensions {
     height: json["height"]?.toDouble(),
     depth: json["depth"]?.toDouble(),
   );
+
+  Map<String, dynamic> toJson() => {
+    "width": width,
+    "height": height,
+    "depth": depth,
+  };
 }
 
 class Meta {
@@ -130,6 +168,13 @@ class Meta {
     barcode: json["barcode"],
     qrCode: json["qrCode"],
   );
+
+  Map<String, dynamic> toJson() => {
+    "createdAt": createdAt.toIso8601String(),
+    "updatedAt": updatedAt.toIso8601String(),
+    "barcode": barcode,
+    "qrCode": qrCode,
+  };
 }
 
 class Review {
@@ -154,4 +199,12 @@ class Review {
     reviewerName: json["reviewerName"],
     reviewerEmail: json["reviewerEmail"],
   );
+
+  Map<String, dynamic> toJson() => {
+    "rating": rating,
+    "comment": comment,
+    "date": date.toIso8601String(),
+    "reviewerName": reviewerName,
+    "reviewerEmail": reviewerEmail,
+  };
 }

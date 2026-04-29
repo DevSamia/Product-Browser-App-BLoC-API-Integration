@@ -3,8 +3,15 @@ import '../../../../core/imports/common_imports.dart';
 class CategoryItem extends StatelessWidget {
   final CategoryModel category;
   final int index;
+  final bool isSelected;
 
-  const CategoryItem({required this.category, required this.index, super.key});
+  const CategoryItem({
+    required this.category,
+    required this.index,
+    this.isSelected = false,
+    super.key,
+  });
+
   static const List<Color> pastelColors = [
     Color(0xFFE3F2FD),
     Color(0xFFFCE4EC),
@@ -18,60 +25,80 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color backgroundColor = pastelColors[index % pastelColors.length];
+
     return InkWell(
+      borderRadius: BorderRadius.circular(24.r),
       onTap: () {
+        AppLogger.d("🎯 UI: User selected category: ${category.name}");
+
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => BlocProvider(
               create: (context) =>
-                  ProductBloc(ProductRepository(ProductWebServices())),
+                  getIt<ProductBloc>()
+                    ..add(LoadProductsByCategoryEvent(category.slug)),
               child: ProductListScreen(categoryName: category.name),
             ),
           ),
         );
       },
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: backgroundColor,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
+          border: isSelected
+              ? Border.all(color: Colors.black, width: 2)
+              : Border.all(color: Colors.transparent, width: 2),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.02),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             PrimaryText(
-              category.name,
+              category.name.toUpperCase(),
               color: const Color(0xFF1A1A1A),
-              fontWeight: FontWeight.w800,
-              fontSize: 15.sp,
+              fontWeight: isSelected ? FontWeight.w900 : FontWeight.w700,
+              fontSize: 14.sp,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 12),
-            Column(
-              children: [
-                Container(
-                  width: 50.w,
-                  height: 4.h,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                AppSizes.h5,
-                Container(
-                  width: 30.w,
-                  height: 4.h,
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ],
-            ),
+            _buildDecorativeBars(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDecorativeBars() {
+    return Column(
+      children: [
+        Container(
+          width: 40.w,
+          height: 3.h,
+          decoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: 0.05),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Container(
+          width: 25.w,
+          height: 3.h,
+          decoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: 0.05),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ],
     );
   }
 }

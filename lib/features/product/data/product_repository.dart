@@ -1,6 +1,4 @@
-import 'package:product_browser_app/features/product/data/product_web_services.dart';
-
-import '../models/product_model.dart'; // تأكدي من المسار الصحيح للمودل
+import '../../../core/imports/common_imports.dart';
 
 class ProductRepository {
   final ProductWebServices productWebServices;
@@ -8,11 +6,35 @@ class ProductRepository {
   ProductRepository(this.productWebServices);
 
   Future<List<ProductModel>> getProductsByCategory(String categoryName) async {
-    final List<dynamic> productsData = await productWebServices
-        .getProductsByCategory(categoryName);
+    AppLogger.i(
+      "📦 Repository: Fetching and mapping products for category: $categoryName",
+    );
 
-    return productsData
-        .map((productMap) => ProductModel.fromJson(productMap))
-        .toList();
+    try {
+      final List<dynamic> productsData = await productWebServices
+          .getProductsByCategory(categoryName);
+
+      AppLogger.d(
+        "📥 Repository: Received ${productsData.length} raw products from WebService",
+      );
+
+      final products = productsData
+          .map((productMap) => ProductModel.fromJson(productMap))
+          .toList();
+
+      AppLogger.i(
+        "✅ Repository: Successfully mapped ${products.length} products to Models",
+      );
+
+      return products;
+    } catch (e, stackTrace) {
+      AppLogger.e(
+        "❌ Repository Error: Failed to map products for category: $categoryName",
+        e,
+        stackTrace,
+      );
+
+      return [];
+    }
   }
 }

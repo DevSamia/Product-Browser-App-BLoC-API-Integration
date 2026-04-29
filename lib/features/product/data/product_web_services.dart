@@ -1,29 +1,29 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-
-import '../../../core/constants/strings.dart';
+import '../../../core/imports/common_imports.dart';
 
 class ProductWebServices {
-  late Dio dio;
-
-  ProductWebServices() {
-    BaseOptions options = BaseOptions(
-      baseUrl: baseUrl,
-      receiveDataWhenStatusError: true,
-      connectTimeout: const Duration(seconds: 20),
-      receiveTimeout: const Duration(seconds: 20),
-    );
-    dio = Dio(options);
-  }
+  final Dio dio;
+  ProductWebServices(this.dio);
 
   Future<List<dynamic>> getProductsByCategory(String categoryName) async {
+    if (categoryName.trim().isEmpty) {
+      AppLogger.e(
+        "❌ Error: categoryName is empty! Check your UI/Bloc navigation.",
+      );
+      return [];
+    }
+
+    final cleanCategory = categoryName.toLowerCase().trim().replaceAll(
+      ' ',
+      '-',
+    );
+
     try {
-      Response response = await dio.get('products/category/$categoryName');
+      final response = await dio.get("$productsByCategory$cleanCategory");
+
+      AppLogger.i("✅ API Success: Retrieved products for $cleanCategory");
       return response.data['products'];
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
+    } catch (e, stackTrace) {
+      AppLogger.e("❌ API Error for category: $categoryName", e, stackTrace);
       return [];
     }
   }

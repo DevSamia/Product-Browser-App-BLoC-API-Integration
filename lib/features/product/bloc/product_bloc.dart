@@ -1,31 +1,40 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:product_browser_app/features/product/bloc/product_event.dart';
-import 'package:product_browser_app/features/product/bloc/product_state.dart';
-
-import '../data/product_repository.dart';
+import '../../../core/imports/common_imports.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository productRepository;
 
   ProductBloc(this.productRepository) : super(ProductInitial()) {
     on<LoadProductsByCategoryEvent>((event, emit) async {
+      AppLogger.i(
+        "🚀 Bloc Event: LoadProductsByCategoryEvent -> Category: ${event.categorySlug}",
+      );
       emit(ProductLoading());
+
       try {
         final products = await productRepository.getProductsByCategory(
           event.categorySlug,
         );
 
+        AppLogger.i(
+          "🟢 Bloc State: ProductLoaded -> Successfully loaded ${products.length} products",
+        );
         emit(ProductLoaded(allProducts: products, filteredProducts: products));
-      } catch (e) {
-        emit(ProductError("فشل تحميل المنتجات: ${e.toString()}"));
+      } catch (e, stackTrace) {
+        AppLogger.e("🔴 Bloc State: ProductError", e, stackTrace);
+        emit(ProductError("Failed to load products: ${e.toString()}"));
       }
     });
 
     on<SearchProductsEvent>((event, emit) {
+      AppLogger.d(
+        "🔍 Bloc Event: SearchProductsEvent -> Query: '${event.query}'",
+      );
+
       if (state is ProductLoaded) {
         final currentState = state as ProductLoaded;
 
         if (event.query.isEmpty) {
+          AppLogger.d("🧹 Search: Query empty, resetting list.");
           emit(
             ProductLoaded(
               allProducts: currentState.allProducts,
@@ -39,6 +48,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             );
           }).toList();
 
+          AppLogger.i(
+            "🎯 Search Result: Found ${filtered.length} products for '${event.query}'",
+          );
+
           emit(
             ProductLoaded(
               allProducts: currentState.allProducts,
@@ -46,6 +59,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             ),
           );
         }
+      } else {
+        AppLogger.w(
+          "⚠️ Search Warning: Attempted to search while state was not Loaded.",
+        );
       }
     });
   }

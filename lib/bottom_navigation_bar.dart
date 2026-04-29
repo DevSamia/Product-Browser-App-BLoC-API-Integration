@@ -1,5 +1,5 @@
 import 'core/imports/common_imports.dart';
-import 'features/category/view/category_screen.dart';
+import 'features/chat/view/widget/product_chat_screen.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({super.key});
@@ -14,20 +14,15 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
   final List<Widget> _screens = [
     const CategoryScreen(),
-    const ProductListScreen(categoryName: ''),
-    //const ProductDetailScreen(product: ''),
-    const Center(child: Text('حسابي')),
+    const ProductListScreen(categoryName: 'beauty'),
+    const CartScreen(),
+    const ProductChatScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) =>
-              ProductBloc(ProductRepository(ProductWebServices())),
-        ),
-      ],
+      providers: [BlocProvider(create: (context) => getIt<ProductBloc>())],
       child: Scaffold(
         body: IndexedStack(index: _currentIndex, children: _screens),
         bottomNavigationBar: CustomBottomNav(

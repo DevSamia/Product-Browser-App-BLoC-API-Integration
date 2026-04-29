@@ -1,33 +1,70 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'bottom_navigation_bar.dart';
-import 'core/constants/strings.dart';
-import 'features/category/bloc/category_bloc.dart';
-import 'features/category/bloc/category_event.dart';
-import 'features/category/data/category_repository.dart';
-import 'features/category/data/category_web_services.dart';
+import '/core/imports/common_imports.dart';
 
 class AppRouter {
-  late CategoryRepository categoryRepository;
-  late CategoryWebServices categoryWebServices;
-
-  AppRouter() {
-    categoryWebServices = CategoryWebServices();
-    categoryRepository = CategoryRepository(categoryWebServices);
-  }
-
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case bottomNavigationBarScreen:
+      case loginScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) =>
-                CategoryBloc(categoryRepository)..add(GetCategoriesEvent()),
+            create: (context) => getIt<AuthBloc>(),
+            child: const LoginScreen(),
+          ),
+        );
+
+      case registerScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AuthBloc>(),
+            child: const RegisterScreen(),
+          ),
+        );
+
+      case bottomNavigationBarScreen:
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) =>
+                    getIt<CategoryBloc>()..add(GetCategoriesEvent()),
+              ),
+              BlocProvider(create: (context) => getIt<CartBloc>()),
+              // BlocProvider.value(value: getIt<AuthBloc>()),
+            ],
             child: const BottomNavigationBarScreen(),
           ),
         );
+
+      case productDetailScreen:
+        final product = settings.arguments as ProductModel;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<ProductDetailBloc>()
+                  ..add(FetchProductDetailEvent(product.id)),
+            child: ProductDetailScreen(productId: product.id),
+          ),
+        );
+      case productListScreen:
+        final categoryName = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<ProductBloc>()
+                  ..add(LoadProductsByCategoryEvent(categoryName)),
+            child: ProductListScreen(categoryName: categoryName),
+          ),
+        );
+
+      // case editProfileScreen:
+      //   return MaterialPageRoute(
+      //     builder: (_) => BlocProvider.value(
+      //       value: getIt<AuthBloc>(), // نستخدم القيمة الموجودة مسبقاً لأنها تحمل بيانات المستخدم
+      //       child: const EditProfileScreen(),
+      //     ),
+      //   );
+
+      default:
+        return null;
     }
-    return null;
   }
 }

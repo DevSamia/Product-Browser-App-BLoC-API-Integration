@@ -1,8 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/imports/common_imports.dart';
-import '../../bloc/product_bloc.dart';
-import '../../bloc/product_event.dart';
 
 class SearchAndFilterSection extends StatelessWidget {
   final String categoryName;
@@ -11,7 +7,7 @@ class SearchAndFilterSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.white,
+      color: AppColors.scaffoldBackground,
       padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 16.h),
       child: Row(
         children: [
@@ -21,7 +17,7 @@ class SearchAndFilterSection extends StatelessWidget {
             child: Container(
               height: 45.h,
               decoration: BoxDecoration(
-                color: AppColors.white,
+                color: AppColors.scaffoldBackground,
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: TextField(
@@ -34,13 +30,13 @@ class SearchAndFilterSection extends StatelessWidget {
                   isDense: true,
                   hintStyle: TextStyle(
                     height: 1.2,
-                    color: AppColors.gray,
+                    color: AppColors.textMuted,
                     fontSize: 13.sp,
                     fontFamily: 'Cairo',
                   ),
                   prefixIcon: Icon(
                     Icons.search_rounded,
-                    color: AppColors.gray,
+                    color: AppColors.textMuted,
                     size: 20.sp,
                   ),
                   border: InputBorder.none,
@@ -59,11 +55,11 @@ class SearchAndFilterSection extends StatelessWidget {
       height: 48.h,
       width: 48.h,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.scaffoldBackground,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: AppColors.white),
+        border: Border.all(color: AppColors.scaffoldBackground),
       ),
-      child: Icon(Icons.tune_rounded, color: AppColors.move, size: 22.sp),
+      child: Icon(Icons.tune_rounded, color: AppColors.secondary, size: 22.sp),
     );
   }
 }

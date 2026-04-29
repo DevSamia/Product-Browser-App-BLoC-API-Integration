@@ -1,19 +1,16 @@
-import '../../../core/imports/common_imports.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../models/category_model.dart';
 
-@immutable
-sealed class CategoryState {}
+part 'category_state.freezed.dart';
 
-final class CategoryInitial extends CategoryState {}
-
-class CategoryLoading extends CategoryState {}
-
-class CategorySuccess extends CategoryState {
-  final List<CategoryModel> categories;
-  CategorySuccess(this.categories);
-}
-
-class CategoryError extends CategoryState {
-  final String message;
-  CategoryError(this.message);
+@freezed
+class CategoryState with _$CategoryState {
+  const factory CategoryState.initial() = _Initial;
+  const factory CategoryState.loading() = _Loading;
+  const factory CategoryState.success({
+    required List<CategoryModel> categories,
+    @Default('') String selectedCategorySlug,
+  }) = _Success;
+  const factory CategoryState.error({required String message}) = _Error;
 }

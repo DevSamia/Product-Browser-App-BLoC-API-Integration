@@ -1,33 +1,35 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../data/category_repository.dart';
-import '../models/category_model.dart';
-import 'category_event.dart';
-import 'category_state.dart';
+import '../../../core/imports/common_imports.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   final CategoryRepository categoryRepository;
 
-  CategoryBloc(this.categoryRepository) : super(CategoryInitial()) {
-    // تسجيل المعالج لحدث جلب الفئات
-    on<GetCategoriesEvent>((event, emit) async {
-      // 1. إرسال حالة التحميل
-      emit(CategoryLoading());
+  CategoryBloc(this.categoryRepository) : super(const CategoryState.initial()) {
+    on<GetCategoriesEvent>(_onGetCategories);
+  }
 
-      try {
-        // 2. طلب البيانات من الـ Repository
-        final List<dynamic> categoriesData = await categoryRepository
-            .getAllCategory();
+  Future<void> _onGetCategories(
+    GetCategoriesEvent event,
+    Emitter<CategoryState> emit,
+  ) async {
+    AppLogger.i("🚀 Bloc Event: GetCategoriesEvent triggered");
 
-        // 3. تحويل القائمة (casting) وإرسال حالة النجاح
-        // استخدمنا .from لضمان تحويل الأنواع بشكل سليم لـ CategoryModel
-        final categories = List<CategoryModel>.from(categoriesData);
+    emit(const CategoryState.loading());
 
-        emit(CategorySuccess(categories));
-      } catch (e) {
-        // 4. في حال حدوث خطأ
-        emit(CategoryError("فشل في جلب الفئات: ${e.toString()}"));
-      }
-    });
+    try {
+      final categories = await categoryRepository.getAllCategory();
+      AppLogger.i(
+        "🟢 Bloc Success: Categories loaded (${categories.length} items)",
+      );
+
+      emit(CategoryState.success(categories: categories));
+    } catch (e, stackTrace) {
+      AppLogger.e("🔴 Bloc Error: Failed to fetch categories", e, stackTrace);
+
+      emit(
+        CategoryState.error(
+          message: "Failed to fetch categories: ${e.toString()}",
+        ),
+      );
+    }
   }
 }

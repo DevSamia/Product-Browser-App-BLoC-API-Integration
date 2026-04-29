@@ -1,6 +1,8 @@
-sealed class ProductDetailEvent {}
+sealed class ProductDetailEvent {
+  const ProductDetailEvent();
+}
 
 final class FetchProductDetailEvent extends ProductDetailEvent {
   final int productId;
-  FetchProductDetailEvent(this.productId);
+  const FetchProductDetailEvent(this.productId);
 }

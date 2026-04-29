@@ -5,8 +5,10 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLogger.d("🎨 UI: Building CategoryScreen...");
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.scaffoldBackground,
       appBar: const _CustomAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -36,7 +38,7 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.scaffoldBackground,
       elevation: 0,
       scrolledUnderElevation: 0,
       toolbarHeight: 70,
@@ -45,34 +47,41 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: IconButton(
           icon: const Icon(
             Icons.notifications_none_rounded,
-            color: AppColors.gray,
+            color: AppColors.textMuted,
             size: 26,
           ),
-          onPressed: () {},
+          onPressed: () {
+            AppLogger.d("🔔 UI: User clicked notifications in CategoryScreen");
+          },
         ),
       ),
       actions: [
         IconButton(
           icon: const Icon(
             Icons.search_rounded,
-            color: AppColors.gray,
+            color: AppColors.textMuted,
             size: 26,
           ),
-          onPressed: () {},
+          onPressed: () {
+            AppLogger.d("🔍 UI: User clicked search in CategoryScreen");
+          },
         ),
         AppSizes.w10,
         Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: AppColors.gray,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Icon(
-              Icons.bolt_rounded,
-              color: AppColors.white,
-              size: 22,
+          child: InkWell(
+            onTap: () => AppLogger.d("⚡ UI: User clicked Bolt Action icon"),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.textMuted,
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: const Icon(
+                Icons.bolt_rounded,
+                color: AppColors.scaffoldBackground,
+                size: 22,
+              ),
             ),
           ),
         ),
@@ -80,7 +89,7 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       title: PrimaryText(
         'Categories',
-        color: Color(0xFF1A1A1A),
+        color: const Color(0xFF1A1A1A),
         fontWeight: FontWeight.w800,
         fontSize: 18.sp,
         letterSpacing: -0.5,
