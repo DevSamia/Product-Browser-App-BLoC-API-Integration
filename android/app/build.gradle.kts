@@ -2,15 +2,14 @@
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
     id("dev.flutter.flutter-gradle-plugin")
     id("com.google.gms.google-services")
 }
 
 android {
-    namespace = "com.example.product_browser_app"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    namespace = "com.samia.product_browser_app"
+    compileSdk = 36
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -23,8 +22,8 @@ android {
     
     defaultConfig {
         applicationId = "com.samia.product_browser_app"
-        minSdk = 23 // تم رفعه لضمان توافق Firebase و Google Sign-In
-        targetSdk = flutter.targetSdkVersion
+        minSdk = flutter.minSdkVersion
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
@@ -43,6 +42,11 @@ flutter {
 }
 
 dependencies {
-    // نعتمد هنا على إضافات Flutter لربط المكتبات تلقائياً
-    // تمت إزالة الإضافات اليدوية لمنع التعارضات
+    // إضافات Flutter ستتم إضافتها تلقائياً
+}
+configurations.all {
+    resolutionStrategy {
+        force("androidx.core:core:1.13.1")
+        force("androidx.core:core-ktx:1.13.1")
+    }
 }
