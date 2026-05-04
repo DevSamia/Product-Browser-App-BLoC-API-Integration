@@ -1,4 +1,5 @@
 import '/core/imports/common_imports.dart';
+import 'features/auth/view/edit_profile/edit_profile_screen.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
@@ -7,7 +8,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<AuthBloc>(),
-            child: const LoginScreen(),
+            child: LoginScreen(),
           ),
         );
 
@@ -15,7 +16,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<AuthBloc>(),
-            child: const RegisterScreen(),
+            child: RegisterScreen(),
           ),
         );
 
@@ -28,7 +29,7 @@ class AppRouter {
                     getIt<CategoryBloc>()..add(GetCategoriesEvent()),
               ),
               BlocProvider(create: (context) => getIt<CartBloc>()),
-              // BlocProvider.value(value: getIt<AuthBloc>()),
+              BlocProvider.value(value: getIt<AuthBloc>()),
             ],
             child: const BottomNavigationBarScreen(),
           ),
@@ -55,13 +56,13 @@ class AppRouter {
           ),
         );
 
-      // case editProfileScreen:
-      //   return MaterialPageRoute(
-      //     builder: (_) => BlocProvider.value(
-      //       value: getIt<AuthBloc>(), // نستخدم القيمة الموجودة مسبقاً لأنها تحمل بيانات المستخدم
-      //       child: const EditProfileScreen(),
-      //     ),
-      //   );
+      case editProfileScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<AuthBloc>(),
+            child: const EditProfileScreen(),
+          ),
+        );
 
       default:
         return null;

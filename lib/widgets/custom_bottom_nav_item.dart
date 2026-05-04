@@ -49,7 +49,7 @@ class CustomBottomNav extends StatelessWidget {
           ),
           _NavBarItem(
             icon: Icons.person_2_outlined,
-            label: 'MyAccount',
+            label: 'MyProfile',
             isActive: currentIndex == 3,
             onTap: () => onTap(3),
           ),

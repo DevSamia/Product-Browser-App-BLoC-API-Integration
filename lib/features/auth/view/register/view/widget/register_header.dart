@@ -10,16 +10,16 @@ class RegisterHeader extends StatelessWidget {
       children: [
         AppSizes.h32,
         PrimaryText(
-          'Join IndigoShop',
+          context.l10n.joinIndigoShop,
           fontSize: 28.sp,
           fontWeight: FontWeight.w800,
           color: AppColors.textMain,
         ),
         AppSizes.h8,
         PrimaryText(
-          'Start your premium shopping journey today.',
+          context.l10n.startJourney,
           fontSize: 15.sp,
-          color: AppColors.textToAskAboutTheExistenceOfAnAccount,
+          color: AppColors.subTitleForLoginScreen,
         ),
       ],
     );

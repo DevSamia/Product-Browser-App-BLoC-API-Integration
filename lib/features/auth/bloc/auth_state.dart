@@ -8,13 +8,8 @@ part 'auth_state.freezed.dart';
 class AuthState with _$AuthState {
   const factory AuthState.initial() = AuthInitial;
   const factory AuthState.loading() = AuthLoading;
-
-  // حالة النجاح مع بيانات المستخدم [cite: 15, 18]
   const factory AuthState.authenticated(AppUser user) = AuthAuthenticated;
-
-  // حالة عدم تسجيل الدخول
   const factory AuthState.unauthenticated() = AuthUnauthenticated;
-
-  // حالة الخطأ [cite: 11, 18]
   const factory AuthState.error(String message) = AuthError;
+  const factory AuthState.success(String message) = AuthSuccess;
 }

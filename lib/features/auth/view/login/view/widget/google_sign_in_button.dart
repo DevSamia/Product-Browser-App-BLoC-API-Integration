@@ -1,5 +1,4 @@
 import '../../../../../../core/imports/common_imports.dart';
-import '../../../../bloc/auth_event.dart';
 
 class GoogleSignInButton extends StatelessWidget {
   const GoogleSignInButton({super.key});
@@ -33,7 +32,7 @@ class GoogleSignInButton extends StatelessWidget {
               Image.asset(AppImagesConstants.googleIcon, height: 24.h),
               SizedBox(width: 12.w),
               PrimaryText(
-                'Sign in with Google',
+                context.l10n.signInWithGoogle,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w600,
                 color: AppColors.textColorForSignInWithGoogle,

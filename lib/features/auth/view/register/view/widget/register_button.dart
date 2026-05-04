@@ -1,4 +1,5 @@
 import '/core/imports/common_imports.dart';
+import '../../../../../../l10n/app_localizations.dart';
 
 class RegisterButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -6,6 +7,7 @@ class RegisterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
@@ -16,7 +18,7 @@ class RegisterButton extends StatelessWidget {
         ),
       ),
       child: PrimaryText(
-        'Register Account',
+        l10n.registerAccount,
         fontSize: 18.sp,
         fontWeight: FontWeight.w700,
         color: AppColors.textSignInButton,

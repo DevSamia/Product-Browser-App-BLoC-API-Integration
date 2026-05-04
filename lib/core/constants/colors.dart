@@ -27,7 +27,7 @@ class AppColors {
     0xFF383838,
   );
 
-  // Legacy/Specific naming (mapping to themed values)
+  // Legacy/Specific naming
   static const Color logoColor = scaffoldBackground;
   static const Color hintStyleFromTextField = Color(0xFF9CA3AF);
   static const Color continueText = hintStyleFromTextField;
@@ -51,6 +51,24 @@ class AppColors {
   static const Color notificationIcon = textMain;
   static const Color backIcon = textMain;
   static const Color statusBarIcons = textMain;
+  static const Color appBarTitle = textMain;
+  static final Color appBarDivider = Colors.grey.withValues(alpha: 0.1);
+  static const Color snackBarText = Colors.white;
+  static const Color passwordStrengthStrong = Color(0xFF10B981);
+
+  // Profile Feature Colors
+  static const Color profileImageBorder = Color(0xFFE5E7EB);
+  static const Color profileImageBackground = Color(0xFFF3F4F6);
+  static const Color accountDetailsBackground = Color(0xFFF9FAFB);
+  static const Color logoutButtonText = Color(0xFFBE123C);
+  static const Color logoutButtonBorder = Color(0xFFE5E7EB);
+  static const Color profileHelperText = Color(0xFF6B7280);
+  static const Color accountDetailsLabel = Color(0xFF9CA3AF);
+  static const Color appBarIconBackground = Colors.black;
+  static const Color accountDetailsValue = Color(0xFF374151);
+  static final Color profileShadow = Colors.black.withValues(alpha: 0.1);
+  static final Color detailCardShadow = Colors.black.withValues(alpha: 0.05);
+  static const Color accountAccessDivider = Color(0xFFE5E7EB);
 
   static LinearGradient levelCardGradient = const LinearGradient(
     begin: Alignment.topCenter,

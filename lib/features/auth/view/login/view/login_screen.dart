@@ -1,10 +1,5 @@
+import '/core/errors/error_mapper.dart';
 import '../../../../../../core/imports/common_imports.dart';
-import '../../../bloc/auth_state.dart';
-import 'widget/app_logo.dart';
-import 'widget/google_sign_in_button.dart';
-import 'widget/login_form.dart';
-import 'widget/register_footer.dart';
-import 'widget/social_divider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -26,12 +21,32 @@ class LoginScreen extends StatelessWidget {
                 (route) => false,
               );
             },
+            success: (message) {
+              if (message == "RESET_EMAIL_SENT") {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: PrimaryText(
+                      context.l10n.passwordResetEmailSent,
+                      color: AppColors.textSignInButton,
+                    ),
+                    backgroundColor: Colors.green,
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+              }
+            },
             error: (message) {
               AppLogger.e("UI: Login Error received: $message");
+
+              final displayMessage = ErrorMapper.mapFirebaseError(
+                context,
+                message,
+              );
+
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: PrimaryText(
-                    message,
+                    displayMessage,
                     color: AppColors.textSignInButton,
                   ),
                   backgroundColor: AppColors.error,
@@ -55,14 +70,14 @@ class LoginScreen extends StatelessWidget {
                     const AppLogo(),
                     AppSizes.h20,
                     PrimaryText(
-                      'Welcome',
+                      context.l10n.welcome,
                       fontSize: 32.sp,
                       fontWeight: FontWeight.w800,
                       color: AppColors.textMain,
                     ),
                     AppSizes.h12,
                     PrimaryText(
-                      'Discover the latest trends and shop\nyour favorites with IndigoShop',
+                      context.l10n.discoverTrends,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.subTitleForLoginScreen,

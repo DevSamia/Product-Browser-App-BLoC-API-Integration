@@ -1,6 +1,4 @@
-import '../../../../core/errors/app_logger.dart';
-import '../entities/app_user.dart';
-import '../repositories/auth_repository.dart';
+import '../../../../core/imports/common_imports.dart';
 
 class GetCurrentUserUseCase {
   final AuthRepository repository;

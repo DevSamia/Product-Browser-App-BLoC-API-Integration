@@ -11,7 +11,7 @@ class SocialDivider extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: PrimaryText(
-            'OR CONTINUE WITH',
+            context.l10n.orContinueWith,
             fontSize: 12.sp,
             fontWeight: FontWeight.w700,
             color: AppColors.continueText,
