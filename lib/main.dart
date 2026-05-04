@@ -1,10 +1,11 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'core/di/injection_container.dart';
 import 'core/errors/app_bloc_observer.dart';
 import 'core/imports/common_imports.dart';
-import 'features/auth/bloc/auth_event.dart';
+import 'l10n/app_localizations.dart';
 
 final getIt = GetIt.instance;
 
@@ -53,13 +54,31 @@ class ProductBrowserApp extends StatelessWidget {
             darkTheme: AppTheme.dark,
             themeMode: ThemeMode.system,
             title: 'Product Browser',
-            builder: (context, child) {
-              child = DevicePreview.appBuilder(context, child);
-              return Directionality(
-                textDirection: TextDirection.rtl,
-                child: child,
-              );
-            },
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('en'), Locale('ar')],
+            home: BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  authenticated: (user) => const BottomNavigationBarScreen(),
+                  unauthenticated: () => const LoginScreen(),
+                  initial: () => const Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ),
+                  orElse: () => const LoginScreen(),
+                );
+              },
+            ),
           ),
         );
       },

@@ -9,7 +9,9 @@ class CustomTextField extends StatefulWidget {
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
+  final Iterable<String>? autofillHints;
   final Function(String)? onChanged;
+  final Function(String)? onFieldSubmitted;
 
   const CustomTextField({
     super.key,
@@ -21,7 +23,9 @@ class CustomTextField extends StatefulWidget {
     this.validator,
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.next,
+    this.autofillHints,
     this.onChanged,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -51,7 +55,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
           validator: widget.validator,
           keyboardType: widget.keyboardType,
           textInputAction: widget.textInputAction,
+          autofillHints: widget.autofillHints,
           onChanged: widget.onChanged,
+          onFieldSubmitted: widget.onFieldSubmitted,
           style: TextStyle(
             fontSize: 16.sp,
             color: const Color(0xFF1F2937),
@@ -70,14 +76,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
               size: 22,
             ),
             suffixIcon: widget.isPassword
-                ? GestureDetector(
-                    onTap: () => setState(() => _obscureText = !_obscureText),
-                    child: Icon(
+                ? IconButton(
+                    onPressed: () =>
+                        setState(() => _obscureText = !_obscureText),
+                    icon: Icon(
                       _obscureText
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
                       color: AppColors.prefixIconStyleFromTextField,
-                      size: 22,
+                      size: 20,
                     ),
                   )
                 : null,

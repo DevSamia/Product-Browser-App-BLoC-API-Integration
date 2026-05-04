@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_event.freezed.dart';
@@ -19,4 +20,13 @@ class AuthEvent with _$AuthEvent {
 
   const factory AuthEvent.logoutRequested() = LogoutRequested;
   const factory AuthEvent.googleSignInRequested() = GoogleSignInRequested;
+
+  const factory AuthEvent.profileUpdateRequested({required String username}) =
+      ProfileUpdateRequested;
+
+  const factory AuthEvent.passwordResetRequested({required String email}) =
+      PasswordResetRequested;
+
+  const factory AuthEvent.profileImageUpdateRequested({required File image}) =
+      ProfileImageUpdateRequested;
 }

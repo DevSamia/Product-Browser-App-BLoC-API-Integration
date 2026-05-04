@@ -28,17 +28,17 @@ class RegisterTermsAndConditions extends StatelessWidget {
                 color: AppColors.textColorForSignInWithGoogle,
               ),
               children: [
-                const TextSpan(text: 'I agree to the '),
+                TextSpan(text: context.l10n.iAgreeTo),
                 TextSpan(
-                  text: 'Terms of Service',
+                  text: context.l10n.termsOfService,
                   style: TextStyle(
                     color: AppColors.primary,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const TextSpan(text: ' and '),
+                TextSpan(text: context.l10n.and),
                 TextSpan(
-                  text: 'Privacy Policy',
+                  text: context.l10n.privacyPolicy,
                   style: TextStyle(
                     color: AppColors.primary,
                     fontWeight: FontWeight.w700,

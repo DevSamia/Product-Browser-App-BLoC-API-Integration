@@ -44,7 +44,7 @@ Future<void> initGetIt() async {
   );
 
   // Auth Repository
-  //getIt.registerLazySingleton<AuthRepository>(() => FirebaseAuthRepository());
+  getIt.registerLazySingleton<AuthRepository>(() => FirebaseAuthRepository());
 
   // --- 4. Use Cases ---
   getIt.registerLazySingleton(() => LoginUseCase(getIt()));
@@ -65,6 +65,7 @@ Future<void> initGetIt() async {
       loginUseCase: getIt(),
       registerUseCase: getIt(),
       getCurrentUserUseCase: getIt(),
+      updateProfileUseCase: getIt(),
       authRepository: getIt(),
     ),
   );

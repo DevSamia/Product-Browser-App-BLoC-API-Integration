@@ -9,15 +9,17 @@ class RegisterFooter extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         PrimaryText(
-          "Don't have an account? ",
+          context.l10n.dontHaveAccount,
           fontSize: 16.sp,
           fontWeight: FontWeight.w500,
           color: AppColors.textToAskAboutTheExistenceOfAnAccount,
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, registerScreen);
+          },
           child: PrimaryText(
-            'Register',
+            context.l10n.register,
             fontSize: 16.sp,
             fontWeight: FontWeight.w800,
             color: AppColors.primary,

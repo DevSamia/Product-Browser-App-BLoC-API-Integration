@@ -16,7 +16,7 @@ class RegisterSecurityFooter extends StatelessWidget {
           ),
           AppSizes.w8,
           PrimaryText(
-            'SECURED BY PIXELVAULT™',
+            context.l10n.securedBy,
             fontSize: 12.sp,
             fontWeight: FontWeight.w700,
             color: AppColors.textToAskAboutTheExistenceOfAnAccount,

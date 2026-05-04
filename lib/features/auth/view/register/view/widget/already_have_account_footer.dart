@@ -24,14 +24,14 @@ class AlreadyHaveAccountFooter extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               PrimaryText(
-                "Already have an account? ",
+                context.l10n.alreadyHaveAccount,
                 fontSize: 16.sp,
                 color: AppColors.textToAskAboutTheExistenceOfAnAccount,
               ),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
                 child: PrimaryText(
-                  'Login',
+                  context.l10n.login,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w700,
                   color: AppColors.primary,
@@ -41,7 +41,7 @@ class AlreadyHaveAccountFooter extends StatelessWidget {
           ),
           AppSizes.h12,
           PrimaryText(
-            'By creating an account, you consent to\nreceive periodic product updates.',
+            context.l10n.consentText,
             fontSize: 12.sp,
             textAlign: TextAlign.center,
             color: AppColors.hintStyleFromTextField,

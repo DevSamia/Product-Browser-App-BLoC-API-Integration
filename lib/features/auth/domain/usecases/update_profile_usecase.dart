@@ -1,5 +1,4 @@
-import '../../../../core/errors/app_logger.dart';
-import '../repositories/auth_repository.dart';
+import '../../../../core/imports/common_imports.dart';
 
 class UpdateProfileUseCase {
   final AuthRepository repository;
