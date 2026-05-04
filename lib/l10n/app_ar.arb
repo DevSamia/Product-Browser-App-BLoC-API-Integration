@@ -60,5 +60,14 @@
   "errorTooManyRequests": "طلبات كثيرة جداً. يرجى المحاولة لاحقاً.",
   "errorWrongPassword": "كلمة المرور خاطئة، حاول مرة أخرى.",
   "errorNetworkRequestFailed": "خطأ في الشبكة، يرجى التحقق من الاتصال.",
-  "errorUnknown": "حدث خطأ غير معروف. يرجى المحاولة مرة أخرى."
+  "errorUnknown": "حدث خطأ غير معروف. يرجى المحاولة مرة أخرى.",
+  "categories": "الأقسام",
+  "welcomeTo": "مرحباً بك في ",
+  "indigoShop": "IndigoShop",
+  "chooseCategorySubtitle": "اختر قسماً لتصفح أحدث المنتجات المختارة بعناية.",
+  "seasonDiscount": "خصم الموسم",
+  "promoSubtitle": "احصل على خصم يصل إلى 40% في قسم الأزياء",
+  "shopNow": "تسوق الآن",
+  "failedToLoadCategories": "فشل تحميل الأقسام. يرجى المحاولة لاحقاً.",
+  "tryAgain": "إعادة المحاولة"
 }

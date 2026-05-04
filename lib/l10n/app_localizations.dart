@@ -469,6 +469,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An unknown error occurred. Please try again.'**
   String get errorUnknown;
+
+  /// No description provided for @categories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get categories;
+
+  /// No description provided for @welcomeTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to '**
+  String get welcomeTo;
+
+  /// No description provided for @indigoShop.
+  ///
+  /// In en, this message translates to:
+  /// **'IndigoShop'**
+  String get indigoShop;
+
+  /// No description provided for @chooseCategorySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a category to browse the latest carefully selected products.'**
+  String get chooseCategorySubtitle;
+
+  /// No description provided for @seasonDiscount.
+  ///
+  /// In en, this message translates to:
+  /// **'Season discount'**
+  String get seasonDiscount;
+
+  /// No description provided for @promoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get up to 40% off on the fashion department'**
+  String get promoSubtitle;
+
+  /// No description provided for @shopNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop now'**
+  String get shopNow;
+
+  /// No description provided for @failedToLoadCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load categories. Please try again later.'**
+  String get failedToLoadCategories;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get tryAgain;
 }
 
 class _AppLocalizationsDelegate

@@ -25,11 +25,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     } catch (e, stackTrace) {
       AppLogger.e("🔴 Bloc Error: Failed to fetch categories", e, stackTrace);
 
-      emit(
-        CategoryState.error(
-          message: "Failed to fetch categories: ${e.toString()}",
-        ),
-      );
+      // We emit a localized key instead of the raw error message
+      emit(const CategoryState.error(message: "failedToLoadCategories"));
     }
   }
 }

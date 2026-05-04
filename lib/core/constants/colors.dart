@@ -11,6 +11,7 @@ class AppColors {
   // Light Mode Colors
   static const Color textMain = Color(0xFF000000);
   static const Color textMuted = Color(0xFF434A54);
+  static const Color textDark = Color(0xFF1A1A1A);
   static const Color scaffoldBackground = Color(0xFFFFFFFF);
   static const Color bgColor = Color(0xFFFDF4E7);
   static const Color fillColorStyleFromTextField = Color(0xFFF9FAFB);
@@ -69,6 +70,17 @@ class AppColors {
   static final Color profileShadow = Colors.black.withValues(alpha: 0.1);
   static final Color detailCardShadow = Colors.black.withValues(alpha: 0.05);
   static const Color accountAccessDivider = Color(0xFFE5E7EB);
+
+  // Promo Banner Colors
+  static const Color promoGradientStart = Color(0xFF3F51B5);
+  static const Color promoGradientEnd = Color(0xFF283593);
+  static const Color promoSubtitle = Color(0xFFE0E0E0);
+  static const Color promoBtnBackground = Color(0xFFFFD54F);
+
+  // Category Item Colors
+  static final Color categoryItemShadow = Colors.black.withValues(alpha: 0.02);
+  static const Color categoryItemBorder = Colors.black;
+  static final Color categoryDecorativeBar = Colors.black.withValues(alpha: 0.05);
 
   static LinearGradient levelCardGradient = const LinearGradient(
     begin: Alignment.topCenter,

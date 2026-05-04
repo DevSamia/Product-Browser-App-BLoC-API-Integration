@@ -18,11 +18,11 @@ class HeroSection extends StatelessWidget {
             ),
             children: [
               TextSpan(
-                text: 'Welcome to ',
+                text: context.l10n.welcomeTo,
                 style: TextStyle(color: AppColors.textMuted, fontSize: 25.sp),
               ),
               TextSpan(
-                text: 'IndigoShop',
+                text: context.l10n.indigoShop,
                 style: TextStyle(color: AppColors.secondary, fontSize: 25.sp),
               ),
             ],
@@ -30,7 +30,7 @@ class HeroSection extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Text(
-          'Choose a category to browse the latest carefully selected products.',
+          context.l10n.chooseCategorySubtitle,
           style: TextStyle(
             color: AppColors.gray,
             fontSize: 12.sp,

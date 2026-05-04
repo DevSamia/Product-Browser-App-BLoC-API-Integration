@@ -88,8 +88,8 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ],
       centerTitle: true,
       title: PrimaryText(
-        'Categories',
-        color: const Color(0xFF1A1A1A),
+        context.l10n.categories,
+        color: AppColors.textDark,
         fontWeight: FontWeight.w800,
         fontSize: 18.sp,
         letterSpacing: -0.5,

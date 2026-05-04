@@ -202,4 +202,33 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get errorUnknown => 'حدث خطأ غير معروف. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get categories => 'الأقسام';
+
+  @override
+  String get welcomeTo => 'مرحباً بك في ';
+
+  @override
+  String get indigoShop => 'IndigoShop';
+
+  @override
+  String get chooseCategorySubtitle =>
+      'اختر قسماً لتصفح أحدث المنتجات المختارة بعناية.';
+
+  @override
+  String get seasonDiscount => 'خصم الموسم';
+
+  @override
+  String get promoSubtitle => 'احصل على خصم يصل إلى 40% في قسم الأزياء';
+
+  @override
+  String get shopNow => 'تسوق الآن';
+
+  @override
+  String get failedToLoadCategories =>
+      'فشل تحميل الأقسام. يرجى المحاولة لاحقاً.';
+
+  @override
+  String get tryAgain => 'إعادة المحاولة';
 }

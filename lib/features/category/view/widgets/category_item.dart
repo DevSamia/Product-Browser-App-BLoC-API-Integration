@@ -50,11 +50,11 @@ class CategoryItem extends StatelessWidget {
           color: backgroundColor,
           borderRadius: BorderRadius.circular(24.r),
           border: isSelected
-              ? Border.all(color: Colors.black, width: 2)
+              ? Border.all(color: AppColors.categoryItemBorder, width: 2)
               : Border.all(color: Colors.transparent, width: 2),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.02),
+              color: AppColors.categoryItemShadow,
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -65,7 +65,7 @@ class CategoryItem extends StatelessWidget {
           children: [
             PrimaryText(
               category.name.toUpperCase(),
-              color: const Color(0xFF1A1A1A),
+              color: AppColors.textDark,
               fontWeight: isSelected ? FontWeight.w900 : FontWeight.w700,
               fontSize: 14.sp,
               textAlign: TextAlign.center,
@@ -85,7 +85,7 @@ class CategoryItem extends StatelessWidget {
           width: 40.w,
           height: 3.h,
           decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.categoryDecorativeBar,
             borderRadius: BorderRadius.circular(10),
           ),
         ),
@@ -94,7 +94,7 @@ class CategoryItem extends StatelessWidget {
           width: 25.w,
           height: 3.h,
           decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.categoryDecorativeBar,
             borderRadius: BorderRadius.circular(10),
           ),
         ),

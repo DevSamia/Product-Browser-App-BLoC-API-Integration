@@ -205,4 +205,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorUnknown => 'An unknown error occurred. Please try again.';
+
+  @override
+  String get categories => 'Categories';
+
+  @override
+  String get welcomeTo => 'Welcome to ';
+
+  @override
+  String get indigoShop => 'IndigoShop';
+
+  @override
+  String get chooseCategorySubtitle =>
+      'Choose a category to browse the latest carefully selected products.';
+
+  @override
+  String get seasonDiscount => 'Season discount';
+
+  @override
+  String get promoSubtitle => 'Get up to 40% off on the fashion department';
+
+  @override
+  String get shopNow => 'Shop now';
+
+  @override
+  String get failedToLoadCategories =>
+      'Failed to load categories. Please try again later.';
+
+  @override
+  String get tryAgain => 'Try Again';
 }

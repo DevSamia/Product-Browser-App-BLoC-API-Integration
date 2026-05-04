@@ -10,7 +10,40 @@ class CategoryGrid extends StatelessWidget {
         return state.when(
           initial: () => const SizedBox(),
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (message) => Center(child: PrimaryText(message)),
+          error: (messageKey) {
+            final displayMessage = messageKey == "failedToLoadCategories"
+                ? context.l10n.failedToLoadCategories
+                : context.l10n.errorUnknown;
+
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.error_outline,
+                    color: AppColors.error,
+                    size: 40,
+                  ),
+                  AppSizes.h10,
+                  PrimaryText(
+                    displayMessage,
+                    textAlign: TextAlign.center,
+                    color: AppColors.textMuted,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      context.read<CategoryBloc>().add(GetCategoriesEvent());
+                    },
+                    child: PrimaryText(
+                      context.l10n.tryAgain,
+                      color: AppColors.secondary,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
           success: (categories, selectedSlug) => GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

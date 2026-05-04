@@ -60,5 +60,14 @@
   "errorTooManyRequests": "Too many requests. Please try again later.",
   "errorWrongPassword": "Wrong password, please try again.",
   "errorNetworkRequestFailed": "Network error, please check your connection.",
-  "errorUnknown": "An unknown error occurred. Please try again."
+  "errorUnknown": "An unknown error occurred. Please try again.",
+  "categories": "Categories",
+  "welcomeTo": "Welcome to ",
+  "indigoShop": "IndigoShop",
+  "chooseCategorySubtitle": "Choose a category to browse the latest carefully selected products.",
+  "seasonDiscount": "Season discount",
+  "promoSubtitle": "Get up to 40% off on the fashion department",
+  "shopNow": "Shop now",
+  "failedToLoadCategories": "Failed to load categories. Please try again later.",
+  "tryAgain": "Try Again"
 }
