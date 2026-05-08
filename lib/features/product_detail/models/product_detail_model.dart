@@ -6,35 +6,32 @@ part 'product_detail_model.freezed.dart';
 part 'product_detail_model.g.dart';
 
 @freezed
-class ProductDetailModel with _$ProductDetailModel {
+abstract class ProductDetailModel with _$ProductDetailModel {
   const factory ProductDetailModel({
-    required int id,
-    required String title,
-    required double price,
-    required String thumbnail,
-    required String category,
-    required double discountPercentage,
-    required int stock,
-    required List<String> tags,
-    required String sku,
-    required int weight,
-    required Dimensions dimensions,
-    required String warrantyInformation,
-    required String shippingInformation,
-    required String availabilityStatus,
-    required List<Review> reviews,
-    required String returnPolicy,
-    required int minimumOrderQuantity,
-    required Meta meta,
-    required List<String> images,
-    required String description,
-    required double rating,
+    @Default(0) int id,
+    @Default('') String title,
+    @Default(0.0) double price,
+    @Default('') String thumbnail,
+    @Default('') String category,
+    @Default(0.0) double discountPercentage,
+    @Default(0) int stock,
+    @Default([]) List<String> tags,
+    @Default('') String sku,
+    @Default(0) int weight,
+    ProductDimensions? dimensions,
+    @Default('') String warrantyInformation,
+    @Default('') String shippingInformation,
+    @Default('') String availabilityStatus,
+    @Default([]) List<ProductReview> reviews,
+    @Default('') String returnPolicy,
+    @Default(1) int minimumOrderQuantity,
+    ProductMeta? meta,
+    @Default([]) List<String> images,
+    @Default('') String description,
+    @Default(0.0) double rating,
     @Default('In Stock') String stockStatus,
   }) = _ProductDetailModel;
 
   factory ProductDetailModel.fromJson(Map<String, dynamic> json) =>
       _$ProductDetailModelFromJson(json);
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

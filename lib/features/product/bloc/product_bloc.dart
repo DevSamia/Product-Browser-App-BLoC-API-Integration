@@ -3,67 +3,73 @@ import '../../../core/imports/common_imports.dart';
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductRepository productRepository;
 
-  ProductBloc(this.productRepository) : super(ProductInitial()) {
-    on<LoadProductsByCategoryEvent>((event, emit) async {
-      AppLogger.i(
-        "🚀 Bloc Event: LoadProductsByCategoryEvent -> Category: ${event.categorySlug}",
+  ProductBloc(this.productRepository) : super(const ProductState.initial()) {
+    on<ProductEvent>((event, emit) async {
+      await event.map(
+        loadByCategory: (e) async =>
+            await _onLoadByCategory(e.categorySlug, emit),
+        search: (e) async => _onSearch(e.query, emit),
       );
-      emit(ProductLoading());
-
-      try {
-        final products = await productRepository.getProductsByCategory(
-          event.categorySlug,
-        );
-
-        AppLogger.i(
-          "🟢 Bloc State: ProductLoaded -> Successfully loaded ${products.length} products",
-        );
-        emit(ProductLoaded(allProducts: products, filteredProducts: products));
-      } catch (e, stackTrace) {
-        AppLogger.e("🔴 Bloc State: ProductError", e, stackTrace);
-        emit(ProductError("Failed to load products: ${e.toString()}"));
-      }
     });
+  }
 
-    on<SearchProductsEvent>((event, emit) {
-      AppLogger.d(
-        "🔍 Bloc Event: SearchProductsEvent -> Query: '${event.query}'",
+  Future<void> _onLoadByCategory(
+    String categorySlug,
+    Emitter<ProductState> emit,
+  ) async {
+    AppLogger.i("🚀 Bloc Event: LoadByCategory for: $categorySlug");
+    emit(const ProductState.loading());
+
+    try {
+      final products = await productRepository.getProductsByCategory(
+        categorySlug,
       );
 
-      if (state is ProductLoaded) {
-        final currentState = state as ProductLoaded;
+      AppLogger.i("🟢 Bloc Success: Loaded ${products.length} products");
 
-        if (event.query.isEmpty) {
-          AppLogger.d("🧹 Search: Query empty, resetting list.");
+      emit(
+        ProductState.loaded(allProducts: products, filteredProducts: products),
+      );
+    } catch (e, stackTrace) {
+      AppLogger.e("🔴 Bloc Error: Failed to load products", e, stackTrace);
+      emit(
+        ProductState.error(message: "Failed to load products: ${e.toString()}"),
+      );
+    }
+  }
+
+  void _onSearch(String query, Emitter<ProductState> emit) {
+    state.maybeWhen(
+      loaded: (allProducts, _) {
+        if (query.isEmpty) {
           emit(
-            ProductLoaded(
-              allProducts: currentState.allProducts,
-              filteredProducts: currentState.allProducts,
+            ProductState.loaded(
+              allProducts: allProducts,
+              filteredProducts: allProducts,
             ),
           );
         } else {
-          final filtered = currentState.allProducts.where((product) {
-            return product.title.toLowerCase().contains(
-              event.query.toLowerCase(),
-            );
-          }).toList();
+          final filtered = allProducts
+              .where((p) => p.title.toLowerCase().contains(query.toLowerCase()))
+              .toList();
 
-          AppLogger.i(
-            "🎯 Search Result: Found ${filtered.length} products for '${event.query}'",
+          AppLogger.d(
+            "🔍 Bloc Search: Found ${filtered.length} matches for '$query'",
           );
 
           emit(
-            ProductLoaded(
-              allProducts: currentState.allProducts,
+            ProductState.loaded(
+              allProducts: allProducts,
               filteredProducts: filtered,
             ),
           );
         }
-      } else {
+      },
+      orElse: () {
         AppLogger.w(
-          "⚠️ Search Warning: Attempted to search while state was not Loaded.",
+          "⚠️ Bloc Warning: Search attempted while state is not 'loaded'",
         );
-      }
-    });
+      },
+    );
   }
 }

@@ -1,4 +1,6 @@
 import '../../../../../core/imports/common_imports.dart';
+import '../../../../cart/bloc/cart_bloc.dart';
+import '../../../../cart/bloc/cart_state.dart';
 
 class CartBadge extends StatelessWidget {
   const CartBadge({super.key});
@@ -28,7 +30,7 @@ class CartBadge extends StatelessWidget {
               color: AppColors.textMain,
             ),
             onPressed: () {
-              Navigator.pushNamed(context, '/cart_screen');
+              Navigator.pushNamed(context, cartScreen);
             },
           ),
         );

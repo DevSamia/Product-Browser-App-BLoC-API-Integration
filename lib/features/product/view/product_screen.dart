@@ -1,61 +1,62 @@
+import 'package:product_browser_app/features/product/view/widget/list_header.dart';
+import 'package:product_browser_app/features/product/view/widget/product_grid.dart';
+import 'package:product_browser_app/features/product/view/widget/search_and_filter_section.dart';
+
 import '../../../core/imports/common_imports.dart';
+import '../../../l10n/app_localizations.dart';
 
 class ProductListScreen extends StatelessWidget {
   final String categoryName;
+
   const ProductListScreen({super.key, required this.categoryName});
 
   @override
   Widget build(BuildContext context) {
-    AppLogger.d(
-      "🎨 UI: Building ProductListScreen for category: $categoryName",
-    );
-    //context.read<ProductBloc>().add(LoadProductsByCategoryEvent(categoryName));
+    final l10n = AppLocalizations.of(context)!;
 
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Scaffold(
-        backgroundColor: AppColors.scaffoldBackground,
-        appBar: _buildAppBar(context),
-        body: SafeArea(
-          child: Column(
-            children: [
-              SearchAndFilterSection(categoryName: categoryName),
-              Expanded(
-                child: BlocBuilder<ProductBloc, ProductState>(
-                  builder: (context, state) {
-                    AppLogger.d(
-                      "📺 UI: Current ProductState is ${state.runtimeType}",
-                    );
-
-                    if (state is ProductLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.textMuted,
-                        ),
-                      );
-                    } else if (state is ProductLoaded) {
-                      AppLogger.i(
-                        "✨ UI: Rendering ${state.filteredProducts.length} products",
-                      );
-                      return _buildProductList(state.filteredProducts);
-                    } else if (state is ProductError) {
-                      AppLogger.w(
-                        "⚠️ UI: Displaying error in ProductList: ${state.message}",
-                      );
-                      return _buildErrorWidget(state.message);
-                    }
-                    return const SizedBox();
-                  },
-                ),
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldBackground,
+      appBar: _ProductListAppBar(categoryName: categoryName),
+      body: SafeArea(
+        child: Column(
+          children: [
+            SearchAndFilterSection(categoryName: categoryName),
+            Expanded(
+              child: BlocBuilder<ProductBloc, ProductState>(
+                builder: (context, state) {
+                  return state.when(
+                    initial: () => const SizedBox.shrink(),
+                    loading: () => const _LoadingWidget(),
+                    loaded: (allProducts, filteredProducts) =>
+                        _ProductListWidget(products: filteredProducts),
+                    error: (message) => _ErrorWidget(
+                      message: l10n.failedToLoadProducts,
+                      onRetry: () => _handleRetry(context),
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  void _handleRetry(BuildContext context) {
+    AppLogger.i("🔄 UI Retry: Reloading products for $categoryName");
+    context.read<ProductBloc>().add(ProductEvent.loadByCategory(categoryName));
+  }
+}
+
+class _ProductListAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
+  final String categoryName;
+
+  const _ProductListAppBar({required this.categoryName});
+
+  @override
+  Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.scaffoldBackground,
       elevation: 0,
@@ -66,16 +67,13 @@ class ProductListScreen extends StatelessWidget {
           color: AppColors.backIcon,
           size: 18.sp,
         ),
-        onPressed: () {
-          AppLogger.d("🔙 UI: User pressed back button from ProductList");
-          Navigator.pop(context);
-        },
+        onPressed: () => Navigator.pop(context),
       ),
       centerTitle: true,
       title: PrimaryText(
         categoryName,
         color: AppColors.textMain,
-        fontSize: 16.sp,
+        fontSize: 18.sp,
         fontWeight: FontWeight.bold,
       ),
       actions: [
@@ -83,23 +81,64 @@ class ProductListScreen extends StatelessWidget {
           icon: Icon(
             Icons.notifications_none_rounded,
             color: AppColors.notificationIcon,
-            size: 22.sp,
+            size: 24.sp,
           ),
           onPressed: () {
-            AppLogger.d("🔔 UI: User clicked notifications in ProductList");
+            AppLogger.d("🔔 Notification clicked in ProductList");
           },
         ),
       ],
     );
   }
 
-  Widget _buildProductList(List<dynamic> products) {
+  @override
+  Size get preferredSize => Size.fromHeight(AppBar().preferredSize.height);
+}
+
+class _LoadingWidget extends StatelessWidget {
+  const _LoadingWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: CircularProgressIndicator(
+        color: AppColors.primary,
+        strokeWidth: 3,
+      ),
+    );
+  }
+}
+
+class _ProductListWidget extends StatelessWidget {
+  final List<ProductModel> products;
+
+  const _ProductListWidget({required this.products});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (products.isEmpty) {
-      AppLogger.i("ℹ️ UI: List is empty after search/filter");
       return Center(
-        child: PrimaryText('No products match your search', fontSize: 14.sp),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.search_off_rounded,
+              size: 64.sp,
+              color: AppColors.textMuted,
+            ),
+            AppSizes.h16,
+            PrimaryText(
+              l10n.noProductsFound,
+              fontSize: 16.sp,
+              color: AppColors.textMuted,
+            ),
+          ],
+        ),
       );
     }
+
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -114,16 +153,52 @@ class ProductListScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildErrorWidget(String message) {
+class _ErrorWidget extends StatelessWidget {
+  final String message;
+  final VoidCallback onRetry;
+
+  const _ErrorWidget({required this.message, required this.onRetry});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.error_outline, color: AppColors.error, size: 40.sp),
-          AppSizes.h8,
-          PrimaryText(message, fontSize: 14.sp, fontWeight: FontWeight.bold),
-        ],
+      child: Padding(
+        padding: EdgeInsets.all(24.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline_rounded,
+              color: AppColors.error,
+              size: 50.sp,
+            ),
+            AppSizes.h16,
+            PrimaryText(
+              message,
+              fontSize: 14.sp,
+              textAlign: TextAlign.center,
+              color: AppColors.textMain,
+            ),
+            AppSizes.h24,
+            SizedBox(
+              width: 140.w,
+              child: ElevatedButton(
+                onPressed: onRetry,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                ),
+                child: PrimaryText(l10n.retry, color: Colors.white),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

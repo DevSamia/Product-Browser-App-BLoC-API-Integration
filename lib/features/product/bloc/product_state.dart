@@ -1,20 +1,19 @@
-import '../../../core/imports/common_imports.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-sealed class ProductState {}
+import '../models/product_model.dart';
 
-final class ProductInitial extends ProductState {}
+part 'product_state.freezed.dart';
 
-final class ProductLoading extends ProductState {}
+@freezed
+class ProductState with _$ProductState {
+  const factory ProductState.initial() = _Initial;
 
-final class ProductLoaded extends ProductState {
-  final List<ProductModel> allProducts;
-  final List<ProductModel> filteredProducts;
+  const factory ProductState.loading() = _Loading;
 
-  ProductLoaded({required this.allProducts, required this.filteredProducts});
-}
+  const factory ProductState.loaded({
+    required List<ProductModel> allProducts,
+    required List<ProductModel> filteredProducts,
+  }) = _Loaded;
 
-final class ProductError extends ProductState {
-  final String message;
-  ProductError(this.message);
+  const factory ProductState.error({required String message}) = _Error;
 }

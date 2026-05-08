@@ -1,4 +1,5 @@
 import '../../../../core/imports/common_imports.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class ListHeader extends StatelessWidget {
   final int count;
@@ -6,6 +7,8 @@ class ListHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Padding(
       padding: EdgeInsets.only(top: 8.h),
       child: Column(
@@ -15,22 +18,28 @@ class ListHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               PrimaryText(
-                'Discover whats best',
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w800,
+                l10n.discoverBest,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: AppColors.textMain,
               ),
-              PrimaryText(
-                'View all',
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w600,
-                color: AppColors.secondary,
+              TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                child: PrimaryText(
+                  l10n.viewAll,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.secondary,
+                ),
               ),
             ],
           ),
           PrimaryText(
-            'was found $count products',
-            fontSize: 11.sp,
-            color: AppColors.gray,
+            l10n.productsFound(count),
+            fontSize: 12.sp,
+            color: AppColors.textMuted,
+            fontWeight: FontWeight.w500,
           ),
         ],
       ),

@@ -1,22 +1,27 @@
 import '../../../../../core/imports/common_imports.dart';
+import '../../../../../l10n/app_localizations.dart';
 
 class ProductFeaturesRow extends StatelessWidget {
   const ProductFeaturesRow({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    final l10n = AppLocalizations.of(context)!;
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         _FeatureIconItem(
           icon: Icons.local_shipping_outlined,
-          text: "Fast shipping",
+          text: l10n.fastShipping,
         ),
         _FeatureIconItem(
           icon: Icons.verified_user_outlined,
-          text: "Original guarantee",
+          text: l10n.originalGuarantee,
         ),
-        _FeatureIconItem(icon: Icons.history_rounded, text: "Easy returns"),
+        _FeatureIconItem(
+          icon: Icons.history_rounded, 
+          text: l10n.easyReturns,
+        ),
       ],
     );
   }
