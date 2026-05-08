@@ -36,7 +36,7 @@ class FirestoreChatRepository implements ChatRepository {
         .collection('messages')
         .doc();
 
-    final message = MessageModel(
+    final message = Message(
       id: docRef.id,
       productId: productId,
       senderUsername: senderUsername,
@@ -44,6 +44,6 @@ class FirestoreChatRepository implements ChatRepository {
       createdAt: DateTime.now(),
     );
 
-    await docRef.set(message.toMap());
+    await docRef.set(MessageModel.toMap(message));
   }
 }

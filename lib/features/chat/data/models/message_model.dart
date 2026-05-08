@@ -1,18 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../domain/entities/message.dart';
 
-class MessageModel extends Message {
-  const MessageModel({
-    required super.id,
-    required super.productId,
-    required super.senderUsername,
-    required super.text,
-    required super.createdAt,
-  });
+class MessageModel {
+  factory MessageModel() => throw UnimplementedError();
 
-  factory MessageModel.fromFirestore(DocumentSnapshot doc) {
+  static Message fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
-    return MessageModel(
+    return Message(
       id: doc.id,
       productId: data['productId'] ?? '',
       senderUsername: data['senderUsername'] ?? '',
@@ -21,13 +16,12 @@ class MessageModel extends Message {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  static Map<String, dynamic> toMap(Message message) {
     return {
-      'id': id,
-      'productId': productId,
-      'senderUsername': senderUsername,
-      'text': text,
-      'createdAt': Timestamp.fromDate(createdAt),
+      'productId': message.productId,
+      'senderUsername': message.senderUsername,
+      'text': message.text,
+      'createdAt': Timestamp.fromDate(message.createdAt),
     };
   }
 }

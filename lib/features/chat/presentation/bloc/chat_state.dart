@@ -1,19 +1,12 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/message.dart';
 
-abstract class ChatState {
-  const ChatState();
-}
+part 'chat_state.freezed.dart';
 
-class ChatInitial extends ChatState {}
-
-class ChatLoading extends ChatState {}
-
-class ChatLoaded extends ChatState {
-  final List<Message> messages;
-  const ChatLoaded(this.messages);
-}
-
-class ChatError extends ChatState {
-  final String message;
-  const ChatError(this.message);
+@freezed
+class ChatState with _$ChatState {
+  const factory ChatState.initial() = ChatInitial;
+  const factory ChatState.loading() = ChatLoading;
+  const factory ChatState.loaded(List<Message> messages) = ChatLoaded;
+  const factory ChatState.error(String message) = ChatError;
 }

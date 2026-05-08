@@ -23,7 +23,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }) : _watchMessagesUseCase = watchMessagesUseCase,
        _sendMessageUseCase = sendMessageUseCase,
        _prefs = prefs,
-       super(ChatInitial()) {
+       super(const ChatState.initial()) {
     on<WatchMessagesEvent>(_onWatchMessages);
     on<MessagesUpdatedEvent>(_onMessagesUpdated);
     on<SendMessageEvent>(_onSendMessage);
@@ -33,20 +33,19 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     WatchMessagesEvent event,
     Emitter<ChatState> emit,
   ) async {
-    emit(ChatLoading());
+    emit(const ChatState.loading());
 
-    // تأكد من توليد اسم المستخدم فور فتح المحادثة إذا لم يكن موجوداً
     await _getOrGenerateUsername();
 
     await _messagesSubscription?.cancel();
     _messagesSubscription = _watchMessagesUseCase(event.productId).listen(
-      (messages) => add(MessagesUpdatedEvent(messages)),
-      onError: (error) => emit(ChatError(error.toString())),
+      (messages) => add(ChatEvent.messagesUpdated(messages)),
+      onError: (error) => emit(ChatState.error(error.toString())),
     );
   }
 
   void _onMessagesUpdated(MessagesUpdatedEvent event, Emitter<ChatState> emit) {
-    emit(ChatLoaded(List<Message>.from(event.messages)));
+    emit(ChatState.loaded(List<Message>.from(event.messages)));
   }
 
   Future<void> _onSendMessage(
@@ -63,7 +62,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         text: event.text,
       );
     } catch (e) {
-      // يمكن إضافة حالة خطأ هنا إذا لزم الأمر
+      // Error handling
     }
   }
 

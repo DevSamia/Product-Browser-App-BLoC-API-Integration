@@ -1,23 +1,14 @@
-import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../domain/entities/message.dart';
 
-@immutable
-abstract class ChatEvent {
-  const ChatEvent();
-}
+part 'chat_event.freezed.dart';
 
-class WatchMessagesEvent extends ChatEvent {
-  final String productId;
-  const WatchMessagesEvent(this.productId);
-}
-
-class SendMessageEvent extends ChatEvent {
-  final String text;
-  final String productId;
-  const SendMessageEvent(this.text, this.productId);
-}
-
-class MessagesUpdatedEvent extends ChatEvent {
-  final List<Message> messages;
-  const MessagesUpdatedEvent(this.messages);
+@freezed
+class ChatEvent with _$ChatEvent {
+  const factory ChatEvent.watchMessages(String productId) = WatchMessagesEvent;
+  const factory ChatEvent.sendMessage(String text, String productId) =
+      SendMessageEvent;
+  const factory ChatEvent.messagesUpdated(List<Message> messages) =
+      MessagesUpdatedEvent;
 }

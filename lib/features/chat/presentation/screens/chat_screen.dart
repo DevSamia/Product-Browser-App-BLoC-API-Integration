@@ -16,8 +16,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    // بدء الاستماع للرسائل فور فتح الشاشة
-    context.read<ChatBloc>().add(WatchMessagesEvent(widget.productId));
+    context.read<ChatBloc>().add(ChatEvent.watchMessages(widget.productId));
   }
 
   @override
@@ -28,7 +27,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // الوصول لـ SharedPreferences عبر getIt الموحد
     final String currentUsername =
         getIt<SharedPreferences>().getString('chat_username') ?? '';
 
@@ -39,37 +37,31 @@ class _ChatScreenState extends State<ChatScreen> {
           Expanded(
             child: BlocBuilder<ChatBloc, ChatState>(
               builder: (context, state) {
-                if (state is ChatLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (state is ChatError) {
-                  return Center(child: Text("Error: ${state.message}"));
-                }
-
-                if (state is ChatLoaded) {
-                  final messages = state.messages;
-
-                  if (messages.isEmpty) {
-                    return const Center(
-                      child: Text("No messages yet. Start chatting!"),
-                    );
-                  }
-
-                  return ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final message = messages[index];
-                      return MessageBubble(
-                        message: message,
-                        isMe: message.senderUsername == currentUsername,
+                return state.when(
+                  initial: () => const SizedBox.shrink(),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (message) => Center(child: Text("Error: $message")),
+                  loaded: (messages) {
+                    if (messages.isEmpty) {
+                      return const Center(
+                        child: Text("No messages yet. Start chatting!"),
                       );
-                    },
-                  );
-                }
+                    }
 
-                return const SizedBox.shrink();
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        final message = messages[index];
+                        return MessageBubble(
+                          message: message,
+                          isMe: message.senderUsername == currentUsername,
+                        );
+                      },
+                    );
+                  },
+                );
               },
             ),
           ),
@@ -95,8 +87,11 @@ class _ChatScreenState extends State<ChatScreen> {
             onPressed: () {
               if (_controller.text.trim().isNotEmpty) {
                 context.read<ChatBloc>().add(
-                      SendMessageEvent(_controller.text.trim(), widget.productId),
-                    );
+                  ChatEvent.sendMessage(
+                    _controller.text.trim(),
+                    widget.productId,
+                  ),
+                );
                 _controller.clear();
               }
             },
