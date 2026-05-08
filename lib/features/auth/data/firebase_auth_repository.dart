@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
 import '../../../core/imports/common_imports.dart';
 
 class FirebaseAuthRepository implements AuthRepository {
@@ -157,22 +155,17 @@ class FirebaseAuthRepository implements AuthRepository {
     AppLogger.i("Uploading profile image for UID: ${user.uid}");
     try {
       final storageRef = _storage.ref().child('profile_images/${user.uid}.jpg');
-      
-      // Upload with metadata to ensure correct content type
       final uploadTask = storageRef.putFile(
         imageFile,
         SettableMetadata(contentType: 'image/jpeg'),
       );
 
-      // Wait for task to complete and get snapshot
       final snapshot = await uploadTask;
-      
-      // Get download URL from the completed task's reference
       final downloadUrl = await snapshot.ref.getDownloadURL();
 
       await user.updatePhotoURL(downloadUrl);
       await user.reload();
-      
+
       AppLogger.d("Profile image updated successfully. URL: $downloadUrl");
     } on FirebaseException catch (e) {
       AppLogger.e("Firebase Storage Error [${e.code}]: ${e.message}", e);

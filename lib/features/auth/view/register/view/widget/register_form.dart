@@ -1,4 +1,7 @@
+import 'package:product_browser_app/features/auth/view/register/view/widget/register_button.dart';
+
 import '/core/imports/common_imports.dart';
+import '../../../../../../widgets/custom_text_field.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});

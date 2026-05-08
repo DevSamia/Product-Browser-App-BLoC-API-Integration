@@ -1,6 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../domain/entities/app_user.dart';
+import '../../../core/imports/common_imports.dart';
 
 part 'auth_state.freezed.dart';
 

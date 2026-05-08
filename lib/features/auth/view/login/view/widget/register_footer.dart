@@ -5,8 +5,10 @@ class RegisterFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 4.w,
       children: [
         PrimaryText(
           context.l10n.dontHaveAccount,

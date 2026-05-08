@@ -31,11 +31,14 @@ class GoogleSignInButton extends StatelessWidget {
             children: [
               Image.asset(AppImagesConstants.googleIcon, height: 24.h),
               SizedBox(width: 12.w),
-              PrimaryText(
-                context.l10n.signInWithGoogle,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textColorForSignInWithGoogle,
+              Flexible(
+                child: PrimaryText(
+                  context.l10n.signInWithGoogle,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textColorForSignInWithGoogle,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ],
           ),

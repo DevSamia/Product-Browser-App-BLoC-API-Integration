@@ -8,6 +8,8 @@ class PrimaryText extends StatelessWidget {
   final Color? color;
   final FontWeight? fontWeight;
   final TextAlign? textAlign;
+  final TextOverflow? overflow;
+  final int? maxLines;
 
   const PrimaryText(
     this.text, {
@@ -18,6 +20,8 @@ class PrimaryText extends StatelessWidget {
     this.textAlign,
     this.heightText,
     this.letterSpacing,
+    this.overflow,
+    this.maxLines,
   });
 
   @override
@@ -25,6 +29,8 @@ class PrimaryText extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign,
+      overflow: overflow, // تمريرها للـ Text الأصلي
+      maxLines: maxLines,
       style: TextStyle(
         fontSize: fontSize ?? 14.sp,
         fontFamily: 'Cairo',

@@ -1,4 +1,5 @@
 import '../../../../../../core/imports/common_imports.dart';
+import '../../../../../../widgets/custom_text_field.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -106,6 +107,7 @@ class _LoginFormState extends State<LoginForm> {
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
                   color: AppColors.primary,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
@@ -132,11 +134,14 @@ class _LoginFormState extends State<LoginForm> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      PrimaryText(
-                        context.l10n.signIn,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.textSignInButton,
+                      Flexible(
+                        child: PrimaryText(
+                          context.l10n.signIn,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.textSignInButton,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       AppSizes.w8,
                       const Icon(

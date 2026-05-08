@@ -32,6 +32,12 @@ export 'package:product_browser_app/features/auth/domain/usecases/get_current_us
 export 'package:product_browser_app/features/auth/domain/usecases/login_usecase.dart';
 export 'package:product_browser_app/features/auth/domain/usecases/register_usecase.dart';
 export 'package:product_browser_app/features/auth/domain/usecases/update_profile_usecase.dart';
+// Features: Auth - Edit Profile
+export 'package:product_browser_app/features/auth/view/edit_profile/edit_profile_screen.dart';
+export 'package:product_browser_app/features/auth/view/edit_profile/view/widget/account_access_section.dart';
+export 'package:product_browser_app/features/auth/view/edit_profile/view/widget/account_details_card.dart';
+export 'package:product_browser_app/features/auth/view/edit_profile/view/widget/edit_profile_form.dart';
+export 'package:product_browser_app/features/auth/view/edit_profile/view/widget/edit_profile_header.dart';
 export 'package:product_browser_app/features/auth/view/login/view/login_screen.dart';
 export 'package:product_browser_app/features/auth/view/login/view/widget/app_logo.dart';
 export 'package:product_browser_app/features/auth/view/login/view/widget/google_sign_in_button.dart';
@@ -45,13 +51,6 @@ export 'package:product_browser_app/features/auth/view/register/view/widget/regi
 export 'package:product_browser_app/features/auth/view/register/view/widget/register_form.dart';
 export 'package:product_browser_app/features/auth/view/register/view/widget/register_header.dart';
 export 'package:product_browser_app/features/auth/view/register/view/widget/register_security_footer.dart';
-export 'package:product_browser_app/features/auth/view/register/view/widget/register_terms_and_conditions.dart';
-// Features: Auth - Edit Profile
-export 'package:product_browser_app/features/auth/view/edit_profile/edit_profile_screen.dart';
-export 'package:product_browser_app/features/auth/view/edit_profile/view/widget/account_access_section.dart';
-export 'package:product_browser_app/features/auth/view/edit_profile/view/widget/account_details_card.dart';
-export 'package:product_browser_app/features/auth/view/edit_profile/view/widget/edit_profile_form.dart';
-export 'package:product_browser_app/features/auth/view/edit_profile/view/widget/edit_profile_header.dart';
 // Features: Cart
 export 'package:product_browser_app/features/cart/bloc/cart_bloc.dart';
 export 'package:product_browser_app/features/cart/bloc/cart_event.dart';
