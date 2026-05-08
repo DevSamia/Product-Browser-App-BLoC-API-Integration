@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:product_browser_app/core/imports/common_imports.dart';
 
+import '../../../../domain/entities/app_user.dart';
+
 class EditProfileHeader extends StatelessWidget {
   final AppUser? user;
   const EditProfileHeader({super.key, this.user});

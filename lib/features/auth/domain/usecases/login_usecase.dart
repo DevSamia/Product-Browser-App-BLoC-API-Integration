@@ -1,3 +1,4 @@
+import '../../../../core/errors/exceptions.dart';
 import '../../../../core/imports/common_imports.dart';
 
 class LoginUseCase {
@@ -8,6 +9,10 @@ class LoginUseCase {
   Future<AppUser?> execute(String email, String password) async {
     AppLogger.i("LoginUseCase: Executing login for email: $email");
 
+    if (email.isEmpty) {
+      throw ValidationException("Email cannot be empty");
+    }
+
     try {
       final user = await repository.login(email, password);
 
@@ -15,12 +20,15 @@ class LoginUseCase {
         AppLogger.d("LoginUseCase: Success for user ID: ${user.id}");
       } else {
         AppLogger.w("LoginUseCase: Repository returned a null user");
+        throw AuthException("Invalid credentials");
       }
 
       return user;
+    } on AuthException {
+      rethrow;
     } catch (e) {
       AppLogger.e("LoginUseCase: Execution error", e);
-      rethrow;
+      throw AuthException(e.toString());
     }
   }
 }

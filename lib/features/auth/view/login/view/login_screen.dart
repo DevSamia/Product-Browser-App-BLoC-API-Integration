@@ -1,4 +1,3 @@
-import '/core/errors/error_mapper.dart';
 import '../../../../../../core/imports/common_imports.dart';
 
 class LoginScreen extends StatelessWidget {

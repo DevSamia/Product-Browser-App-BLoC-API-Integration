@@ -7,14 +7,19 @@ class SocialDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: Divider(color: AppColors.dividerSignIn, thickness: 1)),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: PrimaryText(
-            context.l10n.orContinueWith,
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w700,
-            color: AppColors.continueText,
+        const Expanded(
+          child: Divider(color: AppColors.dividerSignIn, thickness: 1),
+        ),
+        Flexible(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: PrimaryText(
+              context.l10n.orContinueWith,
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.continueText,
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         const Expanded(

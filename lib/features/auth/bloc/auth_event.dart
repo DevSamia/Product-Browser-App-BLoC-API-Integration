@@ -1,5 +1,4 @@
-import 'dart:io';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../../core/imports/common_imports.dart';
 
 part 'auth_event.freezed.dart';
 
