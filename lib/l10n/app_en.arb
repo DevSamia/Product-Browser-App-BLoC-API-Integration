@@ -69,5 +69,23 @@
   "promoSubtitle": "Get up to 40% off on the fashion department",
   "shopNow": "Shop now",
   "failedToLoadCategories": "Failed to load categories. Please try again later.",
-  "tryAgain": "Try Again"
+  "tryAgain": "Try Again",
+  "failedToLoadCategories": "Failed to load categories. Please try again later.",
+  "tryAgain": "Try Again",
+  "failedToLoadProducts": "Failed to load products, please try again",
+  "discoverBest": "Discover Best Products",
+  "viewAll": "View All",
+  "productsFound": "{count} products found",
+  "currency": "$",
+  "fastShipping": "Fast Shipping",
+  "originalGuarantee": "100% Original",
+  "easyReturns": "Easy Returns",
+    "categories": "Category",
+    "dimensions": "Dimensions",
+    "brand": "Brand",
+    "weight": "Weight",
+      "retry": "Retry",
+      "searchInCategory": "Search in {categoryName}...",
+      "noProductsFound": "No products found in this category"
+
 }

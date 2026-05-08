@@ -1,7 +1,10 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'app_router.dart';
+import 'bottom_navigation_bar.dart';
 import 'core/di/injection_container.dart';
 import 'core/errors/app_bloc_observer.dart';
 import 'core/imports/common_imports.dart';

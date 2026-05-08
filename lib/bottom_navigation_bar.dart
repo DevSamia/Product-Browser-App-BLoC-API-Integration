@@ -1,5 +1,8 @@
+import 'package:product_browser_app/widgets/custom_bottom_nav_item.dart';
+
+import 'core/di/injection_container.dart';
 import 'core/imports/common_imports.dart';
-import 'features/auth/view/edit_profile/edit_profile_screen.dart';
+import 'features/product/view/product_screen.dart';
 
 class BottomNavigationBarScreen extends StatefulWidget {
   const BottomNavigationBarScreen({super.key});

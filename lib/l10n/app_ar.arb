@@ -69,5 +69,20 @@
   "promoSubtitle": "احصل على خصم يصل إلى 40% في قسم الأزياء",
   "shopNow": "تسوق الآن",
   "failedToLoadCategories": "فشل تحميل الأقسام. يرجى المحاولة لاحقاً.",
-  "tryAgain": "إعادة المحاولة"
+  "tryAgain": "إعادة المحاولة",
+  "failedToLoadProducts": "فشل تحميل المنتجات. يرجى المحاولة مرة أخرى.",
+    "discoverBest": "اكتشف أفضل المنتجات",
+      "viewAll": "عرض الكل",
+      "discoverBest": "اكتشف أفضل المنتجات",
+      "productsFound": "تم العثور على {count} من المنتجات",
+      "currency": "ر.س",
+        "fastShipping": "شحن سريع",
+        "originalGuarantee": "أصلي 100%",  "easyReturns": "إرجاع سهل",
+          "categories": "القسم",
+          "dimensions": "الأبعاد",
+          "brand": "العلامة التجارية",
+          "weight": "الوزن",
+            "retry": "إعادة المحاولة",
+            "searchInCategory": "البحث في {categoryName}...",
+            "noProductsFound": "لا توجد منتجات في هذا القسم"
 }

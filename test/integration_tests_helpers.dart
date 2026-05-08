@@ -1,8 +1,9 @@
 /// Integration Tests Helper
-/// 
+///
 /// هذا الملف يحتوي على مساعدات وأمثلة لكتابة اختبارات Integration
 /// والتي تختبر التفاعل بين عدة components معاً
 
+import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:product_browser_app/features/auth/domain/entities/app_user.dart';
@@ -13,6 +14,7 @@ import 'package:product_browser_app/features/chat/domain/repositories/chat_repos
 
 // Mock Repositories
 class MockAuthRepository extends Mock implements AuthRepository {}
+
 class MockChatRepository extends Mock implements ChatRepository {}
 
 void main() {
@@ -35,8 +37,9 @@ void main() {
 
     test('Complete login flow - from UI to Repository', () async {
       // Arrange: Setup repository mock
-      when(() => mockAuthRepository.login(testEmail, testPassword))
-          .thenAnswer((_) async => testUser);
+      when(
+        () => mockAuthRepository.login(testEmail, testPassword),
+      ).thenAnswer((_) async => testUser);
 
       // Act: Execute login through UseCase
       final result = await loginUseCase.execute(testEmail, testPassword);
@@ -45,7 +48,7 @@ void main() {
       expect(result, equals(testUser));
       expect(result?.email, equals(testEmail));
       expect(result?.username, equals('integrationuser'));
-      
+
       // Verify repository call
       verify(() => mockAuthRepository.login(testEmail, testPassword)).called(1);
     });
@@ -53,8 +56,9 @@ void main() {
     test('Login failure flow with proper error handling', () async {
       // Arrange
       final exception = Exception('Invalid credentials');
-      when(() => mockAuthRepository.login(testEmail, testPassword))
-          .thenThrow(exception);
+      when(
+        () => mockAuthRepository.login(testEmail, testPassword),
+      ).thenThrow(exception);
 
       // Act & Assert
       expect(
@@ -66,12 +70,12 @@ void main() {
     test('Multiple login attempts with different credentials', () async {
       // Arrange
       final users = {
-        'user1@test.com': AppUser(
+        'user1@test.com': const AppUser(
           id: '1',
           email: 'user1@test.com',
           username: 'user1',
         ),
-        'user2@test.com': AppUser(
+        'user2@test.com': const AppUser(
           id: '2',
           email: 'user2@test.com',
           username: 'user2',
@@ -80,8 +84,9 @@ void main() {
 
       // Act & Assert
       for (var email in users.keys) {
-        when(() => mockAuthRepository.login(email, testPassword))
-            .thenAnswer((_) async => users[email]);
+        when(
+          () => mockAuthRepository.login(email, testPassword),
+        ).thenAnswer((_) async => users[email]);
 
         final result = await loginUseCase.execute(email, testPassword);
         expect(result?.email, equals(email));
@@ -94,19 +99,19 @@ void main() {
 
     const testProductId = 'prod_123';
     final testMessages = [
-      const Message(
+      Message(
         id: '1',
         productId: testProductId,
         senderUsername: 'user1',
         text: 'First message',
-        createdAt: null,
+        createdAt: DateTime(2023, 1, 1),
       ),
-      const Message(
+      Message(
         id: '2',
         productId: testProductId,
         senderUsername: 'user2',
         text: 'Second message',
-        createdAt: null,
+        createdAt: DateTime(2023, 1, 1),
       ),
     ];
 
@@ -116,14 +121,17 @@ void main() {
 
     test('Complete message watching and sending flow', () async {
       // Arrange: Setup watchers
-      when(() => mockChatRepository.watchMessages(testProductId))
-          .thenAnswer((_) => Stream.value(testMessages));
-      
-      when(() => mockChatRepository.sendMessage(
-        productId: testProductId,
-        senderUsername: 'user3',
-        text: 'New message',
-      )).thenAnswer((_) async {});
+      when(
+        () => mockChatRepository.watchMessages(testProductId),
+      ).thenAnswer((_) => Stream.value(testMessages));
+
+      when(
+        () => mockChatRepository.sendMessage(
+          productId: testProductId,
+          senderUsername: 'user3',
+          text: 'New message',
+        ),
+      ).thenAnswer((_) async {});
 
       // Act: Watch messages
       final messagesStream = mockChatRepository.watchMessages(testProductId);
@@ -139,19 +147,22 @@ void main() {
       // Assert
       expect(initialMessages.length, equals(2));
       verify(() => mockChatRepository.watchMessages(testProductId)).called(1);
-      verify(() => mockChatRepository.sendMessage(
-        productId: testProductId,
-        senderUsername: 'user3',
-        text: 'New message',
-      )).called(1);
+      verify(
+        () => mockChatRepository.sendMessage(
+          productId: testProductId,
+          senderUsername: 'user3',
+          text: 'New message',
+        ),
+      ).called(1);
     });
 
     test('Real-time message updates simulation', () async {
       // Arrange: Setup streaming behavior
       final controller = StreamController<List<Message>>();
 
-      when(() => mockChatRepository.watchMessages(testProductId))
-          .thenAnswer((_) => controller.stream);
+      when(
+        () => mockChatRepository.watchMessages(testProductId),
+      ).thenAnswer((_) => controller.stream);
 
       // Act: Start watching
       final messages = mockChatRepository.watchMessages(testProductId);
@@ -197,10 +208,12 @@ void main() {
         username: 'user2',
       );
 
-      when(() => mockAuthRepository.login('user1@test.com', 'pass'))
-          .thenAnswer((_) async => user1);
-      when(() => mockAuthRepository.login('user2@test.com', 'pass'))
-          .thenAnswer((_) async => user2);
+      when(
+        () => mockAuthRepository.login('user1@test.com', 'pass'),
+      ).thenAnswer((_) async => user1);
+      when(
+        () => mockAuthRepository.login('user2@test.com', 'pass'),
+      ).thenAnswer((_) async => user2);
 
       // Act: Concurrent operations
       final results = await Future.wait([
@@ -248,8 +261,9 @@ void main() {
       }
 
       // Reset mock for second attempt
-      when(() => mockAuthRepository.login(any(), any()))
-          .thenAnswer((_) async => testUser);
+      when(
+        () => mockAuthRepository.login(any(), any()),
+      ).thenAnswer((_) async => testUser);
 
       // Act: Second attempt succeeds
       final result = await loginUseCase.execute('test@example.com', 'password');
@@ -270,13 +284,13 @@ void main() {
       );
 
       // Simulate storing and retrieving
-      AppUser? storedUser = testUser;
+      AppUser storedUser = testUser;
 
       // Verify data integrity
-      expect(storedUser?.id, equals('123'));
-      expect(storedUser?.email, equals('test@example.com'));
-      expect(storedUser?.username, equals('testuser'));
-      expect(storedUser?.profileImageUrl, isNotNull);
+      expect(storedUser.id, equals('123'));
+      expect(storedUser.email, equals('test@example.com'));
+      expect(storedUser.username, equals('testuser'));
+      expect(storedUser.profileImageUrl, isNotNull);
     });
   });
 }
@@ -327,18 +341,14 @@ class TestDataBuilder {
       productId: productId,
       senderUsername: senderUsername,
       text: text,
-      createdAt: createdAt,
+      createdAt: createdAt ?? DateTime.now(),
     );
   }
 
   static List<Message> createTestMessages(int count) {
     return List.generate(
       count,
-      (index) => createTestMessage(
-        id: 'msg_$index',
-        text: 'Message $index',
-      ),
+      (index) => createTestMessage(id: 'msg_$index', text: 'Message $index'),
     );
   }
 }
-

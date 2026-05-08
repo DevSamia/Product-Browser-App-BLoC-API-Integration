@@ -473,7 +473,7 @@ abstract class AppLocalizations {
   /// No description provided for @categories.
   ///
   /// In en, this message translates to:
-  /// **'Categories'**
+  /// **'Category'**
   String get categories;
 
   /// No description provided for @welcomeTo.
@@ -523,6 +523,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try Again'**
   String get tryAgain;
+
+  /// No description provided for @failedToLoadProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load products, please try again'**
+  String get failedToLoadProducts;
+
+  /// No description provided for @discoverBest.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover Best Products'**
+  String get discoverBest;
+
+  /// No description provided for @viewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
+  /// No description provided for @productsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} products found'**
+  String productsFound(Object count);
+
+  /// No description provided for @currency.
+  ///
+  /// In en, this message translates to:
+  /// **'\$'**
+  String get currency;
+
+  /// No description provided for @fastShipping.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast Shipping'**
+  String get fastShipping;
+
+  /// No description provided for @originalGuarantee.
+  ///
+  /// In en, this message translates to:
+  /// **'100% Original'**
+  String get originalGuarantee;
+
+  /// No description provided for @easyReturns.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy Returns'**
+  String get easyReturns;
+
+  /// No description provided for @dimensions.
+  ///
+  /// In en, this message translates to:
+  /// **'Dimensions'**
+  String get dimensions;
+
+  /// No description provided for @brand.
+  ///
+  /// In en, this message translates to:
+  /// **'Brand'**
+  String get brand;
+
+  /// No description provided for @weight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get weight;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @searchInCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Search in {categoryName}...'**
+  String searchInCategory(Object categoryName);
+
+  /// No description provided for @noProductsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No products found in this category'**
+  String get noProductsFound;
 }
 
 class _AppLocalizationsDelegate

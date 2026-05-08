@@ -1,5 +1,8 @@
 import '/core/imports/common_imports.dart';
-import 'features/auth/view/edit_profile/edit_profile_screen.dart';
+import 'bottom_navigation_bar.dart';
+import 'core/di/injection_container.dart';
+import 'features/auth/view/register/view/register_screen.dart';
+import 'features/product/view/product_screen.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
@@ -8,7 +11,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<AuthBloc>(),
-            child: LoginScreen(),
+            child: const LoginScreen(),
           ),
         );
 
@@ -16,7 +19,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<AuthBloc>(),
-            child: RegisterScreen(),
+            child: const RegisterScreen(),
           ),
         );
 
@@ -51,7 +54,7 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) =>
                 getIt<ProductBloc>()
-                  ..add(LoadProductsByCategoryEvent(categoryName)),
+                  ..add(ProductEvent.loadByCategory(categoryName)),
             child: ProductListScreen(categoryName: categoryName),
           ),
         );

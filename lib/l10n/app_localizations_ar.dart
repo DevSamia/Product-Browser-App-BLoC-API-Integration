@@ -204,7 +204,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get errorUnknown => 'حدث خطأ غير معروف. يرجى المحاولة مرة أخرى.';
 
   @override
-  String get categories => 'الأقسام';
+  String get categories => 'القسم';
 
   @override
   String get welcomeTo => 'مرحباً بك في ';
@@ -231,4 +231,51 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tryAgain => 'إعادة المحاولة';
+
+  @override
+  String get failedToLoadProducts =>
+      'فشل تحميل المنتجات. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get discoverBest => 'اكتشف أفضل المنتجات';
+
+  @override
+  String get viewAll => 'عرض الكل';
+
+  @override
+  String productsFound(Object count) {
+    return 'تم العثور على $count من المنتجات';
+  }
+
+  @override
+  String get currency => 'ر.س';
+
+  @override
+  String get fastShipping => 'شحن سريع';
+
+  @override
+  String get originalGuarantee => 'أصلي 100%';
+
+  @override
+  String get easyReturns => 'إرجاع سهل';
+
+  @override
+  String get dimensions => 'الأبعاد';
+
+  @override
+  String get brand => 'العلامة التجارية';
+
+  @override
+  String get weight => 'الوزن';
+
+  @override
+  String get retry => 'إعادة المحاولة';
+
+  @override
+  String searchInCategory(Object categoryName) {
+    return 'البحث في $categoryName...';
+  }
+
+  @override
+  String get noProductsFound => 'لا توجد منتجات في هذا القسم';
 }

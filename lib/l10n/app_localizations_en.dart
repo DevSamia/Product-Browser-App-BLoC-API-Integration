@@ -207,7 +207,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorUnknown => 'An unknown error occurred. Please try again.';
 
   @override
-  String get categories => 'Categories';
+  String get categories => 'Category';
 
   @override
   String get welcomeTo => 'Welcome to ';
@@ -234,4 +234,51 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tryAgain => 'Try Again';
+
+  @override
+  String get failedToLoadProducts =>
+      'Failed to load products, please try again';
+
+  @override
+  String get discoverBest => 'Discover Best Products';
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
+  String productsFound(Object count) {
+    return '$count products found';
+  }
+
+  @override
+  String get currency => '\$';
+
+  @override
+  String get fastShipping => 'Fast Shipping';
+
+  @override
+  String get originalGuarantee => '100% Original';
+
+  @override
+  String get easyReturns => 'Easy Returns';
+
+  @override
+  String get dimensions => 'Dimensions';
+
+  @override
+  String get brand => 'Brand';
+
+  @override
+  String get weight => 'Weight';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String searchInCategory(Object categoryName) {
+    return 'Search in $categoryName...';
+  }
+
+  @override
+  String get noProductsFound => 'No products found in this category';
 }
