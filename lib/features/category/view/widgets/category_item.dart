@@ -1,4 +1,6 @@
+import '../../../../core/di/injection_container.dart';
 import '../../../../core/imports/common_imports.dart';
+import '../../../product/view/product_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   final CategoryModel category;
@@ -37,7 +39,7 @@ class CategoryItem extends StatelessWidget {
             builder: (context) => BlocProvider(
               create: (context) =>
                   getIt<ProductBloc>()
-                    ..add(LoadProductsByCategoryEvent(category.slug)),
+                    ..add(ProductEvent.loadByCategory(category.slug)),
               child: ProductListScreen(categoryName: category.name),
             ),
           ),

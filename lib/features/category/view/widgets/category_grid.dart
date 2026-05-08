@@ -1,4 +1,5 @@
 import '../../../../core/imports/common_imports.dart';
+import 'category_item.dart';
 
 class CategoryGrid extends StatelessWidget {
   const CategoryGrid({super.key});
