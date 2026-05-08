@@ -2,6 +2,7 @@ import '../imports/common_imports.dart';
 
 class AppSizes {
   // --- Width Sizes (Ordered ASC) ---
+  static final Widget w2 = SizedBox(width: 2.w);
   static final Widget w4 = SizedBox(width: 4.w);
   static final Widget w6 = SizedBox(width: 6.w);
   static final Widget w8 = SizedBox(width: 8.w);

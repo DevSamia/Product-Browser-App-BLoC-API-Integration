@@ -1,0 +1,21 @@
+# dart_test.yaml - Configuration file for running tests
+
+# Test configuration
+test:
+  # Timeout for each test
+  timeout: 30s
+
+# Coverage configuration
+coverage:
+  cache-directory: .dart_tool/test_coverage
+  
+# Files to exclude from coverage
+excludedFiles:
+  - '**/*.g.dart'
+  - '**/*.freezed.dart'
+  - '**/main.dart'
+  - 'lib/l10n/**'
+
+# Reporter configuration
+reporters:
+  - stdout

@@ -4,9 +4,11 @@ import '../imports/common_imports.dart';
 final getIt = GetIt.instance;
 
 Future<void> initGetIt() async {
-  // --- 1. Core & External ---
   final sharedPrefs = await SharedPreferences.getInstance();
   getIt.registerLazySingleton<SharedPreferences>(() => sharedPrefs);
+  getIt.registerLazySingleton<FirebaseFirestore>(
+    () => FirebaseFirestore.instance,
+  );
 
   getIt.registerLazySingleton<Dio>(() {
     final dio = Dio(
@@ -19,7 +21,6 @@ Future<void> initGetIt() async {
     return dio;
   });
 
-  // --- 2. Web Services (Remote Data Sources) ---
   getIt.registerLazySingleton<CartWebServices>(() => CartWebServices(getIt()));
   getIt.registerLazySingleton<CategoryWebServices>(
     () => CategoryWebServices(getIt()),
@@ -27,12 +28,9 @@ Future<void> initGetIt() async {
   getIt.registerLazySingleton<ProductWebServices>(
     () => ProductWebServices(getIt()),
   );
-  getIt.registerLazySingleton<ChatWebService>(() => ChatWebService());
   getIt.registerLazySingleton<ProductDetailWebService>(
     () => ProductDetailWebService(getIt()),
   );
-
-  // --- 3. Repositories ---
   getIt.registerLazySingleton<CategoryRepository>(
     () => CategoryRepository(getIt()),
   );
@@ -42,24 +40,37 @@ Future<void> initGetIt() async {
   getIt.registerLazySingleton<CartRepository>(
     () => CartRepository(getIt<CartWebServices>(), getIt<SharedPreferences>()),
   );
-
-  // Auth Repository
   getIt.registerLazySingleton<AuthRepository>(() => FirebaseAuthRepository());
 
-  // --- 4. Use Cases ---
+  getIt.registerLazySingleton<ChatRepository>(
+    () => FirestoreChatRepository(getIt<FirebaseFirestore>()),
+  );
+
   getIt.registerLazySingleton(() => LoginUseCase(getIt()));
   getIt.registerLazySingleton(() => RegisterUseCase(getIt()));
   getIt.registerLazySingleton(() => GetCurrentUserUseCase(getIt()));
   getIt.registerLazySingleton(() => UpdateProfileUseCase(getIt()));
 
-  // --- 5. Blocs (Presentation Layer) ---
-  getIt.registerFactory(() => CategoryBloc(getIt()));
-  getIt.registerFactory(() => CartBloc(getIt()));
+  getIt.registerLazySingleton(
+    () => WatchMessagesUseCase(getIt<ChatRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => SendMessageUseCase(getIt<ChatRepository>()),
+  );
+
+  getIt.registerLazySingleton(() => CategoryBloc(getIt()));
+  getIt.registerLazySingleton(() => CartBloc(getIt()));
   getIt.registerFactory(() => ProductBloc(getIt()));
-  getIt.registerFactory(() => ChatBloc(getIt()));
   getIt.registerFactory(() => ProductDetailBloc(getIt()));
 
-  // Auth Bloc
+  getIt.registerFactory(
+    () => ChatBloc(
+      watchMessagesUseCase: getIt<WatchMessagesUseCase>(),
+      sendMessageUseCase: getIt<SendMessageUseCase>(),
+      prefs: getIt<SharedPreferences>(),
+    ),
+  );
+
   getIt.registerFactory(
     () => AuthBloc(
       loginUseCase: getIt(),
