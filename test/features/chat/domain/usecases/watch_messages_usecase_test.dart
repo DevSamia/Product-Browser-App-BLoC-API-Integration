@@ -15,6 +15,22 @@ void main() {
     useCase = WatchMessagesUseCase(mockRepository);
   });
 
+  test('يجب أن يمرر productId الصحيح إلى المستودع', () {
+    const tProductId = 'apple_iphone_15';
+
+    when(
+      () => mockRepository.watchMessages(any()),
+    ).thenAnswer((_) => const Stream.empty());
+
+    useCase.call(tProductId);
+    verify(() => mockRepository.watchMessages(tProductId)).called(1);
+  });
+
+  setUp(() {
+    mockRepository = MockChatRepository();
+    useCase = WatchMessagesUseCase(mockRepository);
+  });
+
   const testId = 'prod_1';
   final testMessages = [
     Message(
