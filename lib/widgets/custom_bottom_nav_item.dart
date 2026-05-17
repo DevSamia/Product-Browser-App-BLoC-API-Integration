@@ -12,15 +12,17 @@ class CustomBottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       height: 90,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surface,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 20.r,
-            offset: Offset(0, -5),
+            offset: const Offset(0, -5),
           ),
         ],
       ),
@@ -49,7 +51,7 @@ class CustomBottomNav extends StatelessWidget {
           ),
           _NavBarItem(
             icon: Icons.person_2_outlined,
-            label: 'MyAccount',
+            label: 'MyProfile',
             isActive: currentIndex == 3,
             onTap: () => onTap(3),
           ),
@@ -76,7 +78,9 @@ class _NavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isActive ? const Color(0xFF3F51B5) : const Color(0xFFBDBDBD);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    final color = isActive ? colorScheme.primary : colorScheme.onSurfaceVariant;
 
     return GestureDetector(
       onTap: onTap,
@@ -97,9 +101,12 @@ class _NavBarItem extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFD32F2F),
+                        color: colorScheme.error,
                         shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.white, width: 2),
+                        border: Border.all(
+                          color: colorScheme.surface,
+                          width: 2,
+                        ),
                       ),
                       constraints: const BoxConstraints(
                         minWidth: 20,
@@ -108,7 +115,7 @@ class _NavBarItem extends StatelessWidget {
                       child: PrimaryText(
                         badge!,
                         textAlign: TextAlign.center,
-                        color: Colors.white,
+                        color: colorScheme.onError,
                         fontSize: 10.sp,
                         fontWeight: FontWeight.w900,
                       ),

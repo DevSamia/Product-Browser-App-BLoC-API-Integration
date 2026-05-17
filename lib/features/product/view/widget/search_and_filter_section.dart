@@ -1,8 +1,4 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/imports/common_imports.dart';
-import '../../bloc/product_bloc.dart';
-import '../../bloc/product_event.dart';
 
 class SearchAndFilterSection extends StatelessWidget {
   final String categoryName;
@@ -10,60 +6,72 @@ class SearchAndFilterSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
-      color: AppColors.white,
+      color: colorScheme.surface,
       padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 16.h),
       child: Row(
         children: [
-          _buildFilterIcon(),
-          AppSizes.w12,
-          Expanded(
-            child: Container(
-              height: 45.h,
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(12.r),
+          Container(
+            height: 48.h,
+            width: 48.h,
+            decoration: BoxDecoration(
+              color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.tune_rounded,
+                color: colorScheme.secondary,
+                size: 22.sp,
               ),
-              child: TextField(
-                textAlignVertical: TextAlignVertical.center,
-                onChanged: (value) {
-                  context.read<ProductBloc>().add(SearchProductsEvent(value));
-                },
-                decoration: InputDecoration(
-                  hintText: 'Search in $categoryName...',
-                  isDense: true,
-                  hintStyle: TextStyle(
-                    height: 1.2,
-                    color: AppColors.gray,
-                    fontSize: 13.sp,
-                    fontFamily: 'Cairo',
-                  ),
-                  prefixIcon: Icon(
-                    Icons.search_rounded,
-                    color: AppColors.gray,
-                    size: 20.sp,
-                  ),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 10.h),
-                ),
-              ),
+              onPressed: () {
+                // Future: Add Filter Logic
+              },
             ),
           ),
+          AppSizes.w12,
+          Expanded(child: _buildSearchField(context)),
         ],
       ),
     );
   }
 
-  Widget _buildFilterIcon() {
+  Widget _buildSearchField(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       height: 48.h,
-      width: 48.h,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: AppColors.white),
       ),
-      child: Icon(Icons.tune_rounded, color: AppColors.move, size: 22.sp),
+      child: TextField(
+        textAlignVertical: TextAlignVertical.center,
+        style: TextStyle(color: colorScheme.onSurface, fontSize: 14.sp),
+        onChanged: (value) {
+          context.read<ProductBloc>().add(ProductEvent.search(value));
+        },
+        decoration: InputDecoration(
+          hintText: l10n.searchInCategory(categoryName),
+          hintStyle: TextStyle(
+            color: colorScheme.onSurfaceVariant,
+            fontSize: 14.sp,
+          ),
+          prefixIcon: Icon(
+            Icons.search_rounded,
+            color: colorScheme.onSurfaceVariant,
+            size: 20.sp,
+          ),
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
+          fillColor: Colors.transparent, // Overriding the theme's fillColor
+        ),
+      ),
     );
   }
 }

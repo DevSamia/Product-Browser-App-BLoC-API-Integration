@@ -1,157 +1,90 @@
-class ProductResponse {
-  final List<ProductModel> products;
-  final int total;
-  final int skip;
-  final int limit;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  ProductResponse({
-    required this.products,
-    required this.total,
-    required this.skip,
-    required this.limit,
-  });
+part 'product_model.freezed.dart';
+part 'product_model.g.dart';
+
+@freezed
+abstract class ProductResponse with _$ProductResponse {
+  const factory ProductResponse({
+    @Default([]) List<ProductModel> products,
+    @Default(0) int total,
+    @Default(0) int skip,
+    @Default(0) int limit,
+  }) = _ProductResponse;
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) =>
-      ProductResponse(
-        products: List<ProductModel>.from(
-          json["products"].map((x) => ProductModel.fromJson(x)),
-        ),
-        total: json["total"],
-        skip: json["skip"],
-        limit: json["limit"],
-      );
+      _$ProductResponseFromJson(json);
 }
 
-class ProductModel {
-  final int id;
-  final String title;
-  final String description;
-  final String category;
-  final double price;
-  final double discountPercentage;
-  final double rating;
-  final int stock;
-  final List<String> tags;
-  final String? brand;
-  final String sku;
-  final int weight;
-  final Dimensions dimensions;
-  final String warrantyInformation;
-  final String shippingInformation;
-  final String availabilityStatus;
-  final List<Review> reviews;
-  final String returnPolicy;
-  final int minimumOrderQuantity;
-  final Meta meta;
-  final List<String> images;
-  final String thumbnail;
+@freezed
+abstract class ProductModel with _$ProductModel {
+  const factory ProductModel({
+    @Default(0) int id,
+    @Default('') String title,
+    @Default('') String description,
+    @Default('') String category,
+    @Default(0.0) double price,
+    @Default(0.0) double discountPercentage,
+    @Default(0.0) double rating,
+    @Default(0) int stock,
+    @Default([]) List<String> tags,
+    String? brand,
+    @Default('') String sku,
+    @Default(0) int weight,
+    ProductDimensions? dimensions,
+    @Default('') String warrantyInformation,
+    @Default('') String shippingInformation,
+    @Default('') String availabilityStatus,
+    @Default([]) List<ProductReview> reviews,
+    @Default('') String returnPolicy,
+    @Default(1) int minimumOrderQuantity,
+    ProductMeta? meta,
+    @Default([]) List<String> images,
+    @Default('') String thumbnail,
+  }) = _ProductModel;
 
-  ProductModel({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.category,
-    required this.price,
-    required this.discountPercentage,
-    required this.rating,
-    required this.stock,
-    required this.tags,
-    this.brand,
-    required this.sku,
-    required this.weight,
-    required this.dimensions,
-    required this.warrantyInformation,
-    required this.shippingInformation,
-    required this.availabilityStatus,
-    required this.reviews,
-    required this.returnPolicy,
-    required this.minimumOrderQuantity,
-    required this.meta,
-    required this.images,
-    required this.thumbnail,
-  });
-
-  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
-    id: json["id"],
-    title: json["title"],
-    description: json["description"],
-    category: json["category"],
-    price: json["price"]?.toDouble(),
-    discountPercentage: json["discountPercentage"]?.toDouble(),
-    rating: json["rating"]?.toDouble(),
-    stock: json["stock"],
-    tags: List<String>.from(json["tags"].map((x) => x)),
-    brand: json["brand"],
-    sku: json["sku"],
-    weight: json["weight"],
-    dimensions: Dimensions.fromJson(json["dimensions"]),
-    warrantyInformation: json["warrantyInformation"],
-    shippingInformation: json["shippingInformation"],
-    availabilityStatus: json["availabilityStatus"],
-    reviews: List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
-    returnPolicy: json["returnPolicy"],
-    minimumOrderQuantity: json["minimumOrderQuantity"],
-    meta: Meta.fromJson(json["meta"]),
-    images: List<String>.from(json["images"].map((x) => x)),
-    thumbnail: json["thumbnail"],
-  );
+  factory ProductModel.fromJson(Map<String, dynamic> json) =>
+      _$ProductModelFromJson(json);
 }
 
-class Dimensions {
-  final double width;
-  final double height;
-  final double depth;
+@freezed
+class ProductDimensions with _$ProductDimensions {
+  const factory ProductDimensions({
+    @Default(0.0) double width,
+    @Default(0.0) double height,
+    @Default(0.0) double depth,
+  }) = _ProductDimensions;
 
-  Dimensions({required this.width, required this.height, required this.depth});
+  factory ProductDimensions.fromJson(Map<String, dynamic> json) =>
+      _$ProductDimensionsFromJson(json);
 
-  factory Dimensions.fromJson(Map<String, dynamic> json) => Dimensions(
-    width: json["width"]?.toDouble(),
-    height: json["height"]?.toDouble(),
-    depth: json["depth"]?.toDouble(),
-  );
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class Meta {
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final String barcode;
-  final String qrCode;
+@freezed
+abstract class ProductMeta with _$ProductMeta {
+  const factory ProductMeta({
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    @Default('') String barcode,
+    @Default('') String qrCode,
+  }) = _ProductMeta;
 
-  Meta({
-    required this.createdAt,
-    required this.updatedAt,
-    required this.barcode,
-    required this.qrCode,
-  });
-
-  factory Meta.fromJson(Map<String, dynamic> json) => Meta(
-    createdAt: DateTime.parse(json["createdAt"]),
-    updatedAt: DateTime.parse(json["updatedAt"]),
-    barcode: json["barcode"],
-    qrCode: json["qrCode"],
-  );
+  factory ProductMeta.fromJson(Map<String, dynamic> json) =>
+      _$ProductMetaFromJson(json);
 }
 
-class Review {
-  final int rating;
-  final String comment;
-  final DateTime date;
-  final String reviewerName;
-  final String reviewerEmail;
+@freezed
+abstract class ProductReview with _$ProductReview {
+  const factory ProductReview({
+    @Default(0) int rating,
+    @Default('') String comment,
+    DateTime? date,
+    @Default('') String reviewerName,
+    @Default('') String reviewerEmail,
+  }) = _ProductReview;
 
-  Review({
-    required this.rating,
-    required this.comment,
-    required this.date,
-    required this.reviewerName,
-    required this.reviewerEmail,
-  });
-
-  factory Review.fromJson(Map<String, dynamic> json) => Review(
-    rating: json["rating"],
-    comment: json["comment"],
-    date: DateTime.parse(json["date"]),
-    reviewerName: json["reviewerName"],
-    reviewerEmail: json["reviewerEmail"],
-  );
+  factory ProductReview.fromJson(Map<String, dynamic> json) =>
+      _$ProductReviewFromJson(json);
 }

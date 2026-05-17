@@ -1,12 +1,15 @@
 import '../../../core/imports/common_imports.dart';
+import '../../../core/theme/widgets/theme_toggle_button.dart';
 
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.surface,
       appBar: const _CustomAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -35,27 +38,33 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return AppBar(
-      backgroundColor: AppColors.white,
+      // استخدام لون السطح من الثيم
+      backgroundColor: colorScheme.surface,
       elevation: 0,
       scrolledUnderElevation: 0,
       toolbarHeight: 70,
       leading: Padding(
         padding: const EdgeInsets.only(right: 12.0),
         child: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.notifications_none_rounded,
-            color: AppColors.gray,
+            color: colorScheme.onSurface,
             size: 26,
           ),
-          onPressed: () {},
+          onPressed: () {
+            AppLogger.d("🔔 UI: User clicked notifications");
+          },
         ),
       ),
       actions: [
+        const ThemeToggleButton(),
         IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.search_rounded,
-            color: AppColors.gray,
+            color: colorScheme.onSurface,
             size: 26,
           ),
           onPressed: () {},
@@ -66,12 +75,12 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.gray,
-              borderRadius: BorderRadius.circular(10),
+              color: colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(10.r),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.bolt_rounded,
-              color: AppColors.white,
+              color: colorScheme.onPrimaryContainer,
               size: 22,
             ),
           ),
@@ -79,11 +88,10 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ],
       centerTitle: true,
       title: PrimaryText(
-        'Categories',
-        color: Color(0xFF1A1A1A),
+        context.l10n.categories,
+        color: colorScheme.onSurface,
         fontWeight: FontWeight.w800,
         fontSize: 18.sp,
-        letterSpacing: -0.5,
       ),
     );
   }

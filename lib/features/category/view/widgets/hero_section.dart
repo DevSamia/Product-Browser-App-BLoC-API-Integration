@@ -5,6 +5,8 @@ class HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       children: [
         RichText(
@@ -15,27 +17,26 @@ class HeroSection extends StatelessWidget {
               fontWeight: FontWeight.w900,
               fontFamily: 'Cairo',
               height: 1.2,
+              color: colorScheme.onSurface,
             ),
             children: [
               TextSpan(
-                text: 'Welcome to ',
-                style: TextStyle(color: AppColors.gray, fontSize: 25.sp),
+                text: "${context.l10n.welcomeTo} ",
+                style: TextStyle(fontSize: 25.sp, color: colorScheme.onSurface),
               ),
               TextSpan(
-                text: 'IndigoShop',
-                style: TextStyle(color: AppColors.move, fontSize: 25.sp),
+                text: context.l10n.indigoShop,
+                style: TextStyle(color: colorScheme.secondary, fontSize: 25.sp),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 12),
-        Text(
-          'Choose a category to browse the latest carefully selected products.',
-          style: TextStyle(
-            color: AppColors.gray2,
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w500,
-          ),
+        SizedBox(height: 12.h),
+        PrimaryText(
+          context.l10n.chooseCategorySubtitle,
+          color: colorScheme.onSurfaceVariant,
+          fontSize: 13.sp,
+          fontWeight: FontWeight.w500,
           textAlign: TextAlign.center,
         ),
       ],

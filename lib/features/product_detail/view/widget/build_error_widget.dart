@@ -1,27 +1,39 @@
 import '../../../../core/imports/common_imports.dart';
-import '../../bloc/product_detail_bloc.dart';
-import '../../bloc/product_detail_event.dart';
 
 Widget buildErrorWidget(
   BuildContext context, {
   required String message,
   required int productId,
 }) {
+  final colorScheme = Theme.of(context).colorScheme;
+
   return Center(
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Icon(Icons.error_outline, size: 60, color: Colors.red),
-        AppSizes.h16,
-        PrimaryText(message, color: Colors.red, fontSize: 16.sp),
-        AppSizes.h20,
-        ElevatedButton(
-          onPressed: () => context.read<ProductDetailBloc>().add(
-            FetchProductDetailEvent(productId),
+    child: Padding(
+      padding: EdgeInsets.all(24.w),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.error_outline, size: 60, color: colorScheme.error),
+          AppSizes.h16,
+          PrimaryText(
+            message,
+            color: colorScheme.error,
+            fontSize: 16.sp,
+            textAlign: TextAlign.center,
           ),
-          child: PrimaryText("Retry"),
-        ),
-      ],
+          AppSizes.h24,
+          ElevatedButton(
+            onPressed: () => context.read<ProductDetailBloc>().add(
+              FetchProductDetailEvent(productId),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: colorScheme.errorContainer,
+              foregroundColor: colorScheme.onErrorContainer,
+            ),
+            child: const PrimaryText("Retry", fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
     ),
   );
 }

@@ -1,17 +1,13 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../models/product_detail_model.dart';
 
-sealed class ProductDetailState {}
+part 'product_detail_state.freezed.dart';
 
-final class ProductDetailInitial extends ProductDetailState {}
-
-final class ProductDetailLoading extends ProductDetailState {}
-
-final class ProductDetailLoaded extends ProductDetailState {
-  final ProductDetailModel product;
-  ProductDetailLoaded(this.product);
-}
-
-final class ProductDetailError extends ProductDetailState {
-  final String message;
-  ProductDetailError(this.message);
+@freezed
+class ProductDetailState with _$ProductDetailState {
+  const factory ProductDetailState.initial() = _Initial;
+  const factory ProductDetailState.loading() = _Loading;
+  const factory ProductDetailState.loaded(ProductDetailModel product) = _Loaded;
+  const factory ProductDetailState.error(String message) = _Error;
 }

@@ -1,30 +1,33 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-
-import '../../../core/constants/strings.dart';
+import '../../../core/imports/common_imports.dart';
 
 class ProductWebServices {
-  late Dio dio;
+  final Dio dio;
+  ProductWebServices(this.dio);
 
-  ProductWebServices() {
-    BaseOptions options = BaseOptions(
-      baseUrl: baseUrl,
-      receiveDataWhenStatusError: true,
-      connectTimeout: const Duration(seconds: 20),
-      receiveTimeout: const Duration(seconds: 20),
+  Future<ProductResponse> getProductsByCategory(String categoryName) async {
+    final cleanCategory = categoryName.toLowerCase().trim().replaceAll(
+      ' ',
+      '-',
     );
-    dio = Dio(options);
-  }
 
-  Future<List<dynamic>> getProductsByCategory(String categoryName) async {
+    final url = "$productsByCategory$cleanCategory";
+    AppLogger.i("🌐 API Request: Fetching products from $url");
+
     try {
-      Response response = await dio.get('products/category/$categoryName');
-      return response.data['products'];
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
+      final response = await dio.get(url);
+
+      if (response.statusCode == 200) {
+        AppLogger.i("✅ API Success: Retrieved products for $cleanCategory");
+        return ProductResponse.fromJson(response.data);
+      } else {
+        AppLogger.w(
+          "⚠️ API Warning: Received status code ${response.statusCode}",
+        );
+        throw Exception("Failed to fetch products: ${response.statusCode}");
       }
-      return [];
+    } catch (e, stackTrace) {
+      AppLogger.e("❌ API Error for category: $categoryName", e, stackTrace);
+      rethrow;
     }
   }
 }

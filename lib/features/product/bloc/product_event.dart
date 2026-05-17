@@ -1,14 +1,10 @@
-import '../../../core/imports/common_imports.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-sealed class ProductEvent {}
+part 'product_event.freezed.dart';
 
-class LoadProductsByCategoryEvent extends ProductEvent {
-  final String categorySlug;
-  LoadProductsByCategoryEvent(this.categorySlug);
-}
-
-class SearchProductsEvent extends ProductEvent {
-  final String query;
-  SearchProductsEvent(this.query);
+@freezed
+class ProductEvent with _$ProductEvent {
+  const factory ProductEvent.loadByCategory(String categorySlug) =
+      _LoadByCategory;
+  const factory ProductEvent.search(String query) = _Search;
 }

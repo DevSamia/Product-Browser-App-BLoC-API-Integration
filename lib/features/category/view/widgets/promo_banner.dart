@@ -5,19 +5,21 @@ class PromoBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 32),
+      padding: EdgeInsets.symmetric(horizontal: 28.w, vertical: 32.h),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF3F51B5), Color(0xFF283593)],
+        gradient: LinearGradient(
+          colors: [colorScheme.secondary, colorScheme.secondaryContainer],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(35.r),
         boxShadow: [
           BoxShadow(
-            color: Color(0xFF3F51B5).withValues(alpha: 0.3),
+            color: colorScheme.secondary.withValues(alpha: 0.3),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -27,16 +29,16 @@ class PromoBanner extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PrimaryText(
-            'Season discount',
-            color: Colors.white,
-            fontSize: 24,
+            context.l10n.seasonDiscount,
+            color: colorScheme.onSecondary,
+            fontSize: 24.sp,
             fontWeight: FontWeight.w900,
           ),
           AppSizes.h10,
-          const PrimaryText(
-            'Get up to 40% off on the fashion department',
-            color: Color(0xFFE0E0E0),
-            fontSize: 15,
+          PrimaryText(
+            context.l10n.promoSubtitle,
+            color: colorScheme.onSecondary.withValues(alpha: 0.8),
+            fontSize: 15.sp,
             fontWeight: FontWeight.w500,
             heightText: 1.4,
           ),
@@ -44,15 +46,20 @@ class PromoBanner extends StatelessWidget {
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFFD54F),
-              foregroundColor: const Color(0xFF1A1A1A),
+              backgroundColor: colorScheme.primary,
+              foregroundColor: colorScheme.onPrimary,
               elevation: 0,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+              padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 14.h),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
               ),
             ),
-            child: PrimaryText('Shop now', fontSize: 12.sp),
+            child: PrimaryText(
+              context.l10n.shopNow,
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+              color: colorScheme.onPrimary,
+            ),
           ),
         ],
       ),

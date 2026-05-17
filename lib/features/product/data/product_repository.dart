@@ -1,18 +1,28 @@
-import 'package:product_browser_app/features/product/data/product_web_services.dart';
-
-import '../models/product_model.dart'; // تأكدي من المسار الصحيح للمودل
+import '../../../core/imports/common_imports.dart';
 
 class ProductRepository {
-  final ProductWebServices productWebServices;
+  final ProductWebServices _webServices;
 
-  ProductRepository(this.productWebServices);
+  ProductRepository(this._webServices);
 
   Future<List<ProductModel>> getProductsByCategory(String categoryName) async {
-    final List<dynamic> productsData = await productWebServices
-        .getProductsByCategory(categoryName);
+    AppLogger.d("📂 Repository: Getting products for category: $categoryName");
 
-    return productsData
-        .map((productMap) => ProductModel.fromJson(productMap))
-        .toList();
+    try {
+      final response = await _webServices.getProductsByCategory(categoryName);
+
+      AppLogger.d(
+        "✅ Repository: Successfully fetched ${response.products.length} products",
+      );
+      return response.products;
+    } catch (e, stackTrace) {
+      AppLogger.e(
+        "❌ Repository Error: Failed to fetch products by category",
+        e,
+        stackTrace,
+      );
+      // هنا يمكن مستقبلاً استخدام ErrorMapper لتحويل الخطأ لـ Failure object
+      rethrow;
+    }
   }
 }

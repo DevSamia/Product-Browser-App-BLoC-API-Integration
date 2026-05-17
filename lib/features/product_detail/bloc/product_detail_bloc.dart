@@ -1,20 +1,36 @@
-import 'package:product_browser_app/features/product_detail/bloc/product_detail_event.dart';
-import 'package:product_browser_app/features/product_detail/bloc/product_detail_state.dart';
-
-import '../../../core/imports/common_imports.dart';
-import '../data/product_detail_service.dart';
+import '../../../../core/imports/common_imports.dart';
 
 class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
-  final ProductDetailService service;
+  final ProductDetailWebService service;
 
-  ProductDetailBloc(this.service) : super(ProductDetailInitial()) {
+  ProductDetailBloc(this.service) : super(const ProductDetailState.initial()) {
     on<FetchProductDetailEvent>((event, emit) async {
-      emit(ProductDetailLoading());
+      AppLogger.i(
+        "🚀 Bloc Event: FetchProductDetailEvent for ID: ${event.productId}",
+      );
+
+      emit(const ProductDetailState.loading());
+
       try {
         final product = await service.getProductDetails(event.productId);
-        emit(ProductDetailLoaded(product));
-      } catch (e) {
-        emit(ProductDetailError(e.toString()));
+
+        AppLogger.i(
+          "🟢 Bloc Success: Loaded details for product: ${product.title}",
+        );
+
+        emit(ProductDetailState.loaded(product));
+      } catch (e, stackTrace) {
+        AppLogger.e(
+          "🔴 Bloc Error: Failed to fetch product details",
+          e,
+          stackTrace,
+        );
+
+        emit(
+          ProductDetailState.error(
+            "Failed to load product details: ${e.toString()}",
+          ),
+        );
       }
     });
   }

@@ -1,9 +1,7 @@
-import 'package:product_browser_app/features/product/view/widget/product_card.dart';
-
 import '../../../../core/imports/common_imports.dart';
 
 class ProductGrid extends StatelessWidget {
-  final List<dynamic> products;
+  final List<ProductModel> products;
   const ProductGrid({super.key, required this.products});
 
   @override
@@ -15,7 +13,7 @@ class ProductGrid extends StatelessWidget {
         crossAxisCount: 2,
         mainAxisSpacing: 16.h,
         crossAxisSpacing: 16.w,
-        childAspectRatio: 0.75,
+        childAspectRatio: 0.7, // Adjusted for better card fit
       ),
       itemCount: products.length,
       itemBuilder: (context, index) => ProductCard(product: products[index]),

@@ -1,10 +1,6 @@
 import 'package:product_browser_app/features/product_detail/view/widget/build_error_widget.dart';
-import 'package:product_browser_app/features/product_detail/view/widget/product_detail_body.dart';
 
 import '../../../../core/imports/common_imports.dart';
-import '../bloc/product_detail_bloc.dart';
-import '../bloc/product_detail_event.dart';
-import '../bloc/product_detail_state.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final int productId;
@@ -13,27 +9,42 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProductDetailBloc>().add(FetchProductDetailEvent(productId));
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.surface,
       body: BlocBuilder<ProductDetailBloc, ProductDetailState>(
         builder: (context, state) {
-          if (state is ProductDetailLoading) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppColors.black),
-            );
-          } else if (state is ProductDetailError) {
-            return buildErrorWidget(
+          return state.when(
+            initial: () => const _LoadingWidget(),
+            loading: () => const _LoadingWidget(),
+            error: (message) => buildErrorWidget(
               context,
-              message: state.message,
+              message: message,
               productId: productId,
-            );
-          } else if (state is ProductDetailLoaded) {
-            return ProductDetailBody(product: state.product);
-          }
-          return const SizedBox();
+            ),
+            loaded: (product) => ProductDetailBody(product: product),
+          );
+        },
+      ),
+      bottomNavigationBar: BlocBuilder<ProductDetailBloc, ProductDetailState>(
+        builder: (context, state) {
+          return state.maybeWhen(
+            loaded: (product) => ProductDetailBottomBar(product: product),
+            orElse: () => const SizedBox.shrink(),
+          );
         },
       ),
     );
+  }
+}
+
+class _LoadingWidget extends StatelessWidget {
+  const _LoadingWidget();
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Center(child: CircularProgressIndicator(color: colorScheme.primary));
   }
 }

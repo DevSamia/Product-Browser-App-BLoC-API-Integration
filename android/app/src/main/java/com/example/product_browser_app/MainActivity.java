@@ -1,4 +1,4 @@
-package com.example.product_browser_app;
+package com.samia.product_browser_app;
 
 import io.flutter.embedding.android.FlutterActivity;
 

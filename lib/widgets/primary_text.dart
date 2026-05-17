@@ -8,6 +8,8 @@ class PrimaryText extends StatelessWidget {
   final Color? color;
   final FontWeight? fontWeight;
   final TextAlign? textAlign;
+  final TextOverflow? overflow;
+  final int? maxLines;
 
   const PrimaryText(
     this.text, {
@@ -17,6 +19,8 @@ class PrimaryText extends StatelessWidget {
     this.fontWeight,
     this.textAlign,
     this.heightText,
+    this.overflow,
+    this.maxLines,
     this.letterSpacing,
   });
 
@@ -26,9 +30,11 @@ class PrimaryText extends StatelessWidget {
       text,
       textAlign: textAlign,
       style: TextStyle(
+        overflow: overflow,
         fontSize: fontSize ?? 14.sp,
         fontFamily: 'Cairo',
-        color: color ?? AppColors.black,
+        // Use colorScheme.onSurface as default for text
+        color: color ?? Theme.of(context).colorScheme.onSurface,
         height: heightText,
         letterSpacing: letterSpacing ?? -0.5,
         fontWeight: fontWeight ?? FontWeight.normal,
