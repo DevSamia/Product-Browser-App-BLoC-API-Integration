@@ -8,6 +8,8 @@ import 'bottom_navigation_bar.dart';
 import 'core/di/injection_container.dart';
 import 'core/errors/app_bloc_observer.dart';
 import 'core/imports/common_imports.dart';
+import 'core/theme/theme_bloc/theme_bloc.dart';
+import 'core/theme/theme_bloc/theme_state.dart';
 import 'l10n/app_localizations.dart';
 
 final getIt = GetIt.instance;
@@ -39,6 +41,7 @@ class ProductBrowserApp extends StatelessWidget {
       builder: (context, child) {
         return MultiBlocProvider(
           providers: [
+            BlocProvider(create: (context) => getIt<ThemeBloc>()),
             BlocProvider(create: (context) => getIt<CartBloc>()),
             BlocProvider(
               create: (context) =>
@@ -50,38 +53,43 @@ class ProductBrowserApp extends StatelessWidget {
                   getIt<AuthBloc>()..add(const AuthEvent.authCheckRequested()),
             ),
           ],
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            onGenerateRoute: appRouter.generateRoute,
-            theme: AppTheme.light,
-            darkTheme: AppTheme.dark,
-            themeMode: ThemeMode.system,
-            title: 'Product Browser',
-            locale: DevicePreview.locale(context),
-            builder: DevicePreview.appBuilder,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [Locale('en'), Locale('ar')],
-            home: BlocBuilder<AuthBloc, AuthState>(
-              builder: (context, state) {
-                return state.maybeWhen(
-                  authenticated: (user) => const BottomNavigationBarScreen(),
-                  unauthenticated: () => const LoginScreen(),
-                  initial: () => const Scaffold(
-                    body: Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primary,
+          child: BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, themeState) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                onGenerateRoute: appRouter.generateRoute,
+                theme: AppTheme.light,
+                darkTheme: AppTheme.dark,
+                themeMode: themeState.themeMode,
+                title: 'Product Browser',
+                locale: DevicePreview.locale(context),
+                builder: DevicePreview.appBuilder,
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: const [Locale('en'), Locale('ar')],
+                home: BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    return state.maybeWhen(
+                      authenticated: (user) =>
+                          const BottomNavigationBarScreen(),
+                      unauthenticated: () => const LoginScreen(),
+                      initial: () => const Scaffold(
+                        body: Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primary,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  orElse: () => const LoginScreen(),
-                );
-              },
-            ),
+                      orElse: () => const LoginScreen(),
+                    );
+                  },
+                ),
+              );
+            },
           ),
         );
       },

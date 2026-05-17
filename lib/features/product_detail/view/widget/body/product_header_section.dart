@@ -6,6 +6,8 @@ class ProductHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -14,12 +16,13 @@ class ProductHeaderSection extends StatelessWidget {
             product.title,
             fontSize: 22.sp,
             fontWeight: FontWeight.w800,
+            color: colorScheme.onSurface,
           ),
         ),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
           decoration: BoxDecoration(
-            color: AppColors.inputBorder,
+            color: colorScheme.surfaceContainerHighest,
             borderRadius: BorderRadius.circular(12.r),
           ),
           child: Row(
@@ -28,12 +31,9 @@ class ProductHeaderSection extends StatelessWidget {
                 product.rating.toString(),
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
               ),
-              const Icon(
-                Icons.star_rounded,
-                color: AppColors.primary,
-                size: 18,
-              ),
+              Icon(Icons.star_rounded, color: colorScheme.primary, size: 18.sp),
             ],
           ),
         ),

@@ -7,19 +7,21 @@ class OrderSummarySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.scaffoldBackground,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: AppColors.inputBorder),
+        border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Column(
         children: [
-          _summaryRow('Subtotal', '$totalPrice RS'),
+          _summaryRow(context, 'Subtotal', '$totalPrice RS'),
           const SizedBox(height: 12),
-          _summaryRow('Shipping fees', '0.00 RS'),
-          const Divider(height: 32),
+          _summaryRow(context, 'Shipping fees', '0.00 RS'),
+          Divider(height: 32, color: colorScheme.outlineVariant),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -27,12 +29,13 @@ class OrderSummarySection extends StatelessWidget {
                 '$totalPrice RS',
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w900,
-                color: AppColors.secondary,
+                color: colorScheme.secondary,
               ),
               PrimaryText(
                 'Grand total',
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
               ),
             ],
           ),
@@ -41,12 +44,17 @@ class OrderSummarySection extends StatelessWidget {
     );
   }
 
-  Widget _summaryRow(String label, String value) {
+  Widget _summaryRow(BuildContext context, String label, String value) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        PrimaryText(value, fontWeight: FontWeight.bold),
-        PrimaryText(label, color: AppColors.gray),
+        PrimaryText(
+          value,
+          fontWeight: FontWeight.bold,
+          color: colorScheme.onSurface,
+        ),
+        PrimaryText(label, color: colorScheme.onSurfaceVariant),
       ],
     );
   }

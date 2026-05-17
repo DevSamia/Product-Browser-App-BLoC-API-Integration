@@ -14,26 +14,27 @@ class ProductDetailBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
-      slivers: [_buildAppBar(context), _buildContent()],
+      slivers: [_buildAppBar(context), _buildContent(context)],
     );
   }
 
   Widget _buildAppBar(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return SliverAppBar(
       expandedHeight: 350.h,
       pinned: true,
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: colorScheme.surface,
       elevation: 0,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios_new, color: AppColors.textMain),
+        icon: Icon(Icons.arrow_back_ios_new, color: colorScheme.onSurface),
         onPressed: () => Navigator.pop(context),
       ),
       actions: [
         const CartBadge(),
         IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.chat_bubble_outline_rounded,
-            color: AppColors.textMain,
+            color: colorScheme.onSurface,
           ),
           onPressed: () {
             Navigator.push(
@@ -48,7 +49,7 @@ class ProductDetailBody extends StatelessWidget {
           },
         ),
         IconButton(
-          icon: const Icon(Icons.share_outlined, color: AppColors.textMain),
+          icon: Icon(Icons.share_outlined, color: colorScheme.onSurface),
           onPressed: () {},
         ),
         AppSizes.w10,
@@ -56,13 +57,23 @@ class ProductDetailBody extends StatelessWidget {
       flexibleSpace: FlexibleSpaceBar(
         background: Hero(
           tag: 'product_image_${product.id}',
-          child: Image.network(product.thumbnail, fit: BoxFit.contain),
+          child: Container(
+            color: colorScheme.surface,
+            child: product.thumbnail.isNotEmpty
+                ? Image.network(product.thumbnail, fit: BoxFit.contain)
+                : Icon(
+                    Icons.broken_image_outlined,
+                    size: 50,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return SliverToBoxAdapter(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -80,11 +91,12 @@ class ProductDetailBody extends StatelessWidget {
               "Description",
               fontWeight: FontWeight.w800,
               fontSize: 18.sp,
+              color: colorScheme.onSurface,
             ),
             AppSizes.h20,
             PrimaryText(
               product.description,
-              color: AppColors.textMuted,
+              color: colorScheme.onSurfaceVariant,
               heightText: 1.7,
             ),
             AppSizes.h20,
@@ -92,6 +104,7 @@ class ProductDetailBody extends StatelessWidget {
               "Specifications",
               fontWeight: FontWeight.w800,
               fontSize: 18.sp,
+              color: colorScheme.onSurface,
             ),
             AppSizes.h16,
             ProductSpecificationsTable(product: product),
@@ -109,13 +122,18 @@ class ProductDetailBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
-        color: AppColors.scaffoldBackground,
+        color: colorScheme.surface,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: colorScheme.shadow.withValues(
+              alpha: colorScheme.brightness == Brightness.dark ? 0.3 : 0.05,
+            ),
             blurRadius: 10.r,
             offset: const Offset(0, -5),
           ),
@@ -131,24 +149,31 @@ class ProductDetailBottomBar extends StatelessWidget {
 
           return Row(
             children: [
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PrimaryText(
-                    "Total",
-                    color: AppColors.textMuted,
-                    fontSize: 12.sp,
-                  ),
-                  PrimaryText(
-                    "${product.price.toStringAsFixed(2)} RS",
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.sp,
-                  ),
-                ],
-              ),
-              AppSizes.w20,
               Expanded(
+                flex: 2,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PrimaryText(
+                      "Total",
+                      color: colorScheme.onSurfaceVariant,
+                      fontSize: 12.sp,
+                    ),
+                    PrimaryText(
+                      "${product.price.toStringAsFixed(2)} ${l10n.currency}",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.sp,
+                      color: colorScheme.onSurface,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ),
+              AppSizes.w16,
+              Expanded(
+                flex: 3,
                 child: _AddToCartButton(product: product, isInCart: isInCart),
               ),
             ],
@@ -167,30 +192,41 @@ class _AddToCartButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return ElevatedButton(
       onPressed: () => _toggleCart(context),
       style: ElevatedButton.styleFrom(
-        backgroundColor: isInCart ? AppColors.error : AppColors.primary,
+        backgroundColor: isInCart ? colorScheme.error : colorScheme.primary,
+        foregroundColor: isInCart ? colorScheme.onError : colorScheme.onPrimary,
         minimumSize: Size(double.infinity, 56.h),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.r),
         ),
       ),
       child: PrimaryText(
-        isInCart ? "Remove from Cart" : "Add to Cart",
+        isInCart ? "Remove" : "Add to Cart",
         fontWeight: FontWeight.bold,
-        color: isInCart ? Colors.white : AppColors.textMain,
+        color: isInCart ? colorScheme.onError : colorScheme.onPrimary,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
       ),
     );
   }
 
   void _toggleCart(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     if (isInCart) {
       context.read<CartBloc>().add(RemoveFromCartEvent(product.id));
     } else {
       context.read<CartBloc>().add(AddToCartEvent(product));
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("${product.title} added to cart successfully")),
+        SnackBar(
+          content: PrimaryText(
+            "${product.title} added successfully",
+            color: colorScheme.onInverseSurface,
+          ),
+          backgroundColor: colorScheme.inverseSurface,
+        ),
       );
     }
   }

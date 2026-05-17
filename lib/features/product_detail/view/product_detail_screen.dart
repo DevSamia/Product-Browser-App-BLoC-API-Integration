@@ -9,8 +9,10 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: colorScheme.surface,
       body: BlocBuilder<ProductDetailBloc, ProductDetailState>(
         builder: (context, state) {
           return state.when(
@@ -42,8 +44,7 @@ class _LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(color: AppColors.primary),
-    );
+    final colorScheme = Theme.of(context).colorScheme;
+    return Center(child: CircularProgressIndicator(color: colorScheme.primary));
   }
 }

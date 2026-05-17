@@ -27,11 +27,24 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final String currentUsername =
         getIt<SharedPreferences>().getString('chat_username') ?? '';
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Product Chat"), centerTitle: true),
+      backgroundColor: colorScheme.surface,
+      appBar: AppBar(
+        title: PrimaryText(
+          "Product Chat",
+          color: colorScheme.onSurface,
+          fontWeight: FontWeight.bold,
+          fontSize: 18.sp,
+        ),
+        centerTitle: true,
+        backgroundColor: colorScheme.surface,
+        iconTheme: IconThemeData(color: colorScheme.onSurface),
+        elevation: 0,
+      ),
       body: Column(
         children: [
           Expanded(
@@ -39,13 +52,24 @@ class _ChatScreenState extends State<ChatScreen> {
               builder: (context, state) {
                 return state.when(
                   initial: () => const SizedBox.shrink(),
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (message) => Center(child: Text("Error: $message")),
+                  loading: () => Center(
+                    child: CircularProgressIndicator(
+                      color: colorScheme.primary,
+                    ),
+                  ),
+                  error: (message) => Center(
+                    child: PrimaryText(
+                      "Error: $message",
+                      color: colorScheme.error,
+                    ),
+                  ),
                   loaded: (messages) {
                     if (messages.isEmpty) {
-                      return const Center(
-                        child: Text("No messages yet. Start chatting!"),
+                      return Center(
+                        child: PrimaryText(
+                          "No messages yet. Start chatting!",
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                       );
                     }
 
@@ -65,36 +89,66 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ),
-          _buildInputArea(),
+          _buildInputArea(colorScheme),
         ],
       ),
     );
   }
 
-  Widget _buildInputArea() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+  Widget _buildInputArea(ColorScheme colorScheme) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 24.h),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        border: Border(
+          top: BorderSide(color: colorScheme.outlineVariant, width: 0.5),
+        ),
+      ),
       child: Row(
         children: [
           Expanded(
             child: TextField(
               controller: _controller,
-              decoration: const InputDecoration(hintText: "Type a message..."),
+              style: TextStyle(color: colorScheme.onSurface, fontSize: 14.sp),
+              decoration: InputDecoration(
+                hintText: "Type a message...",
+                hintStyle: TextStyle(
+                  color: colorScheme.onSurfaceVariant,
+                  fontSize: 14.sp,
+                ),
+                fillColor: colorScheme.surfaceContainerHighest.withValues(
+                  alpha: 0.5,
+                ),
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(24.r),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16.w,
+                  vertical: 10.h,
+                ),
+              ),
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.send, color: AppColors.primary),
-            onPressed: () {
-              if (_controller.text.trim().isNotEmpty) {
-                context.read<ChatBloc>().add(
-                  ChatEvent.sendMessage(
-                    _controller.text.trim(),
-                    widget.productId,
-                  ),
-                );
-                _controller.clear();
-              }
-            },
+          AppSizes.w12,
+          CircleAvatar(
+            backgroundColor: colorScheme.primary,
+            radius: 22.r,
+            child: IconButton(
+              icon: Icon(Icons.send, color: colorScheme.onPrimary, size: 20.sp),
+              onPressed: () {
+                if (_controller.text.trim().isNotEmpty) {
+                  context.read<ChatBloc>().add(
+                    ChatEvent.sendMessage(
+                      _controller.text.trim(),
+                      widget.productId,
+                    ),
+                  );
+                  _controller.clear();
+                }
+              },
+            ),
           ),
         ],
       ),

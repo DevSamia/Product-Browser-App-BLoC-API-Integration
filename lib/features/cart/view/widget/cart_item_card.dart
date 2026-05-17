@@ -7,12 +7,14 @@ class CartItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.scaffoldBackground,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: AppColors.inputBorder),
+        border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Row(
         children: [
@@ -20,7 +22,7 @@ class CartItemCard extends StatelessWidget {
             onPressed: () => context.read<CartBloc>().add(
               RemoveFromCartEvent(item.product.id),
             ),
-            icon: Icon(Icons.delete_outline, color: AppColors.gray),
+            icon: Icon(Icons.delete_outline, color: colorScheme.error),
           ),
           SizedBox(width: 16.w),
           Expanded(
@@ -32,6 +34,7 @@ class CartItemCard extends StatelessWidget {
                   fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
                   textAlign: TextAlign.start,
+                  color: colorScheme.onSurface,
                 ),
                 const SizedBox(height: 8),
                 Row(
@@ -39,7 +42,9 @@ class CartItemCard extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: AppColors.bgColor,
+                        color: colorScheme.surfaceContainerHighest.withValues(
+                          alpha: 0.5,
+                        ),
                         borderRadius: BorderRadius.circular(10.r),
                       ),
                       child: Row(
@@ -48,17 +53,28 @@ class CartItemCard extends StatelessWidget {
                             onPressed: () => context.read<CartBloc>().add(
                               IncrementQuantityEvent(item.product.id),
                             ),
-                            icon: const Icon(Icons.add, size: 14),
+                            icon: Icon(
+                              Icons.add,
+                              size: 14,
+                              color: colorScheme.onSurface,
+                            ),
                           ),
                           Text(
                             '${item.quantity}',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: colorScheme.onSurface,
+                            ),
                           ),
                           IconButton(
                             onPressed: () => context.read<CartBloc>().add(
                               DecrementQuantityEvent(item.product.id),
                             ),
-                            icon: const Icon(Icons.remove, size: 14),
+                            icon: Icon(
+                              Icons.remove,
+                              size: 14,
+                              color: colorScheme.onSurface,
+                            ),
                           ),
                         ],
                       ),
@@ -69,7 +85,7 @@ class CartItemCard extends StatelessWidget {
                         '${item.product.price} RS',
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w900,
-                        color: AppColors.secondary,
+                        color: colorScheme.secondary,
                         textAlign: TextAlign.start,
                       ),
                     ),
@@ -83,8 +99,15 @@ class CartItemCard extends StatelessWidget {
             child: Container(
               width: 80.w,
               height: 80.h,
-              color: AppColors.scaffoldBackground,
-              child: Image.network(item.product.thumbnail, fit: BoxFit.cover),
+              color: colorScheme.surfaceContainerHighest,
+              child: Image.network(
+                item.product.thumbnail,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) => Icon(
+                  Icons.broken_image_outlined,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
             ),
           ),
         ],

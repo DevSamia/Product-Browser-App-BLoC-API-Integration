@@ -33,7 +33,8 @@ class PrimaryText extends StatelessWidget {
         overflow: overflow,
         fontSize: fontSize ?? 14.sp,
         fontFamily: 'Cairo',
-        color: color ?? AppColors.textMain,
+        // Use colorScheme.onSurface as default for text
+        color: color ?? Theme.of(context).colorScheme.onSurface,
         height: heightText,
         letterSpacing: letterSpacing ?? -0.5,
         fontWeight: fontWeight ?? FontWeight.normal,

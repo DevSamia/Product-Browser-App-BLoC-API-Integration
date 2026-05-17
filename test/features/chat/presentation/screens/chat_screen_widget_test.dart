@@ -29,6 +29,7 @@ void main() {
     }
 
     registerFallbackValue(const ChatEvent.watchMessages(testProductId));
+    registerFallbackValue(const ChatEvent.sendMessage('text', testProductId));
   });
 
   setUp(() {
@@ -53,6 +54,22 @@ void main() {
   }
 
   group('ChatScreen Widget Tests', () {
+    testWidgets('should call sendMessage event when send icon is pressed', (
+      tester,
+    ) async {
+      when(() => mockChatBloc.state).thenReturn(const ChatState.initial());
+
+      await tester.pumpWidget(createWidgetUnderTest());
+
+      await tester.enterText(find.byType(TextField), 'Hello world');
+      await tester.tap(find.byIcon(Icons.send));
+      await tester.pump();
+
+      verify(
+        () => mockChatBloc.add(any(that: isA<SendMessageEvent>())),
+      ).called(1);
+    });
+
     testWidgets('should show CircularProgressIndicator when state is loading', (
       tester,
     ) async {
@@ -92,20 +109,6 @@ void main() {
       await tester.pumpWidget(createWidgetUnderTest());
 
       expect(find.textContaining(errorMsg), findsOneWidget);
-    });
-
-    testWidgets('should call sendMessage event when send icon is pressed', (
-      tester,
-    ) async {
-      when(() => mockChatBloc.state).thenReturn(const ChatState.initial());
-
-      await tester.pumpWidget(createWidgetUnderTest());
-
-      await tester.enterText(find.byType(TextField), 'Hello world');
-      await tester.tap(find.byIcon(Icons.send));
-      await tester.pump();
-
-      verify(() => mockChatBloc.add(any())).called(1);
     });
   });
 }

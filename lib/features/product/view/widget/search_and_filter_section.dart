@@ -1,5 +1,4 @@
 import '../../../../core/imports/common_imports.dart';
-import '../../../../l10n/app_localizations.dart';
 
 class SearchAndFilterSection extends StatelessWidget {
   final String categoryName;
@@ -7,12 +6,31 @@ class SearchAndFilterSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
-      color: AppColors.scaffoldBackground,
+      color: colorScheme.surface,
       padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 16.h),
       child: Row(
         children: [
-          _buildFilterButton(),
+          Container(
+            height: 48.h,
+            width: 48.h,
+            decoration: BoxDecoration(
+              color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: IconButton(
+              icon: Icon(
+                Icons.tune_rounded,
+                color: colorScheme.secondary,
+                size: 22.sp,
+              ),
+              onPressed: () {
+                // Future: Add Filter Logic
+              },
+            ),
+          ),
           AppSizes.w12,
           Expanded(child: _buildSearchField(context)),
         ],
@@ -20,47 +38,38 @@ class SearchAndFilterSection extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterButton() {
-    return Container(
-      height: 48.h,
-      width: 48.h,
-      decoration: BoxDecoration(
-        color: AppColors.screenBackground,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: IconButton(
-        icon: Icon(Icons.tune_rounded, color: AppColors.secondary, size: 22.sp),
-        onPressed: () {
-          // Future: Add Filter Logic
-        },
-      ),
-    );
-  }
-
   Widget _buildSearchField(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       height: 48.h,
       decoration: BoxDecoration(
-        color: AppColors.screenBackground,
+        color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: TextField(
         textAlignVertical: TextAlignVertical.center,
+        style: TextStyle(color: colorScheme.onSurface, fontSize: 14.sp),
         onChanged: (value) {
           context.read<ProductBloc>().add(ProductEvent.search(value));
         },
         decoration: InputDecoration(
           hintText: l10n.searchInCategory(categoryName),
-          hintStyle: TextStyle(color: AppColors.textMuted, fontSize: 14.sp),
+          hintStyle: TextStyle(
+            color: colorScheme.onSurfaceVariant,
+            fontSize: 14.sp,
+          ),
           prefixIcon: Icon(
             Icons.search_rounded,
-            color: AppColors.textMuted,
+            color: colorScheme.onSurfaceVariant,
             size: 20.sp,
           ),
           border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
+          fillColor: Colors.transparent, // Overriding the theme's fillColor
         ),
       ),
     );

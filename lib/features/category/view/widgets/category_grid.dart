@@ -6,11 +6,15 @@ class CategoryGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return BlocBuilder<CategoryBloc, CategoryState>(
       builder: (context, state) {
         return state.when(
           initial: () => const SizedBox(),
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => Center(
+            child: CircularProgressIndicator(color: colorScheme.primary),
+          ),
           error: (messageKey) {
             final displayMessage = messageKey == "failedToLoadCategories"
                 ? context.l10n.failedToLoadCategories
@@ -20,16 +24,12 @@ class CategoryGrid extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.error_outline,
-                    color: AppColors.error,
-                    size: 40,
-                  ),
+                  Icon(Icons.error_outline, color: colorScheme.error, size: 40),
                   AppSizes.h10,
                   PrimaryText(
                     displayMessage,
                     textAlign: TextAlign.center,
-                    color: AppColors.textMuted,
+                    color: colorScheme.onSurfaceVariant,
                   ),
                   TextButton(
                     onPressed: () {
@@ -37,7 +37,7 @@ class CategoryGrid extends StatelessWidget {
                     },
                     child: PrimaryText(
                       context.l10n.tryAgain,
-                      color: AppColors.secondary,
+                      color: colorScheme.secondary,
                       fontSize: 14.sp,
                     ),
                   ),

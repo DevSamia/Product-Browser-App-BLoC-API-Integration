@@ -1,5 +1,4 @@
 import '../../../../core/imports/common_imports.dart';
-import '../../../../l10n/app_localizations.dart';
 
 class ListHeader extends StatelessWidget {
   final int count;
@@ -8,6 +7,7 @@ class ListHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: EdgeInsets.only(top: 8.h),
@@ -17,20 +17,28 @@ class ListHeader extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              PrimaryText(
-                l10n.discoverBest,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textMain,
+              Expanded(
+                child: PrimaryText(
+                  l10n.discoverBest,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: colorScheme.onSurface,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
+              AppSizes.w8,
               TextButton(
                 onPressed: () {},
-                style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                style: TextButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size(50, 30),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
                 child: PrimaryText(
                   l10n.viewAll,
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.secondary,
+                  color: colorScheme.secondary,
                 ),
               ),
             ],
@@ -38,7 +46,7 @@ class ListHeader extends StatelessWidget {
           PrimaryText(
             l10n.productsFound(count),
             fontSize: 12.sp,
-            color: AppColors.textMuted,
+            color: colorScheme.onSurfaceVariant,
             fontWeight: FontWeight.w500,
           ),
         ],

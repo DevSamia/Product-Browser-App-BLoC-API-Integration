@@ -1,5 +1,7 @@
 import '../constants/strings.dart' as api_constants;
 import '../imports/common_imports.dart';
+import '../theme/theme_bloc/theme_bloc.dart';
+import '../theme/theme_bloc/theme_event.dart';
 
 final getIt = GetIt.instance;
 
@@ -62,6 +64,11 @@ Future<void> initGetIt() async {
   getIt.registerLazySingleton(() => CartBloc(getIt()));
   getIt.registerFactory(() => ProductBloc(getIt()));
   getIt.registerFactory(() => ProductDetailBloc(getIt()));
+
+  // التعديل هنا: تحديد النوع بشكل صريح SharedPreferences لتجنب الخطأ
+  getIt.registerLazySingleton<ThemeBloc>(
+    () => ThemeBloc(getIt<SharedPreferences>())..add(LoadTheme()),
+  );
 
   getIt.registerFactory(
     () => ChatBloc(

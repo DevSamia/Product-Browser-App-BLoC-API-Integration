@@ -5,17 +5,22 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     AppLogger.d("🎨 UI: Building CartScreen...");
+
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackground,
+      backgroundColor: colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: AppColors.scaffoldBackground,
+        backgroundColor: colorScheme.surface,
         elevation: 0,
         centerTitle: true,
-        leading: const Icon(Icons.notifications_none, color: AppColors.gray),
+        leading: Icon(
+          Icons.notifications_none,
+          color: colorScheme.onSurfaceVariant,
+        ),
         title: PrimaryText(
           'Shopping bag',
-          color: AppColors.textMain,
+          color: colorScheme.onSurface,
           fontSize: 18.sp,
           fontWeight: FontWeight.bold,
         ),
@@ -24,7 +29,7 @@ class CartScreen extends StatelessWidget {
             onPressed: () {
               AppLogger.d("🔍 UI: Search button clicked in CartScreen");
             },
-            icon: const Icon(Icons.search, color: AppColors.gray),
+            icon: Icon(Icons.search, color: colorScheme.onSurfaceVariant),
           ),
           const SizedBox(width: 8),
         ],
@@ -39,11 +44,13 @@ class CartScreen extends StatelessWidget {
                 AppLogger.i("ℹ️ UI: Cart is in Initial State");
                 return const SizedBox.shrink();
               },
-              loading: () => const Center(child: CircularProgressIndicator()),
+              loading: () => Center(
+                child: CircularProgressIndicator(color: colorScheme.primary),
+              ),
               error: (message) {
                 AppLogger.w("⚠️ UI: Displaying Cart Error: $message");
                 return Center(
-                  child: PrimaryText(message, color: AppColors.error),
+                  child: PrimaryText(message, color: colorScheme.error),
                 );
               },
               loaded: (cartItems, totalPrice) {
@@ -53,7 +60,7 @@ class CartScreen extends StatelessWidget {
                     child: PrimaryText(
                       'Your shopping cart is empty',
                       fontSize: 16.sp,
-                      color: AppColors.gray,
+                      color: colorScheme.onSurfaceVariant,
                     ),
                   );
                 }
@@ -81,7 +88,7 @@ class CartScreen extends StatelessWidget {
                                 },
                                 child: PrimaryText(
                                   'Delete all',
-                                  color: AppColors.error,
+                                  color: colorScheme.error,
                                   fontSize: 14.sp,
                                 ),
                               ),
@@ -89,7 +96,7 @@ class CartScreen extends StatelessWidget {
                                 'Varieties (${cartItems.length})',
                                 fontSize: 20.sp,
                                 fontWeight: FontWeight.w800,
-                                color: AppColors.secondary,
+                                color: colorScheme.secondary,
                               ),
                             ],
                           ),

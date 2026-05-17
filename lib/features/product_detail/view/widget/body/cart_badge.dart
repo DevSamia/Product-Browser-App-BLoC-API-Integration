@@ -1,12 +1,12 @@
 import '../../../../../core/imports/common_imports.dart';
-import '../../../../cart/bloc/cart_bloc.dart';
-import '../../../../cart/bloc/cart_state.dart';
 
 class CartBadge extends StatelessWidget {
   const CartBadge({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         final int count = state.maybeWhen(
@@ -18,16 +18,13 @@ class CartBadge extends StatelessWidget {
           isLabelVisible: count > 0,
           label: Text(
             count.toString(),
-            style: TextStyle(
-              fontSize: 10.sp,
-              color: AppColors.scaffoldBackground,
-            ),
+            style: TextStyle(fontSize: 10.sp, color: colorScheme.onPrimary),
           ),
-          backgroundColor: AppColors.primary,
+          backgroundColor: colorScheme.primary,
           child: IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.shopping_cart_outlined,
-              color: AppColors.textMain,
+              color: colorScheme.onSurface,
             ),
             onPressed: () {
               Navigator.pushNamed(context, cartScreen);

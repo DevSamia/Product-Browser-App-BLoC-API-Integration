@@ -7,16 +7,18 @@ class CheckoutBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: const EdgeInsets.all(24),
-      decoration: const BoxDecoration(
-        color: AppColors.scaffoldBackground,
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        boxShadow: [BoxShadow(color: colorScheme.surface, blurRadius: 10)],
       ),
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFFFC107),
+          backgroundColor: colorScheme.primary,
           minimumSize: Size(double.infinity, 60.h),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.2),

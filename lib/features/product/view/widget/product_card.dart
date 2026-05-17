@@ -1,5 +1,4 @@
 import '../../../../core/imports/common_imports.dart';
-import '../../../../l10n/app_localizations.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductModel product;
@@ -9,17 +8,19 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return InkWell(
       onTap: () =>
           Navigator.pushNamed(context, productDetailScreen, arguments: product),
       borderRadius: BorderRadius.circular(16.r),
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.scaffoldBackground,
+          color: colorScheme.surface,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
+              color: colorScheme.shadow.withValues(alpha: 0.08),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -27,13 +28,17 @@ class ProductCard extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [_buildImageSection(), _buildInfoSection(l10n)],
+          children: [
+            _buildImageSection(context),
+            _buildInfoSection(context, l10n),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildImageSection() {
+  Widget _buildImageSection(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Stack(
       children: [
         Hero(
@@ -43,7 +48,7 @@ class ProductCard extends StatelessWidget {
             child: Container(
               height: 140.h,
               width: double.infinity,
-              color: AppColors.screenBackground,
+              color: colorScheme.surfaceContainerHighest,
               child: Image.network(
                 product.thumbnail,
                 fit: BoxFit.contain,
@@ -53,9 +58,9 @@ class ProductCard extends StatelessWidget {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   );
                 },
-                errorBuilder: (context, error, stackTrace) => const Icon(
+                errorBuilder: (context, error, stackTrace) => Icon(
                   Icons.broken_image_outlined,
-                  color: AppColors.gray,
+                  color: colorScheme.outline,
                 ),
               ),
             ),
@@ -76,7 +81,8 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoSection(AppLocalizations l10n) {
+  Widget _buildInfoSection(BuildContext context, AppLocalizations l10n) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: EdgeInsets.all(12.w),
       child: Column(
@@ -88,29 +94,30 @@ class ProductCard extends StatelessWidget {
             fontWeight: FontWeight.w600,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
+            color: colorScheme.onSurface,
           ),
           AppSizes.h4,
           PrimaryText(
             product.category.toUpperCase(),
             fontSize: 10.sp,
-            color: AppColors.textMuted,
+            color: colorScheme.onSurfaceVariant,
             fontWeight: FontWeight.w500,
           ),
           AppSizes.h8,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PrimaryText(
-                    '${product.price} ${l10n.currency}',
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.secondary,
-                  ),
-                ],
+              Expanded(
+                child: PrimaryText(
+                  '${product.price} ${l10n.currency}',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w800,
+                  color: colorScheme.primary,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
               ),
+              AppSizes.w4,
               _RatingWidget(rating: product.rating),
             ],
           ),
@@ -126,13 +133,14 @@ class _FavoriteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return CircleAvatar(
-      backgroundColor: Colors.white.withValues(alpha: 0.9),
+      backgroundColor: colorScheme.surface.withValues(alpha: 0.9),
       radius: 14.r,
       child: Icon(
         Icons.favorite_border_rounded,
         size: 16.sp,
-        color: AppColors.error,
+        color: colorScheme.primary,
       ),
     );
   }
@@ -144,15 +152,16 @@ class _DiscountBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
       decoration: BoxDecoration(
-        color: AppColors.error,
+        color: colorScheme.errorContainer,
         borderRadius: BorderRadius.circular(6.r),
       ),
       child: PrimaryText(
         '-${discount.round()}%',
-        color: Colors.white,
+        color: colorScheme.onErrorContainer,
         fontSize: 10.sp,
         fontWeight: FontWeight.bold,
       ),
@@ -166,14 +175,17 @@ class _RatingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(Icons.star_rounded, color: AppColors.primary, size: 14.sp),
+        Icon(Icons.star_rounded, color: colorScheme.secondary, size: 14.sp),
         AppSizes.w2,
         PrimaryText(
           rating.toString(),
           fontSize: 11.sp,
           fontWeight: FontWeight.w700,
+          color: colorScheme.onSurface,
         ),
       ],
     );
